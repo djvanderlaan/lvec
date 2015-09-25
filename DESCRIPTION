@@ -1,0 +1,21 @@
+Package: ldat2
+Type: Package
+Title: Large Data Files in R
+Version: 0.0.1
+Date: 2015-09-10
+Author: Jan van der Laan
+Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
+Description: Tools for handling data sets that are too large to keep in memory.
+  Maps R objects to data that is kept (partially) on disk. The user kan
+  interact largely with these object as he would with regular data.framas and
+  vectors. 
+URL: https://github.com/djvanderlaan/ldat2
+Imports:
+    lazyeval
+Depends:
+    stats,
+    R (>= 3.0.0)
+Suggests:
+    testthat
+License: GPL-3
+LazyLoad: yes
