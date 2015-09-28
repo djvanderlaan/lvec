@@ -18,7 +18,8 @@ extern "C" {
     }
     //std::cout << na<double>() << "\n";
     //std::cout << sum << "\n";
-    res.set(0, sum);
+    res[0] = sum;
+    //res.set(0, sum);
     return res.sexp();
   }
 
@@ -49,7 +50,13 @@ extern "C" {
       sum += val;
     }
     res.set(0, sum);
-//    return res.sexp();
+    return res.sexp();
+  }
+  
+  SEXP hello_world() {
+    cppr::rvec<cppr::character> res(1);
+    res[0] = "Hello world";
+    return res.sexp();
   }
 
 }

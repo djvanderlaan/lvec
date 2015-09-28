@@ -159,8 +159,12 @@ namespace cppr {
       typename T::value_type operator[](int i) const {
         return data_[i];
       };
+      
+      typename T::value_type& operator[](int i) {
+        return data_[i];
+      }
   
-      void set(int i, double val) {
+      void set(int i, typename T::value_type val) {
         data_[i] = val;
       }
   
@@ -173,7 +177,6 @@ namespace cppr {
       SEXP sexp_;
       typename T::value_type* data_;
   };
-  
   
   template<>
   class rvec<character> {
@@ -203,7 +206,29 @@ namespace cppr {
         if (str == R_NaString) return rstring();
         return rstring(CHAR(str));
       }
-  
+      
+      class element_reference {
+        public:
+          element_reference(rvec<character>& vec, int el): vec_(vec), el_(el) {};
+          
+          element_reference& operator=(const rstring& str) {
+            vec_.set(el_, str);
+          }
+          
+          operator rstring() {
+            const rvec<character>& vec = vec_;
+            return vec[el_];
+          }
+          
+        private:
+          rvec<character>& vec_;
+          int el_;
+      };
+      
+      element_reference operator[](int i) {
+        return element_reference(*this, i);
+      }
+
       void set(int i, const rstring& val) {
         SET_STRING_ELT(sexp_, i, mkChar(val.c_str()));
       }
