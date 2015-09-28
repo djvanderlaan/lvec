@@ -1,32 +1,31 @@
 
-#include "r_vec.h"
+#include "cppr.h"
 #include <iostream>
 
 extern "C" {
 
   SEXP foo(SEXP p) {
-    R_vec<R_double> v{p};
-    R_vec<R_double> res(1);
+    cppr::rvec<cppr::integer> v{p};
+    cppr::rvec<cppr::numeric> res(1);
     double sum = 0;
     for (int i = 0; i < v.length(); ++i) {
-      double val = v[i];
-      if (is_nan(val)) {
-        std::cout << "na\n";
-        sum = na<double>();
+      double val = cppr::cast_value<double>(v[i]);
+      if (cppr::is_nan(val)) {
+        sum = cppr::na<double>();
         break;
       } 
       sum += val;
     }
-    std::cout << na<double>() << "\n";
-    std::cout << sum << "\n";
+    //std::cout << na<double>() << "\n";
+    //std::cout << sum << "\n";
     res.set(0, sum);
     return res.sexp();
   }
 
   SEXP bar(SEXP p) {
-    R_vec<R_string> v{p};
+    cppr::rvec<cppr::character> v{p};
     for (int i = 0; i < v.length(); ++i) {
-      R::string str = v[i];
+      cppr::rstring str = v[i];
       if (is_na(str)) {
         std::cout << "<NA>" << "\n";
       } else {
@@ -34,6 +33,23 @@ extern "C" {
       }
     }
     return R_NilValue;
+  }
+  
+  SEXP logical(SEXP p) {
+    cppr::rvec<cppr::logical> v{p};
+    cppr::rvec<cppr::integer> res(1);
+    int sum = 0;
+    for (int i = 0; i < v.length(); ++i) {
+      int val = v[i];
+      std::cout << val << "\n";
+      if (cppr::is_nan(val)) {
+        sum = cppr::na<int>();
+        break;
+      } 
+      sum += val;
+    }
+    res.set(0, sum);
+//    return res.sexp();
   }
 
 }
