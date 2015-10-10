@@ -1,63 +1,66 @@
-
 #include "cppr.h"
+#include "doublevec.h"
 #include <iostream>
+
+static void vec_finalizer(SEXP rp) {
+  if(!R_ExternalPtrAddr(rp)) return;
+  void* p = R_ExternalPtrAddr(rp);
+  Vec* v = reinterpret_cast<Vec*>(p);
+  delete v;
+  R_ClearExternalPtr(rp);
+}
+
+SEXP vec_to_sexp(Vec* vec) {
+  if (vec) {
+    SEXP res = R_MakeExternalPtr(vec, install("lvec"), R_NilValue);
+    PROTECT(res);
+    R_RegisterCFinalizerEx(res, vec_finalizer, TRUE);
+    UNPROTECT(1);
+    return res;
+  }
+  return R_NilValue;
+}
+
+Vec* sexp_to_vec(SEXP rvec) {
+  if(!R_ExternalPtrAddr(rvec)) return 0;
+  void* p = R_ExternalPtrAddr(rvec);
+  return reinterpret_cast<Vec*>(p);
+}
 
 extern "C" {
 
-  SEXP foo(SEXP p) {
-    cppr::rvec<cppr::integer> v{p};
-    cppr::rvec<cppr::numeric> res(1);
-    double sum = 0;
-    for (int i = 0; i < v.length(); ++i) {
-      double val = cppr::cast_value<double>(v[i]);
-      if (cppr::is_nan(val)) {
-        sum = cppr::na<double>();
-        break;
-      } 
-      sum += val;
-    }
-    //std::cout << na<double>() << "\n";
-    //std::cout << sum << "\n";
-    res[0] = sum;
-    //res.set(0, sum);
-    return res.sexp();
+  SEXP new_lvec(SEXP rsize) {
+    int* size = INTEGER(rsize);
+    Vec* vec = new LVec<cppr::numeric>(size[0]);
+    return vec_to_sexp(vec);
   }
 
-  SEXP bar(SEXP p) {
-    cppr::rvec<cppr::character> v{p};
-    for (int i = 0; i < v.length(); ++i) {
-      cppr::rstring str = v[i];
-      if (is_na(str)) {
-        std::cout << "<NA>" << "\n";
-      } else {
-        std::cout << str << "\n";
-      }
-    }
-    return R_NilValue;
-  }
-  
-  SEXP logical(SEXP p) {
-    cppr::rvec<cppr::logical> v{p};
-    cppr::rvec<cppr::integer> res(1);
-    int sum = 0;
-    for (int i = 0; i < v.length(); ++i) {
-      int val = v[i];
-      std::cout << val << "\n";
-      if (cppr::is_nan(val)) {
-        sum = cppr::na<int>();
-        break;
-      } 
-      sum += val;
-    }
-    res.set(0, sum);
-    return res.sexp();
-  }
-  
-  SEXP hello_world() {
-    cppr::rvec<cppr::character> res(1);
-    res[0] = "Hello world";
-    return res.sexp();
+  SEXP get_range(SEXP rvec, SEXP rrange) {
+    cppr::rvec<cppr::integer> range{rrange};
+    if (range.length() < 2) ; // TODO
+    Vec* vec = sexp_to_vec(rvec);
+    if (!vec) ; // TODO
+    // subtract 1 from range indices as R indexing is 1 based
+    Vec* res = vec->get_range(range[0]-1, range[1]-1);
+    return vec_to_sexp(res);
   }
 
+  SEXP to_vec(SEXP rvec) {
+    cppr::rvec<cppr::numeric> vec{rvec};
+    DoubleVec* res = new DoubleVec(vec.length());
+    for (unsigned int i = 0; i < vec.length(); ++i) {
+      res->set(i, vec[i]);
+    }
+    return vec_to_sexp(res);
+  }
+
+  SEXP to_vec2(SEXP rvec) {
+    double* vec = REAL(rvec);
+    unsigned int length = LENGTH(rvec);
+    DoubleVec* res = new DoubleVec(length);
+    std::memcpy(res->data(), vec, length * sizeof(double));
+    return vec_to_sexp(res);
+  }
 }
+
 
