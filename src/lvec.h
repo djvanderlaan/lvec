@@ -72,6 +72,14 @@ namespace ldat {
         vec_[i] = value;
       }
 
+      const double* data() const {
+        return vec_;
+      }
+
+      double* data() {
+        return vec_;
+      }
+
     private:
       double* vec_;
       vecsize size_;
