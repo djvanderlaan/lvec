@@ -4,42 +4,19 @@
 #include <string>
 #include <stdexcept>
 #include <cstring>
+#include "visitor.h"
+#include "vec.h"
 
 namespace ldat {
 
-  template<typename T> class gvec;
-
-  class lvec_visitor {
-    public:
-      virtual void visit(gvec<double>& vec) = 0;
-      virtual void visit(gvec<int>& vec) = 0;
-      virtual void visit(gvec<std::string>& vec) = 0;
-  };
-
-
-  class lvec {
-    public:
-      typedef unsigned int vecsize;
-
-      lvec() {}
-      ~lvec() {}
-
-      virtual vecsize size() const = 0;
-      virtual double get_of_type(vecsize i, double type) const = 0;
-      virtual int get_of_type(vecsize i, int type) const = 0;
-      virtual std::string get_of_type(vecsize i, const std::string& type) const = 0;
-
-      virtual void visit(lvec_visitor* visitor) = 0;
-  };
-
   template<typename T>
-  class gvec : public lvec {
+  class lvec : public vec {
     public: 
-      gvec(vecsize size) : lvec(), size_(size) {
+      lvec(vecsize size) : vec(), size_(size) {
         vec_ = new T[size];
       }
 
-      ~gvec() {
+      ~lvec() {
         delete [] vec_;
       }
 
@@ -85,14 +62,14 @@ namespace ldat {
   };
 
   template<>
-  class gvec<std::string> : public lvec {
+  class lvec<std::string> : public vec {
     public:
-      gvec(vecsize size, unsigned int strlen) : lvec(), size_(size), 
+      lvec(vecsize size, unsigned int strlen) : vec(), size_(size), 
           strlen_(strlen) {
         vec_ = new char[size_ * strlen_];
       }
 
-      ~gvec() {
+      ~lvec() {
         delete [] vec_;
       }
 
@@ -132,8 +109,6 @@ namespace ldat {
       vecsize size_;
       unsigned int strlen_;
   };
-
-
-};
+}
 
 #endif

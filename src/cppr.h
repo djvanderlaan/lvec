@@ -41,7 +41,7 @@ namespace cppr {
     private:
       SEXP p_;
   };
-}
+};
 
 
  
@@ -83,7 +83,7 @@ namespace cppr {
       static int length(SEXP x) { return LENGTH(x); };
       static bool is(SEXP x) { return isString(x); };
   };
-}
+};
   
   
 namespace cppr { 
@@ -122,10 +122,7 @@ namespace cppr {
     if (is_nan(x)) return na<T>();
     else return T(x);
   }
-  
-
-}
-
+};
 
 
 
@@ -242,8 +239,23 @@ namespace cppr {
       SEXP sexp_;
   };
 
-}
+};
 
 
+// Pair of macros that can be used to catch any remaining exceptions and pass
+// these on to R. Start and end functions that get called by R by these.
+#define CPPRTRY \
+  try {
+#define CPPRCATCH \
+  } catch(const std::string& e) { \
+    error(e.c_str()); \
+    return R_NilValue; \
+  } catch(const std::exception& e) { \
+    error(e.what()); \
+    return R_NilValue; \
+  } catch (...) { \
+    error("Uncaught exception."); \
+    return R_NilValue; \
+  } \
 
 #endif

@@ -1,19 +1,16 @@
 #ifndef visitor_h
 #define visitor_h
 
-#include "vec.h"
-#include "doublevec.h"
+namespace ldat {
 
-template<typename T>
-class LVec;
+  template<typename T> class lvec;
 
-class DoubleVec;
-
-class Visitor {
-  public:
-    virtual void visit(DoubleVec& vec) = 0;
-
-    virtual void visit(LVec<cppr::numeric>& vec) = 0;
-};
+  class lvec_visitor {
+    public:
+      virtual void visit(lvec<double>& vec) = 0;
+      virtual void visit(lvec<int>& vec) = 0;
+      virtual void visit(lvec<std::string>& vec) = 0;
+  };
+}
 
 #endif

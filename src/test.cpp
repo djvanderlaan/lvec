@@ -1,8 +1,7 @@
 #include "cppr.h"
-#include "doublevec.h"
 #include <iostream>
 
-static void vec_finalizer(SEXP rp) {
+/*static void vec_finalizer(SEXP rp) {
   if(!R_ExternalPtrAddr(rp)) return;
   void* p = R_ExternalPtrAddr(rp);
   Vec* v = reinterpret_cast<Vec*>(p);
@@ -63,4 +62,4 @@ extern "C" {
   }
 }
 
-
+*/
