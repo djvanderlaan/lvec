@@ -7,10 +7,6 @@
 
 namespace ldat {
 
-  class dbl_lvec;
-  class int_lvec;
-  class str_lvec;
-
   template<typename T> class gvec;
 
   class lvec_visitor {
@@ -59,7 +55,7 @@ namespace ldat {
         return vec_[i];
       }
 
-      std::string get_of_type(vecsize i, std::string type) const {
+      std::string get_of_type(vecsize i, const std::string& type) const {
         throw std::runtime_error("Can't convert numeric to string.");
       }
 
@@ -112,7 +108,7 @@ namespace ldat {
         throw std::runtime_error("Can't convert a string to integer.");
       }
 
-      std::string get_of_type(vecsize i, std::string type) const {
+      std::string get_of_type(vecsize i, const std::string& type) const {
         return get(i);
       }
 
