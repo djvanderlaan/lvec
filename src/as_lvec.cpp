@@ -26,7 +26,7 @@ extern "C" {
       for (int i = 0; i < v.length(); ++i) {
         cppr::rstring s = v[i];
         int l = s.length();
-        if (i > max_len) max_len = l;
+        if (l > max_len) max_len = l;
       }
       // create lvec
       auto res = new ldat::lvec<std::string>(v.length(), max_len);
