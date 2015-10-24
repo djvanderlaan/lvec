@@ -1,5 +1,4 @@
-#include "cppr.h"
-#include "lvec.h"
+#include "ldat.h"
 
 static void vec_finalizer(SEXP rp) {
   if(!R_ExternalPtrAddr(rp)) return;
