@@ -48,6 +48,7 @@ class indexing_visitor : public ldat::lvec_visitor {
     ldat::vec* result_;
 };
 
+// TODO: range checking
 extern "C" {
   SEXP get(SEXP rv, SEXP rindex) {
     CPPRTRY
