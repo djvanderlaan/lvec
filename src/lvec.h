@@ -25,11 +25,11 @@ namespace ldat {
       }
 
       double get_of_type(vecsize i, double type) const {
-        return vec_[i];
+        return cppr::cast_value<double>(vec_[i]);
       }
 
       int get_of_type(vecsize i, int type) const {
-        return vec_[i];
+        return cppr::cast_value<int>(vec_[i]);
       }
 
       std::string get_of_type(vecsize i, const std::string& type) const {
