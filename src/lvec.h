@@ -19,6 +19,10 @@ namespace ldat {
         vec_ = new T[size];
       }
 
+      lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size) {
+        vec_ = new T[size];
+      }
+
       ~lvec() {
         delete [] vec_;
       }
@@ -69,6 +73,11 @@ namespace ldat {
     public:
       lvec(vecsize size, unsigned int strlen) : vec(), size_(size), 
           strlen_(strlen+1) {
+        vec_ = new char[size_ * strlen_];
+      }
+
+      lvec(vecsize size, const lvec<std::string>& templ) : vec(), size_(size),
+          strlen_(templ.strlen_) {
         vec_ = new char[size_ * strlen_];
       }
 
