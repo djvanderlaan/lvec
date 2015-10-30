@@ -11,8 +11,15 @@ class indexing_visitor : public ldat::lvec_visitor {
       auto result = new ldat::lvec<T>(index_.size(), vec);
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
         int index = index_.get_of_type(i, int());
-        T value = vec.get(index - 1);
-        result->set(i, value);
+        if (cppr::is_na(index)) {
+          result->set(i, cppr::na<T>());
+        } else {
+          if (index < 0 || index > vec.size()) 
+            throw std::runtime_error("Index out of range.");
+          T value = vec.get(index - 1);
+          result->set(i, value);
+        }
+
       }
       result_ = result;
     }
@@ -38,8 +45,6 @@ class indexing_visitor : public ldat::lvec_visitor {
     ldat::vec* result_;
 };
 
-// TODO: range checking
-// TODO: missing values in indexes
 // TODO: logical indices
 // TODO: range index
 extern "C" {
