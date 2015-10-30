@@ -2,6 +2,8 @@
 #include "ldat.h"
 #include "lvec.h"
 
+#include <iostream>
+
 class assign_visitor : public ldat::lvec_visitor {
   public: 
     assign_visitor(ldat::vec& index, ldat::vec& values) : index_(index), values_(values) {

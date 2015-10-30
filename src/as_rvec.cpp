@@ -24,7 +24,12 @@ class as_rvec_visitor : public ldat::lvec_visitor {
     void visit(ldat::lvec<std::string>& vec) {
       cppr::rvec<cppr::character> res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i) {
-        res[i] = vec.get(i).c_str();  // TODO
+        std::string val = vec.get(i);
+        if (cppr::is_na(val)) {
+          res[i] = cppr::na<cppr::rstring>();
+        } else {
+          res[i] = val.c_str(); // TODO
+        }
       }
       rvec_ = PROTECT(res.sexp());
     }

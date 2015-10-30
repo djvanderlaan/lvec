@@ -227,7 +227,11 @@ namespace cppr {
       }
 
       void set(int i, const rstring& val) {
-        SET_STRING_ELT(sexp_, i, mkChar(val.c_str()));
+        if (is_na(val)) {
+          SET_STRING_ELT(sexp_, i, R_NaString);
+        } else {
+          SET_STRING_ELT(sexp_, i, mkChar(val.c_str()));
+        }
       }
   
       SEXP sexp() const {

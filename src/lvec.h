@@ -1,11 +1,14 @@
 #ifndef lvec_h
 #define lvec_h
 
+#include <iostream> //TODO
+
 #include <string>
 #include <stdexcept>
 #include <cstring>
 #include "visitor.h"
 #include "vec.h"
+#include "string.h"
 
 namespace ldat {
 
@@ -99,13 +102,21 @@ namespace ldat {
 
       std::string get(vecsize i) const {
         vecsize offset = i * strlen_;
-        return std::string(vec_ + offset);
+        return std::string(vec_ + offset, vec_ + (offset + strlen_));
+        //return std::string(vec_ + offset);
       }
 
       void set(vecsize i, const std::string& str) {
         vecsize offset = i * strlen_;
-        std::strncpy(vec_ + offset, str.c_str(), strlen_);
-        vec_[offset + strlen_ - 1] = 0;
+        unsigned int n = str.size();
+        if (n > (strlen_ - 1)) n = strlen_ - 1;
+        vecsize k = offset;
+        for (unsigned j = 0; j < n; ++j, ++k) {
+          vec_[k] = str[j];
+        }
+        vec_[k] = 0;
+        //std::strncpy(vec_ + offset, str.c_str(), strlen_);
+        //vec_[offset + strlen_ - 1] = 0;
       }
 
     private:

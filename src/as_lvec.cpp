@@ -28,10 +28,13 @@ extern "C" {
         int l = s.length();
         if (l > max_len) max_len = l;
       }
+      if (max_len < 2) max_len = 2;
       // create lvec
       auto res = new ldat::lvec<std::string>(v.length(), max_len);
       for (int i = 0; i < v.length(); ++i) {
-        res->set(i, v[i]);
+        cppr::rstring str = v[i];
+        if (cppr::is_na(str)) res->set(i, cppr::na<std::string>());
+        else res->set(i, str);
       }
       return vec_to_sexp(res);
     } else {
@@ -42,3 +45,4 @@ extern "C" {
   }
 }
 
+// TODO strlen with missing values
