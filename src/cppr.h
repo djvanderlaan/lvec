@@ -95,10 +95,10 @@ namespace cppr {
   // A bunch of overloaded functions allowing for testing for na/nan's
   inline bool is_na(double x) { return ISNA(x); }
   inline bool is_na(int x) { return x == NA_INTEGER; }
-  inline bool is_na(rstring x) { return x.na(); }
+  inline bool is_na(const rstring& x) { return x.na(); }
   inline bool is_nan(double x) { return ISNAN(x); }
   inline bool is_nan(int x) { return is_na(x); }
-  inline bool is_nan(rstring x) { return is_na(x); }
+  inline bool is_nan(const rstring& x) { return is_na(x); }
   
   // A template which returns a NA for the given type. This template needs to be
   // specialized for the different types in R as the representation of NA is
