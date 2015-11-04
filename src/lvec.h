@@ -6,6 +6,7 @@
 #include <string>
 #include <stdexcept>
 #include <cstring>
+#include "boolean.h"
 #include "visitor.h"
 #include "vec.h"
 #include "string.h"

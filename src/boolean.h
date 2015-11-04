@@ -1,7 +1,7 @@
 #ifndef boolean_h
 #define boolean_h
 
-namespace ldat {
+namespace cppr {
 
   class boolean {
     public:
@@ -31,11 +31,11 @@ namespace ldat {
       unsigned char val_;
   }; 
 
-}
+//}
 
-namespace cppr { 
-  inline bool is_na(const ldat::boolean& x) { return x.na();}
-  inline bool is_nan(const ldat::boolean& x) { return x.na();}
+//namespace cppr { 
+  inline bool is_na(const boolean& x) { return x.na();}
+  inline bool is_nan(const boolean& x) { return x.na();}
 }
 
 #endif

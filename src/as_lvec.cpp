@@ -18,7 +18,15 @@ extern "C" {
       std::memcpy(res->data(), v, l * sizeof(int));
       return vec_to_sexp(res);
     } else if (cppr::is<cppr::logical>(rv)) {
-      throw std::runtime_error("Unsupported type: logical. Unable to transform to lvec.");
+      // create lvec
+      cppr::rvec<cppr::logical> v{rv};
+      auto res = new ldat::lvec<cppr::boolean>(v.length());
+      for (int i = 0; i < v.length(); ++i) {
+        int val = v[i];
+        if (cppr::is_na(val)) res->set(i, cppr::na<cppr::boolean>());
+        else res->set(i, val);
+      }
+      return vec_to_sexp(res);
     } else if (cppr::is<cppr::character>(rv)) {
       cppr::rvec<cppr::character> v{rv};
       // determine max string length

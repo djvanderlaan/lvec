@@ -32,6 +32,10 @@ class indexing_visitor : public ldat::lvec_visitor {
       return visit_template(vec);
     }
 
+    void visit(ldat::lvec<cppr::boolean>& vec) {
+      return visit_template(vec);
+    }
+
     void visit(ldat::lvec<std::string>& vec) {
       return visit_template(vec);
     }

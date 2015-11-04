@@ -21,6 +21,14 @@ class as_rvec_visitor : public ldat::lvec_visitor {
       rvec_ = PROTECT(res.sexp());
     }
 
+    void visit(ldat::lvec<cppr::boolean>& vec) {
+      cppr::rvec<cppr::logical> res(vec.size());
+      for (ldat::vec::vecsize i = 0; i < vec.size(); ++i) {
+        res[i] = cppr::cast_value<int>(vec.get(i));
+      }
+      rvec_ = PROTECT(res.sexp());
+    }
+
     void visit(ldat::lvec<std::string>& vec) {
       cppr::rvec<cppr::character> res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i) {

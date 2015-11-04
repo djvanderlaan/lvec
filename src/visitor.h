@@ -9,6 +9,7 @@ namespace ldat {
     public:
       virtual void visit(lvec<double>& vec) = 0;
       virtual void visit(lvec<int>& vec) = 0;
+      virtual void visit(lvec<cppr::boolean>& vec) {};
       virtual void visit(lvec<std::string>& vec) = 0;
   };
 }
