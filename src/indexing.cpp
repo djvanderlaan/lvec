@@ -1,5 +1,6 @@
 #include "ldat.h"
 #include "lvec.h"
+#include <memory>
 
 inline bool is_logical(const ldat::vec& vec) {
   auto p = dynamic_cast<const ldat::lvec<cppr::boolean>*>(&vec);
@@ -12,7 +13,7 @@ class indexing_visitor : public ldat::lvec_visitor {
 
     template<typename T>
     void visit_template_numeric(ldat::lvec<T>& vec) {
-      auto result = new ldat::lvec<T>(index_.size(), vec);
+      std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(index_.size(), vec));
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
         int index = index_.get_of_type(i, int());
         if (cppr::is_na(index)) {
@@ -25,7 +26,7 @@ class indexing_visitor : public ldat::lvec_visitor {
         }
 
       }
-      result_ = result;
+      result_ = result.release();
     }
 
     template<typename T>
@@ -39,7 +40,7 @@ class indexing_visitor : public ldat::lvec_visitor {
 	if (index != 0 || cppr::is_na(index)) ++n;
       }
       // index
-      auto result = new ldat::lvec<T>(n, vec);
+      std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(n, vec));
       ldat::vec::vecsize result_index = 0;
       for (ldat::vec::vecsize i = 0, j = 0; i < vec.size(); ++i, ++j) {
         if (j >= index_.size()) j = 0;
@@ -51,7 +52,7 @@ class indexing_visitor : public ldat::lvec_visitor {
 	  result->set(result_index++, value);
         }
       }
-      result_ = result;
+      result_ = result.release();
       return;
     }
 
