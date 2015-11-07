@@ -13,7 +13,8 @@ class assign_visitor : public ldat::lvec_visitor {
     void visit_template(ldat::lvec<T>& vec) {
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
         int index = index_.get_of_type(i, int()) - 1;
-        T value = values_.get_of_type(i, T());
+        //T value = values_.get_of_type(i, T());
+        T value = values_.get_of_type(i, cppr::base_type(T()));
         vec.set(index, value);
       }
     }
@@ -23,6 +24,10 @@ class assign_visitor : public ldat::lvec_visitor {
     }
 
     void visit(ldat::lvec<int>& vec) {
+      return visit_template(vec);
+    }
+
+    void visit(ldat::lvec<cppr::boolean>& vec) {
       return visit_template(vec);
     }
 
@@ -45,6 +50,7 @@ class assign_visitor : public ldat::lvec_visitor {
 // will result in cleanup of the lvec pointed to by a; using a will result in 
 // terrible stuff. 
 
+// TODO: check for overflow when casting e.g. from double to int
 extern "C" {
   SEXP assign(SEXP rv, SEXP rindex, SEXP rvalues) {
     CPPRTRY
