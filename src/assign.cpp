@@ -11,11 +11,18 @@ class assign_visitor : public ldat::lvec_visitor {
 
     template<typename T>
     void visit_template(ldat::lvec<T>& vec) {
-      for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
-        int index = index_.get_of_type(i, int()) - 1;
-        //T value = values_.get_of_type(i, T());
-        T value = values_.get_of_type(i, cppr::base_type(T()));
-        vec.set(index, value);
+      if (index_.size() > 0 && values_.size() == 0)
+        throw("Replacement has length zero");
+      ldat::vec::vecsize j = 0;
+      for (ldat::vec::vecsize i = 0; i < index_.size(); ++i, ++j) {
+        int index = index_.get_of_type(i, int());
+        if (cppr::is_na(index)) 
+          throw std::runtime_error("NAs are not allowed in subscripted assignments.");
+        if (index < 0 || index > vec.size())
+          throw std::runtime_error("Index out of range.");
+        if (j >= values_.size()) j = 0;
+        T value = values_.get_of_type(j, cppr::base_type(T()));
+        vec.set(index - 1, value);
       }
     }
 

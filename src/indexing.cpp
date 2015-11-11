@@ -2,11 +2,6 @@
 #include "lvec.h"
 #include <memory>
 
-inline bool is_logical(const ldat::vec& vec) {
-  auto p = dynamic_cast<const ldat::lvec<cppr::boolean>*>(&vec);
-  return p != 0;
-}
-
 class indexing_visitor : public ldat::lvec_visitor {
   public: 
     indexing_visitor(ldat::vec& index) : index_(index), result_(0) { }
@@ -90,7 +85,6 @@ class indexing_visitor : public ldat::lvec_visitor {
     ldat::vec* result_;
 };
 
-// TODO: logical indices
 // TODO: range index
 // TODO: check for overflow e.g. when indexing using double
 // TODO: move is_logical to central location

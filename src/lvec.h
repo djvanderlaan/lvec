@@ -113,7 +113,6 @@ namespace ldat {
       std::string get(vecsize i) const {
         vecsize offset = i * strlen_;
         return std::string(vec_ + offset, vec_ + (offset + strlen_));
-        //return std::string(vec_ + offset);
       }
 
       void set(vecsize i, const std::string& str) {
@@ -125,8 +124,6 @@ namespace ldat {
           vec_[k] = str[j];
         }
         vec_[k] = 0;
-        //std::strncpy(vec_ + offset, str.c_str(), strlen_);
-        //vec_[offset + strlen_ - 1] = 0;
       }
 
     private:
@@ -134,6 +131,15 @@ namespace ldat {
       vecsize size_;
       unsigned int strlen_;
   };
+}
+
+namespace ldat {
+
+  inline bool is_logical(const ldat::vec& vec) {
+    auto p = dynamic_cast<const ldat::lvec<cppr::boolean>*>(&vec);
+    return p != 0;
+  }
+
 }
 
 #endif

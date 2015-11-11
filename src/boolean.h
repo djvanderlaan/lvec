@@ -7,6 +7,9 @@ namespace cppr {
     public:
       boolean() : val_(2) {}
       boolean(const boolean& bl) : val_(bl.val_) {}
+      boolean(int val) : val_(val != 0) {
+        if (cppr::is_na(val)) val_ = 2;
+      }
       boolean(bool val) : val_(val ? 1 : 0) {}
       
       bool na() const { return val_ == 2;}
