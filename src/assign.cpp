@@ -10,19 +10,55 @@ class assign_visitor : public ldat::lvec_visitor {
     }
 
     template<typename T>
-    void visit_template(ldat::lvec<T>& vec) {
+    void visit_template_numeric(ldat::lvec<T>& vec) {
       if (index_.size() > 0 && values_.size() == 0)
-        throw("Replacement has length zero");
+        throw std::runtime_error("Replacement has length zero.");
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i, ++j) {
         int index = index_.get_of_type(i, int());
         if (cppr::is_na(index)) 
           throw std::runtime_error("NAs are not allowed in subscripted assignments.");
-        if (index < 0 || index > vec.size())
+        if (index < 1 || index > vec.size()) 
           throw std::runtime_error("Index out of range.");
         if (j >= values_.size()) j = 0;
         T value = values_.get_of_type(j, cppr::base_type(T()));
         vec.set(index - 1, value);
+      }
+    }
+
+    template<typename T>
+    void visit_template_logical(ldat::lvec<T>& vec) {
+      // check for empty values with non empty index; faster to do this here instead 
+      // of in the the mainloop; this check is only necessary for empty values
+      if (values_.size() == 0) {
+        for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
+          int index = index_.get_of_type(i, int());
+          if (index != 0 || cppr::is_na(index)) 
+            throw std::runtime_error("Replacement has length zero.");
+        }
+      }
+      // index
+      ldat::vec::vecsize i_index  = 0;
+      ldat::vec::vecsize i_values = 0;
+      for (ldat::vec::vecsize i = 0; i < vec.size(); ++i, ++i_index) {
+        if (i_index >= index_.size()) i_index = 0;
+        int index = index_.get_of_type(i_index, int());
+        if (cppr::is_na(index)) 
+          throw std::runtime_error("NAs are not allowed in subscripted assignments.");
+        if (index != 0) {
+          if (i_values >= values_.size()) i_values = 0;
+          T value = values_.get_of_type(i_values++, cppr::base_type(T()));
+	  vec.set(i, value);
+        }
+      }
+    }
+
+    template<typename T>
+    void visit_template(ldat::lvec<T>& vec) {
+      if (is_logical(index_)) {
+        return visit_template_logical(vec);
+      } else {
+        return visit_template_numeric(vec);
       }
     }
 
@@ -54,8 +90,8 @@ class assign_visitor : public ldat::lvec_visitor {
 // clean up rv, e.g.
 // a <- as.lvec(1:10)
 // .Call("assign", a, 1:4, 41:44)
-// will result in cleanup of the lvec pointed to by a; using a will result in 
-// terrible stuff. 
+// will result in cleanup of the lvec pointed to by a; using a after that will 
+// result in terrible stuff. 
 
 // TODO: check for overflow when casting e.g. from double to int
 extern "C" {
