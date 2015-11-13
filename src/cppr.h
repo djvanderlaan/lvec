@@ -4,6 +4,8 @@
 #include <R.h>
 #include <Rdefines.h>
 #include <string>
+#include <limits>
+#include <stdexcept>
 
 
 namespace cppr {
@@ -116,12 +118,22 @@ namespace cppr {
       p = coerceVector(p, T::Sexp_type);
     return p;
   }
+
+  template<typename T, typename S>
+  bool within_limits(S val) {
+    double v = val;
+    return v < std::numeric_limits<T>::max() & 
+      v > std::numeric_limits<T>::min();
+  }
   
   template<typename T, typename S>
   T cast_value(S x) { 
     if (is_nan(x)) return na<T>();
-    else return T(x);
+    if (!within_limits<T>(x)) 
+      throw std::runtime_error("Overflow when casting between types.");
+    return T(x);
   }
+
 };
 
 
