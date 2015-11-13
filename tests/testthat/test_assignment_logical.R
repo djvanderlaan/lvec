@@ -42,6 +42,8 @@ test_that("integer vectors are assigned using lset", {
   test_assignment(a_r, logical(0), integer(0))
   # empty values
   expect_error(lset(a, c(TRUE, FALSE, TRUE, TRUE, FALSE), numeric(0)))
+  # overflow
+  expect_error(lset(a, TRUE, 11E10))
 })
 
 test_that("logical vectors are assigned using lset", {

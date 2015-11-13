@@ -16,6 +16,8 @@ test_that("numeric vectors are correctly indexed using lget", {
   # out of range
   expect_error(lget(a, 20:30))
   expect_error(lget(a, -10:2))
+  # overflow
+  expect_error(lget(a, 1E10))
 })
 
 test_that("integer vectors are correctly indexed using lget", {
@@ -33,6 +35,8 @@ test_that("integer vectors are correctly indexed using lget", {
   # out of range
   expect_error(lget(a, 20:30))
   expect_error(lget(a, -10:2))
+  # overflow
+  expect_error(lget(a, 1E10))
 })
 
 test_that("logical vectors are correctly indexed using lget", {
@@ -50,6 +54,8 @@ test_that("logical vectors are correctly indexed using lget", {
   # out of range
   expect_error(lget(a, 20:30))
   expect_error(lget(a, -10:2))
+  # overflow
+  expect_error(lget(a, 1E10))
 })
 
 
@@ -68,5 +74,7 @@ test_that("character vectors are correctly indexed using lget", {
   # out of range
   expect_error(lget(a, 20:30))
   expect_error(lget(a, -10:2))
+  # overflow
+  expect_error(lget(a, 1E10))
 })
 

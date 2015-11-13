@@ -30,6 +30,8 @@ test_that("numeric vectors are assigned using lset", {
   expect_error(lset(a, 3:9, 11))
   expect_error(lset(a, -10:1, 11))
   expect_error(lset(a, 0:1, 11))
+  # overflow
+  expect_error(lset(a, 1E10, 11))
 })
 
 test_that("integer vectors are assigned using lset", {
@@ -54,6 +56,9 @@ test_that("integer vectors are assigned using lset", {
   expect_error(lset(a, 3:9, 11))
   expect_error(lset(a, -10:1, 11))
   expect_error(lset(a, 0:1, 11))
+  # overflow
+  expect_error(lset(a, 1E10, 11))
+  expect_error(lset(a, 4, 11E10))
 })
 
 test_that("logical vectors are assigned using lset", {
@@ -78,6 +83,8 @@ test_that("logical vectors are assigned using lset", {
   expect_error(lset(a, 3:9, TRUE))
   expect_error(lset(a, -10:1, TRUE))
   expect_error(lset(a, 0:1, TRUE))
+  # overflow
+  expect_error(lset(a, 1E10, 11))
 })
 
 test_that("character vectors are assigned using lset", {
@@ -102,5 +109,7 @@ test_that("character vectors are assigned using lset", {
   expect_error(lset(a, 3:9, as.character(11)))
   expect_error(lset(a, -10:1, as.character(11)))
   expect_error(lset(a, 0:1, as.character(11)))
+  # overflow
+  expect_error(lset(a, 1E10, as.character(11)))
 })
 
