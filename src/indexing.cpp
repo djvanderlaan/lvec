@@ -86,8 +86,6 @@ class indexing_visitor : public ldat::lvec_visitor {
 };
 
 // TODO: range index
-// TODO: check for overflow e.g. when indexing using double
-// TODO: move is_logical to central location
 extern "C" {
   SEXP get(SEXP rv, SEXP rindex) {
     CPPRTRY

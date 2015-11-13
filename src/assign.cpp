@@ -93,7 +93,7 @@ class assign_visitor : public ldat::lvec_visitor {
 // will result in cleanup of the lvec pointed to by a; using a after that will 
 // result in terrible stuff. 
 
-// TODO: check for overflow when casting e.g. from double to int
+// TODO: range indices
 extern "C" {
   SEXP assign(SEXP rv, SEXP rindex, SEXP rvalues) {
     CPPRTRY
