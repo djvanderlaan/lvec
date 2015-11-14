@@ -58,7 +58,7 @@ extern "C" {
       throw std::runtime_error("Expecting vector of length 2 for range index.");
     if (cppr::is_na(index[0]))
       throw std::runtime_error("Missing value for lower bound of range.");
-    if (cppr::is_na(index[0]))
+    if (cppr::is_na(index[1]))
       throw std::runtime_error("Missing value for upper bound of range.");
       
     range_indexing_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1), 
