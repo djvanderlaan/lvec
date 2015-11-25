@@ -10,6 +10,8 @@ namespace ldat {
       vec() {}
       ~vec() {}
 
+      virtual vec* clone() const = 0;
+
       virtual vecsize size() const = 0;
       virtual double get_of_type(vecsize i, double type) const = 0;
       virtual int get_of_type(vecsize i, int type) const = 0;

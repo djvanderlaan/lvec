@@ -6,6 +6,10 @@ namespace cppr {
     return x.size() > 1 && x[0] == 0 && x[1] == 123;
   }
 
+  inline bool is_nan(const std::string& x) {
+    return is_na(x);
+  }
+
   template<> inline std::string na<std::string>() { 
     std::string res(2, 'X');
     res[0] = 0;

@@ -6,8 +6,11 @@
 #include <string>
 #include <stdexcept>
 #include <cstring>
+#include <memory>
 #include "boolean.h"
 #include "visitor.h"
+#include "iterator.h"
+#include "val_ref.h"
 #include "vec.h"
 #include "string.h"
 
@@ -16,6 +19,7 @@ namespace ldat {
   template<typename T>
   class lvec : public vec {
     public: 
+
       lvec(vecsize size) : vec(), size_(size) {
         vec_ = new T[size];
       }
@@ -26,6 +30,12 @@ namespace ldat {
 
       ~lvec() {
         delete [] vec_;
+      }
+
+      vec* clone() const {
+        std::unique_ptr<lvec<T> > result(new lvec<T>(size_));
+        std::memcpy(result->vec_, vec_, size_ * sizeof(T));
+        return result.release();
       }
 
       vecsize size() const {
@@ -64,6 +74,10 @@ namespace ldat {
         return vec_;
       }
 
+      typedef lvec_iterator<T> iterator;
+      iterator begin() { return iterator(*this, 0); }
+      iterator end() { return iterator(*this, size_); }
+
     private:
       T* vec_;
       vecsize size_;
@@ -84,6 +98,12 @@ namespace ldat {
 
       ~lvec() {
         delete [] vec_;
+      }
+
+      vec* clone() const {
+        std::unique_ptr<lvec<std::string> > result(new lvec<std::string>(size_, *this));
+        std::memcpy(result->vec_, vec_, strlen_ * size_);
+        return result.release();
       }
 
       vecsize size() const {
@@ -125,6 +145,11 @@ namespace ldat {
         }
         vec_[k] = 0;
       }
+
+      typedef lvec_iterator<std::string> iterator;
+      iterator begin() { return iterator(*this, 0); }
+      iterator end() { return iterator(*this, size_); }
+
 
     private:
       char* vec_;
