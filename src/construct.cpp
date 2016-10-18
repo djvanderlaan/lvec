@@ -1,6 +1,7 @@
 #include "ldat.h"
 
 static void vec_finalizer(SEXP rp) {
+  // TODO: use exp_to_vec
   if(!R_ExternalPtrAddr(rp)) return;
   void* p = R_ExternalPtrAddr(rp);
   ldat::vec* v = reinterpret_cast<ldat::vec*>(p);
@@ -17,7 +18,7 @@ SEXP vec_to_sexp(ldat::vec* vec) {
 
 #include <iostream>
 ldat::vec* sexp_to_vec(SEXP rvec) {
-  if(!R_ExternalPtrAddr(rvec)) 
+  if(!R_ExternalPtrAddr(rvec))
     throw std::runtime_error("Object is not an external pointer; failed to convert to lvec.");
   // TODO check if rvec is an externalptr of type lvec
   void* p = R_ExternalPtrAddr(rvec);
@@ -49,4 +50,3 @@ extern "C" {
     CPPRCATCH
   }
 }
-

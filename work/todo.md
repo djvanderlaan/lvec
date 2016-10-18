@@ -1,3 +1,17 @@
+
+#### Initialise vector
+
+```{r}
+a <- lvec(4, "integer")
+as.rvec(a)
+```
+
+Returns uninitialised values.
+
+
+
+
+
 ToDo
 =============================
 
@@ -9,4 +23,3 @@ ToDo
 - Other storage types?
 - Logical index
 - Range index
-
