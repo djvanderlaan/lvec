@@ -7,29 +7,6 @@
 #include <limits>
 #include <stdexcept>
 
-//
-// namespace cppr {
-//   class rstring : public std::string {
-//     public:
-//       rstring() : std::string(), na_(true) { };
-//       rstring(const rstring& string) : std::string(string), na_(string.na_) { };
-//       rstring(const char* str) : std::string(str), na_(str == 0)  { };
-//
-//       bool na() const { return na_;};
-//       void na(bool na) { na_ = na;};
-//
-//       rstring& operator=(const rstring& str) {
-//         na_ = str.na_;
-//         std::string::operator=(str);
-//         return *this;
-//       }
-//
-//     private:
-//       bool na_;
-//   };
-// };
-//
-
 // A class implenting RAII to protect and unprotect R-objects
 // Use: protSEXP p = function_that_returns_an_sexp()
 // and PROTECT and UNPROTECT are not needed any more.
@@ -44,7 +21,6 @@ namespace cppr {
       SEXP p_;
   };
 };
-
 
 
 namespace cppr {

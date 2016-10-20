@@ -10,10 +10,10 @@ Returns uninitialised values.
 
 ### Unify classes
 
- We currently have a `cppr::logical` and a `cppr::boolean`; a `cppr::rstring`
- and `std::string`; a `cppr::integer` and a `int`; a `cppr::numeric` and
- a `double`. Try to unify this: one of each type. This might also reduce the
- code in `as_rvec` for example. 
+We currently have a `cppr::logical` and a `cppr::boolean`; a `cppr::rstring`
+and `std::string`; a `cppr::integer` and a `int`; a `cppr::numeric` and
+a `double`. Try to unify this: one of each type. This might also reduce the
+code in `as_rvec` for example. 
 
 
 

@@ -8,6 +8,7 @@ class as_rvec_visitor : public ldat::lvec_visitor {
     }
 
     void visit(ldat::lvec<double>& vec) {
+      // TODO: possible optimisation: use memcpy
       cppr::rvec<cppr::numeric> res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i)
         res[i] = vec.get(i);
@@ -15,6 +16,7 @@ class as_rvec_visitor : public ldat::lvec_visitor {
     }
 
     void visit(ldat::lvec<int>& vec) {
+      // TODO: possible optimisation: use memcpy
       cppr::rvec<cppr::integer> res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i)
         res[i] = vec.get(i);
@@ -32,15 +34,8 @@ class as_rvec_visitor : public ldat::lvec_visitor {
     void visit(ldat::lvec<std::string>& vec) {
       cppr::rvec<cppr::character> res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i) {
-        std::string val = vec.get(i);
-        // TODO: ifelse statement no longer nexessary
-        if (cppr::is_na(val)) {
-          res[i] = cppr::na<std::string>();
-        } else {
-          res[i] = val.c_str();
-          // TODO: should be able to do res[i] = val; then the ifelse statement
-          // is also no longer necessary
-        }
+        const std::string val = vec.get(i);
+        res[i] = val;
       }
       rvec_ = PROTECT(res.sexp());
     }

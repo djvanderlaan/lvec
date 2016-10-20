@@ -5,7 +5,7 @@
 #include <iostream>
 
 class assign_visitor : public ldat::lvec_visitor {
-  public: 
+  public:
     assign_visitor(ldat::vec& index, ldat::vec& values) : index_(index), values_(values) {
     }
 
@@ -16,9 +16,9 @@ class assign_visitor : public ldat::lvec_visitor {
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i, ++j) {
         int index = index_.get_of_type(i, int());
-        if (cppr::is_na(index)) 
+        if (cppr::is_na(index))
           throw std::runtime_error("NAs are not allowed in subscripted assignments.");
-        if (index < 1 || index > vec.size()) 
+        if (index < 1 || index > vec.size())
           throw std::runtime_error("Index out of range.");
         if (j >= values_.size()) j = 0;
         T value = values_.get_of_type(j, cppr::base_type(T()));
@@ -28,12 +28,12 @@ class assign_visitor : public ldat::lvec_visitor {
 
     template<typename T>
     void visit_template_logical(ldat::lvec<T>& vec) {
-      // check for empty values with non empty index; faster to do this here instead 
+      // check for empty values with non empty index; faster to do this here instead
       // of in the the mainloop; this check is only necessary for empty values
       if (values_.size() == 0) {
         for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
           int index = index_.get_of_type(i, int());
-          if (index != 0 || cppr::is_na(index)) 
+          if (index != 0 || cppr::is_na(index))
             throw std::runtime_error("Replacement has length zero.");
         }
       }
@@ -43,12 +43,12 @@ class assign_visitor : public ldat::lvec_visitor {
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i, ++i_index) {
         if (i_index >= index_.size()) i_index = 0;
         int index = index_.get_of_type(i_index, int());
-        if (cppr::is_na(index)) 
+        if (cppr::is_na(index))
           throw std::runtime_error("NAs are not allowed in subscripted assignments.");
         if (index != 0) {
           if (i_values >= values_.size()) i_values = 0;
           T value = values_.get_of_type(i_values++, cppr::base_type(T()));
-	  vec.set(i, value);
+          vec.set(i, value);
         }
       }
     }
@@ -84,14 +84,14 @@ class assign_visitor : public ldat::lvec_visitor {
 };
 
 
-// The function below doesn't return anything as the original object (pointed 
+// The function below doesn't return anything as the original object (pointed
 // to by rv) is modified. One possibility is to return rv. However, when this
 // result is not assigned to a r-value, then the garbage collector will try to
 // clean up rv, e.g.
 // a <- as.lvec(1:10)
 // .Call("assign", a, 1:4, 41:44)
-// will result in cleanup of the lvec pointed to by a; using a after that will 
-// result in terrible stuff. 
+// will result in cleanup of the lvec pointed to by a; using a after that will
+// result in terrible stuff.
 
 // TODO: range indices
 extern "C" {
@@ -106,4 +106,3 @@ extern "C" {
     CPPRCATCH
   }
 }
-

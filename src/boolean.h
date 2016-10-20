@@ -21,9 +21,10 @@ namespace cppr {
 	      return *this;
       }
 
+      // TODO operator=(int bl) ??? Keeping into accout missing values in int
+
       boolean& operator=(const boolean& bl) {
-        // TODO: comparison of NA'sshould return NA????
-	      val_ = bl.val_;
+        val_ = bl.val_;
 	      return *this;
       }
 
