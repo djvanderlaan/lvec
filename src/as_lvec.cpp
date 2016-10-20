@@ -32,17 +32,20 @@ extern "C" {
       // determine max string length
       int max_len = 0;
       for (int i = 0; i < v.length(); ++i) {
-        cppr::rstring s = v[i];
-        int l = s.length();
-        if (l > max_len) max_len = l;
+        std::string s = v[i];
+        if (!cppr::is_na(s)) {
+          int l = s.length();
+          if (l > max_len) max_len = l;
+        }
       }
+      // the minimum string length is always 2 as we need to be able to store
+      // missing values which have a length of 2.
       if (max_len < 2) max_len = 2;
       // create lvec
       auto res = new ldat::lvec<std::string>(v.length(), max_len);
       for (int i = 0; i < v.length(); ++i) {
-        cppr::rstring str = v[i];
-        if (cppr::is_na(str)) res->set(i, cppr::na<std::string>());
-        else res->set(i, str);
+        std::string str = v[i];
+        res->set(i, str);
       }
       return vec_to_sexp(res);
     } else {
@@ -52,5 +55,3 @@ extern "C" {
     CPPRCATCH
   }
 }
-
-// TODO strlen with missing values

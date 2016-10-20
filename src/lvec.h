@@ -12,13 +12,13 @@
 #include "iterator.h"
 #include "val_ref.h"
 #include "vec.h"
-#include "string.h"
+#include "cppr.h"
 
 namespace ldat {
 
   template<typename T>
   class lvec : public vec {
-    public: 
+    public:
 
       lvec(vecsize size) : vec(), size_(size) {
         vec_ = new T[size];
@@ -86,7 +86,7 @@ namespace ldat {
   template<>
   class lvec<std::string> : public vec {
     public:
-      lvec(vecsize size, unsigned int strlen) : vec(), size_(size), 
+      lvec(vecsize size, unsigned int strlen) : vec(), size_(size),
           strlen_(strlen+1) {
         vec_ = new char[size_ * strlen_];
       }
