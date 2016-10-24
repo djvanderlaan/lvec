@@ -7,19 +7,87 @@
 #include <boost/iostreams/device/mapped_file.hpp>
 
 
+class FilenameFactory {
+  public:
+    static void tempdir(const std::string& tempdir) {
+      tempdir_ = tempdir;
+    }
+
+    static std::string tempdir() {
+      return tempdir_;
+    }
+
+    static std::string tempfile() {
+      for (unsigned int i = 0; i < 20; ++i) {
+        boost::filesystem::path path = tempdir();
+        boost::filesystem::path temp = boost::filesystem::unique_path();
+        path /= temp;
+        if (!exists(path)) return path.string();
+      }
+      throw 1;
+    }
+
+
+  private:
+    static std::string tempdir_;
+};
+
+std::string FilenameFactory::tempdir_ = "";
+
 class MemMap {
   public:
-    MemMap(std::size_t size, const std::string& filename) : size_(size),
-        data_(0), filename_(filename) {
+    MemMap() : size_(0), filename_() {
+    }
+
+    // TODO: for this we need a way to get temporary filenames;
+    //MemMap(const MemMap& mmap) {
+    //}
+
+    MemMap(std::size_t size, const std::string& filename = "") : size_(size),
+        filename_(filename) {
       // create file
-      std::ofstream tmp(filename, std::ios::out | std::ios::binary);
+      if (filename_ == "") filename_ = FilenameFactory::tempfile();
+      // TODO: what is file creation or resize fails
+      std::ofstream tmp(filename_, std::ios::out | std::ios::binary);
       tmp.close();
-      // resize file to correct size
-      std::size_t filesize = size * sizeof(int);
-      boost::filesystem::resize_file(filename, filesize);
-      // open memory map
-      file_.open(filename);
-      data_ = reinterpret_cast<int*>(file_.data());
+      boost::filesystem::resize_file(filename_, size_);
+      file_.open(filename_);
+    }
+
+    ~MemMap() {
+      boost::filesystem::remove(filename_);
+    }
+
+    std::size_t size() const {
+      return size_;
+    }
+
+    void size(std::size_t size) {
+      file_.close();
+      boost::filesystem::resize_file(filename_, size);
+      size_ = size;
+      file_.open(filename_);
+    }
+
+    const void* data() const {
+      return size_ ? file_.data() : 0;
+    }
+
+    void* data() {
+      return size_ ? file_.data() : 0;
+    }
+
+  private:
+    std::size_t size_;
+    std::string filename_;
+    boost::iostreams::mapped_file file_;
+};
+
+class IntMemMap {
+  public:
+    IntMemMap(std::size_t size, const std::string& filename = "") :
+        mmap_(size * sizeof(int), filename), size_(size), data_(0) {
+      data_ = reinterpret_cast<int*>(mmap_.data());
     }
 
     std::size_t size() const {
@@ -38,17 +106,26 @@ class MemMap {
       data_[pos] = val;
     }
 
+
   private:
+    MemMap mmap_;
     std::size_t size_;
     int* data_;
-    std::string filename_;
-    boost::iostreams::mapped_file file_;
 };
 
 int main(int argc, char** argv) {
-  MemMap map{100, "test.mm"};
+  IntMemMap map{1000001};
+  int even = 1;
   for (int i = 0; i < map.size(); ++i) {
-    map.set(i, i);
+    map.set(i, even);
+    even = -even;
   }
+  int sum = 0;
+  for (int i = 0; i < map.size(); ++i) {
+    sum += map.get(i);
+  }
+  std::cout << sum << std::endl;
+  //FilenameFactory::tempdir("foo");
+  std::cout << "tempdir ='" << FilenameFactory::tempfile() << "'" << std::endl;
   return 0;
 }
