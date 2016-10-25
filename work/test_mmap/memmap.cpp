@@ -2,7 +2,8 @@
 #include "filenamefactory.h"
 
 #include <boost/filesystem.hpp>
-#include <fstream>
+#include <exception>
+#include <iostream>
 
 MemMap::MemMap(const MemMap& mmap) : size_(mmap.size_),
     filename_(FilenameFactory::tempfile()) {
@@ -13,16 +14,16 @@ MemMap::MemMap(const MemMap& mmap) : size_(mmap.size_),
 MemMap::MemMap(std::size_t size, const std::string& filename) : size_(size),
     filename_(filename) {
   if (filename_ == "") filename_ = FilenameFactory::tempfile();
-  // TODO: what is file creation or resize fails
-  std::ofstream tmp(filename_, std::ios::out | std::ios::binary);
-  tmp.close();
-  boost::filesystem::resize_file(filename_, size_);
-  file_.open(filename_);
+  boost::iostreams::mapped_file_params params;
+  params.path = filename_;
+  params.new_file_size = size_;
+  params.flags = boost::iostreams::mapped_file::mapmode::readwrite;
+  file_.open(params);
 }
 
 MemMap::~MemMap() {
   if (file_.is_open()) file_.close();
-  // TODO: what if file doesn't exist
+  // when file doesn't exist remove doesn't give an error and that's ok
   boost::filesystem::remove(filename_);
 }
 
@@ -33,17 +34,18 @@ std::size_t MemMap::size() const {
 void MemMap::size(std::size_t size) {
   if (size == size_) return;
   file_.close();
-  boost::filesystem::resize_file(filename_, size);
-  // TODO: if resize fails it throw exception; MemMap is then in invalid
-  // state: current file should be reopened
-  size_ = size;
+  boost::system::error_code ec;
+  boost::filesystem::resize_file(filename_, size, ec);
+  if (!ec) size_ = size;
   file_.open(filename_);
+  if (ec) throw std::runtime_error("Failed to resize memory map.");
 }
 
-const void* MemMap::data() const {
+const char* MemMap::data() const {
   return file_.data();
 }
 
-void* MemMap::data() {
+char* MemMap::data() {
   return file_.data();
 }
+

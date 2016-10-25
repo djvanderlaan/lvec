@@ -4,7 +4,6 @@
 #include <string>
 #include <boost/iostreams/device/mapped_file.hpp>
 
-
 class MemMap {
   public:
     MemMap(const MemMap& mmap);
@@ -14,8 +13,8 @@ class MemMap {
     std::size_t size() const;
     void size(std::size_t size);
 
-    const void* data() const;
-    void* data();
+    const char* data() const;
+    char* data();
 
   private:
     std::size_t size_;

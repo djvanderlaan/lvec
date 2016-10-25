@@ -4,8 +4,8 @@
 #include <fstream>
 #include <exception>
 #include "memmap.h"
-#include "filenamefactory.h"
 
+#include <boost/filesystem.hpp>
 
 class IntMemMap {
   public:
@@ -16,6 +16,12 @@ class IntMemMap {
 
     std::size_t size() const {
       return size_;
+    }
+
+    void size(std::size_t size) {
+      mmap_.size(size * sizeof(int));
+      size_ = size;
+      data_ = reinterpret_cast<int*>(mmap_.data());
     }
 
     int get(std::size_t pos) const {
@@ -51,12 +57,13 @@ int main(int argc, char** argv) {
   std::cout << sum << std::endl;
 
   IntMemMap map2(map);
+  map2.size(200);
   for (int i = 0; i < map2.size(); ++i) {
     sum += map2.get(i);
   }
   std::cout << sum << std::endl;
 
-  //FilenameFactory::tempdir("foo");
-  std::cout << "tempdir ='" << FilenameFactory::tempfile() << "'" << std::endl;
+  boost::filesystem::remove("foobar");
+
   return 0;
 }
