@@ -16,6 +16,9 @@ class MemMap {
     const char* data() const;
     char* data();
 
+    MemMap& operator=(const MemMap& other);
+    MemMap& operator=(MemMap&& other);
+
   private:
     std::size_t size_;
     std::string filename_;

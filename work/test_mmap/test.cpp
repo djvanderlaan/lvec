@@ -58,8 +58,14 @@ int main(int argc, char** argv) {
 
   IntMemMap map2(map);
   map2.size(200);
+  sum = 0;
   for (int i = 0; i < map2.size(); ++i) {
     sum += map2.get(i);
+  }
+  std::cout << sum << std::endl;
+  sum = 0;
+  for (int i = 0; i < map.size(); ++i) {
+    sum += map.get(i);
   }
   std::cout << sum << std::endl;
 
