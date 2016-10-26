@@ -1,2 +1,2 @@
-
+PKG_LIBS = -lboost_filesystem -lboost_iostreams -lboost_system
 CXX_STD=CXX11

@@ -3,6 +3,8 @@
 
 #include <iostream> //TODO
 
+#include "memmap.h"
+
 #include <string>
 #include <stdexcept>
 #include <cstring>

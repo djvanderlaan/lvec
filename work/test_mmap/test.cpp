@@ -5,8 +5,6 @@
 #include <exception>
 #include "memmap.h"
 
-#include <boost/filesystem.hpp>
-
 class IntMemMap {
   public:
     IntMemMap(std::size_t size, const std::string& filename = "") :
@@ -68,8 +66,6 @@ int main(int argc, char** argv) {
     sum += map.get(i);
   }
   std::cout << sum << std::endl;
-
-  boost::filesystem::remove("foobar");
 
   return 0;
 }

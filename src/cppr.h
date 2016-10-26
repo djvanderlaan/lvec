@@ -3,9 +3,16 @@
 
 #include <R.h>
 #include <Rdefines.h>
+
+// Rdefines.h defines a macro length; this clashes with a length function
+// defined in some of the boost headers we use; undefine the macro here;
+// we dont need it
+#undef length
+
 #include <string>
 #include <limits>
 #include <stdexcept>
+
 
 // A class implenting RAII to protect and unprotect R-objects
 // Use: protSEXP p = function_that_returns_an_sexp()
