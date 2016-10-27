@@ -3,7 +3,6 @@
 
 #include <boost/filesystem.hpp>
 #include <exception>
-#include <iostream>
 #include <cstring>
 
 MemMap::MemMap(const MemMap& mmap) : size_(mmap.size_),
@@ -22,12 +21,10 @@ MemMap::MemMap(std::size_t size, const std::string& filename) : size_(size),
   params.path = filename_;
   params.new_file_size = size_;
   params.flags = boost::iostreams::mapped_file::mapmode::readwrite;
-  std::cout << "openfile '" << filename_ << "'" << std::endl;
   file_.open(params);
 }
 
 MemMap::~MemMap() {
-  std::cout << "closefile '" << filename_ << "'" << std::endl;
   file_.close();
   // when file doesn't exist remove doesn't give an error and that's ok
   if (filename_ != "") boost::filesystem::remove(filename_);

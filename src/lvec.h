@@ -1,8 +1,6 @@
 #ifndef lvec_h
 #define lvec_h
 
-#include <iostream> //TODO
-
 #include "memmap.h"
 
 #include <string>
@@ -31,7 +29,6 @@ namespace ldat {
       }
 
       ~lvec() {
-        std::cout << "lvec decontruct" << std::endl;
         delete [] vec_;
       }
 

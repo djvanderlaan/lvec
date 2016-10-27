@@ -8,7 +8,7 @@ namespace ldat {
       typedef unsigned int vecsize;
 
       vec() {}
-      ~vec() {}
+      virtual ~vec() {}
 
       virtual vec* clone() const = 0;
 
