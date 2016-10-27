@@ -1,7 +1,15 @@
 #include "ldat.h"
 
+#include <iostream> //TODO
+
 static void vec_finalizer(SEXP rp) {
+  std::cout << "calling finalizer" << std::endl;
+  // TODO: for some reason the code never passes the if statement therfore
+  // the deonctructors of the lvec objects are not called and therefore the
+  // memorymap isn't closed
+
   // TODO: use exp_to_vec
+  std::cout << "rp=" << R_ExternalPtrAddr(rp) << std::endl;
   if(!R_ExternalPtrAddr(rp)) return;
   void* p = R_ExternalPtrAddr(rp);
   ldat::vec* v = reinterpret_cast<ldat::vec*>(p);
@@ -16,7 +24,6 @@ SEXP vec_to_sexp(ldat::vec* vec) {
   return res;
 }
 
-#include <iostream>
 ldat::vec* sexp_to_vec(SEXP rvec) {
   if(!R_ExternalPtrAddr(rvec))
     throw std::runtime_error("Object is not an external pointer; failed to convert to lvec.");

@@ -14,16 +14,21 @@ MemMap::MemMap(const MemMap& mmap) : size_(mmap.size_),
 
 MemMap::MemMap(std::size_t size, const std::string& filename) : size_(size),
     filename_(filename) {
+  // mapped_file throws an error when the file size is equal to 0; set the 
+  // minimum size to 1
+  if (size_ == 0) size_ = 1;
   if (filename_ == "") filename_ = FilenameFactory::tempfile();
   boost::iostreams::mapped_file_params params;
   params.path = filename_;
   params.new_file_size = size_;
   params.flags = boost::iostreams::mapped_file::mapmode::readwrite;
+  std::cout << "openfile '" << filename_ << "'" << std::endl;
   file_.open(params);
 }
 
 MemMap::~MemMap() {
-  if (file_.is_open()) file_.close();
+  std::cout << "closefile '" << filename_ << "'" << std::endl;
+  file_.close();
   // when file doesn't exist remove doesn't give an error and that's ok
   if (filename_ != "") boost::filesystem::remove(filename_);
 }

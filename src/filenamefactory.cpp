@@ -1,7 +1,7 @@
 #include "filenamefactory.h"
 #include <boost/filesystem.hpp>
 
-std::string FilenameFactory::tempdir_ = "";
+std::string FilenameFactory::tempdir_ = boost::filesystem::temp_directory_path().string();
 
 void FilenameFactory::tempdir(const std::string& tempdir) {
   tempdir_ = tempdir;

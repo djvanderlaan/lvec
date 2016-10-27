@@ -22,15 +22,16 @@ namespace ldat {
   class lvec : public vec {
     public:
 
-      lvec(vecsize size) : vec(), size_(size) {
+      lvec(vecsize size) : vec(), size_(size), mmap_(size * sizeof(int)) {
         vec_ = new T[size];
       }
 
-      lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size) {
+      lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size), mmap_(size * sizeof(int)) {
         vec_ = new T[size];
       }
 
       ~lvec() {
+        std::cout << "lvec decontruct" << std::endl;
         delete [] vec_;
       }
 
@@ -83,6 +84,7 @@ namespace ldat {
     private:
       T* vec_;
       vecsize size_;
+      MemMap mmap_;
   };
 
   template<>
