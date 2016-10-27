@@ -21,15 +21,14 @@ namespace ldat {
     public:
 
       lvec(vecsize size) : vec(), size_(size), mmap_(size * sizeof(int)) {
-        vec_ = new T[size];
+        vec_ = reinterpret_cast<T*>(mmap_.data());
       }
 
       lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size), mmap_(size * sizeof(int)) {
-        vec_ = new T[size];
+        vec_ = reinterpret_cast<T*>(mmap_.data());
       }
 
       ~lvec() {
-        delete [] vec_;
       }
 
       vec* clone() const {
@@ -59,10 +58,12 @@ namespace ldat {
       }
 
       T get(vecsize i) const {
+        // TODO: check for out of bounds??
         return vec_[i];
       }
 
       void set(vecsize i, T value) {
+        // TODO: check for out of bounds??
         vec_[i] = value;
       }
 
@@ -88,17 +89,16 @@ namespace ldat {
   class lvec<std::string> : public vec {
     public:
       lvec(vecsize size, unsigned int strlen) : vec(), size_(size),
-          strlen_(strlen+1) {
-        vec_ = new char[size_ * strlen_];
+          strlen_(strlen+1), mmap_(size_ * strlen_) {
+        vec_ = mmap_.data();
       }
 
       lvec(vecsize size, const lvec<std::string>& templ) : vec(), size_(size),
-          strlen_(templ.strlen_) {
-        vec_ = new char[size_ * strlen_];
+          strlen_(templ.strlen_), mmap_(size_ * strlen_) {
+        vec_ = mmap_.data();
       }
 
       ~lvec() {
-        delete [] vec_;
       }
 
       vec* clone() const {
@@ -156,6 +156,7 @@ namespace ldat {
       char* vec_;
       vecsize size_;
       unsigned int strlen_;
+      MemMap mmap_;
   };
 }
 

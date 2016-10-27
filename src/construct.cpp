@@ -39,7 +39,7 @@ extern "C" {
     } else if (t == "integer") {
       vec = new ldat::lvec<int>(size[0]);
     } else if (t == "logical") {
-      vec = new ldat::lvec<int>(size[0]);
+      vec = new ldat::lvec<cppr::boolean>(size[0]);
     } else if (t == "character") {
       cppr::rvec<cppr::integer> strlen{rstrlen};
       if (strlen.length() == 0) throw std::runtime_error("Strlen is empty.");

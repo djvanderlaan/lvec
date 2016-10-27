@@ -2,7 +2,7 @@
 
 #' @useDynLib ldat2
 #' @export
-lvec <- function(size, type = c("numeric", "integer", "character"), strlen = NULL) {
+lvec <- function(size, type = c("numeric", "integer", "logical", "character"), strlen = NULL) {
   type <- match.arg(type)
   if (type == "character" && !(is.numeric(strlen) && length(strlen) > 0)) 
     stop("strlen is required when creating a character lvec.")
