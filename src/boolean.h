@@ -17,15 +17,15 @@ namespace cppr {
       void set(bool val) { val_ = val ? 1 : 0;}
 
       boolean& operator=(bool bl) {
-	      set(bl);
-	      return *this;
+        set(bl);
+        return *this;
       }
 
       // TODO operator=(int bl) ??? Keeping into accout missing values in int
 
       boolean& operator=(const boolean& bl) {
         val_ = bl.val_;
-	      return *this;
+        return *this;
       }
 
       operator bool() const { return val_ == 1;}
