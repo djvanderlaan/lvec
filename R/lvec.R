@@ -1,6 +1,6 @@
 
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 lvec <- function(size, type = c("numeric", "integer", "logical", "character"), strlen = NULL) {
   type <- match.arg(type)
@@ -17,7 +17,7 @@ is.lvec <-function(x) {
 }
 
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 as.lvec <- function(x) {
   if (is.lvec(x)) {
@@ -28,7 +28,7 @@ as.lvec <- function(x) {
   }
 }
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 as.rvec <- function(x) {
   if (!is.lvec(x)) {

@@ -1,6 +1,6 @@
 
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 lget <- function(x, index = NULL, range = NULL) {
   if (!is.lvec(x)) stop("x should be of type lvec.")

@@ -1,6 +1,6 @@
 
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 clone <- function(x) {
   r <- .Call("lclone", x)

@@ -18,7 +18,7 @@
 #' b <- sort(a, clone = FALSE)
 #' print(a)
 #'
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 sort.lvec <- function(x, clone = TRUE, ...) {
   if (!is.lvec(x)) stop("x should be of type lvec.")

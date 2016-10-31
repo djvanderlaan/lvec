@@ -1,6 +1,6 @@
 
 
-#' @useDynLib ldat2
+#' @useDynLib lvec
 #' @export
 lset <- function(x, index, values) {
   index <- as.lvec(index)

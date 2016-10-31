@@ -1,17 +1,18 @@
-Package: ldat2
+Package: lvec
 Type: Package
-Title: Large Data Files in R
+Title: Out of Memory Vectors in R
 Version: 0.0.1
-Date: 2015-09-10
+Date: 2016-11-01
 Author: Jan van der Laan
 Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
-Description: Tools for handling data sets that are too large to keep in memory.
-  Maps R objects to data that is kept (partially) on disk. The user kan
-  interact largely with these object as he would with regular data.framas and
-  vectors. 
-URL: https://github.com/djvanderlaan/ldat2
-Imports:
-    lazyeval
+Description: Core functionality for working with vectors (numeric, integer,
+    logical and character) that are too large to keep in memory. The vectors are
+    kept (partially) on disk using memory mapping. This package contains the
+    basic functionality for working with these memory mapped vectors (e.g.
+    creating, indexing, ordering and sorting) and provides C++ headers which can
+    be used by other packages to extend the functionality provided in this
+    package.
+URL: https://github.com/djvanderlaan/lvec
 Depends:
     stats,
     R (>= 3.0.0)
@@ -19,3 +20,4 @@ Suggests:
     testthat
 License: GPL-3
 LazyLoad: yes
+RoxygenNote: 5.0.1
