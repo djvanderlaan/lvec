@@ -36,6 +36,9 @@ std::size_t MemMap::size() const {
 
 void MemMap::size(std::size_t size) {
   if (size == size_) return;
+  // mapped_file throws an error when the file size is equal to 0; set the 
+  // minimum size to 1
+  if (size == 0) size = 1;
   file_.close();
   boost::system::error_code ec;
   boost::filesystem::resize_file(filename_, size, ec);

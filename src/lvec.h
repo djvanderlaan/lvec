@@ -20,11 +20,11 @@ namespace ldat {
   class lvec : public vec {
     public:
 
-      lvec(vecsize size) : vec(), size_(size), mmap_(size * sizeof(int)) {
+      lvec(vecsize size) : vec(), size_(size), mmap_(size * sizeof(T)) {
         vec_ = reinterpret_cast<T*>(mmap_.data());
       }
 
-      lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size), mmap_(size * sizeof(int)) {
+      lvec(vecsize size, const lvec<T>& templ) : vec(), size_(size), mmap_(size * sizeof(T)) {
         vec_ = reinterpret_cast<T*>(mmap_.data());
       }
 
@@ -39,6 +39,12 @@ namespace ldat {
 
       vecsize size() const {
         return size_;
+      }
+
+      void size(vecsize size) {
+        mmap_.size(size * sizeof(T));
+        size_ = size;
+        vec_ = reinterpret_cast<T*>(mmap_.data());
       }
 
       double get_of_type(vecsize i, double type) const {
@@ -109,6 +115,12 @@ namespace ldat {
 
       vecsize size() const {
         return size_;
+      }
+
+      void size(vecsize size) {
+        mmap_.size(size * strlen_);
+        size_ = size;
+        vec_ = mmap_.data();
       }
 
       unsigned int strlen() const {

@@ -13,6 +13,8 @@ namespace ldat {
       virtual vec* clone() const = 0;
 
       virtual vecsize size() const = 0;
+      virtual void size(vecsize size) = 0;  
+
       virtual double get_of_type(vecsize i, double type) const = 0;
       virtual int get_of_type(vecsize i, int type) const = 0;
       virtual std::string get_of_type(vecsize i, const std::string& type) const = 0;
