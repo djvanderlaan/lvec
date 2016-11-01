@@ -2,15 +2,15 @@
 context("Assignment using numeric index")
 
 test_assignment <- function(a_r, index, values) {
-  a <- as.lvec(a_r)
+  a <- as_lvec(a_r)
   lset(a, index, values)
   suppressWarnings({ a_r[index] <- values })
-  expect_that(as.rvec(a), equals(a_r))
+  expect_that(as_rvec(a), equals(a_r))
 }
 
 test_that("numeric vectors are assigned using lset", {
   a_r <- c(-1.2, 5E10, NA, NaN, 4.1)
-  a   <- as.lvec(a_r)
+  a   <- as_lvec(a_r)
 
   test_assignment(a_r, 1:4, 11:14)
   test_assignment(a_r, c(4, 1, 3, 2), 11:14)
@@ -36,7 +36,7 @@ test_that("numeric vectors are assigned using lset", {
 
 test_that("integer vectors are assigned using lset", {
   a_r <- as.integer(c(-1, 2, 1E9, NA, 1234))
-  a   <- as.lvec(a_r)
+  a   <- as_lvec(a_r)
 
   test_assignment(a_r, 1:4, 11:14)
   test_assignment(a_r, c(4, 1, 3, 2), 11:14)
@@ -63,7 +63,7 @@ test_that("integer vectors are assigned using lset", {
 
 test_that("logical vectors are assigned using lset", {
   a_r <- as.logical(c(TRUE, FALSE, TRUE, NA, NA))
-  a   <- as.lvec(a_r)
+  a   <- as_lvec(a_r)
 
   test_assignment(a_r, 1:4, c(TRUE, FALSE, TRUE, NA))
   test_assignment(a_r, c(4, 1, 3, 2), c(FALSE, TRUE, NA, FALSE))
@@ -89,7 +89,7 @@ test_that("logical vectors are assigned using lset", {
 
 test_that("character vectors are assigned using lset", {
   a_r <- c("jan", "pier", NA, "corneel")
-  a   <- as.lvec(a_r)
+  a   <- as_lvec(a_r)
 
   test_assignment(a_r, 1:4, as.character(11:14))
   test_assignment(a_r, c(4, 1, 3, 2), as.character(11:14))

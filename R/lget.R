@@ -3,12 +3,12 @@
 #' @useDynLib lvec
 #' @export
 lget <- function(x, index = NULL, range = NULL) {
-  if (!is.lvec(x)) stop("x should be of type lvec.")
+  if (!is_lvec(x)) stop("x should be of type lvec.")
 
   if (!is.null(index)) {
     if (!is.null(range))
       warning("Both range and index specified. Ignoring range.")
-    index <- as.lvec(index)
+    index <- as_lvec(index)
     res <- .Call("get", x, index)
     structure(res, class="lvec")
   } else if (!is.null(range)) {

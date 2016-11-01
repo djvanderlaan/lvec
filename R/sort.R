@@ -10,18 +10,18 @@
 #' \code{FALSE} the input vector is modified.
 #'
 #' @examples
-#' x <- as.lvec(rnorm(10))
+#' x <- as_lvec(rnorm(10))
 #' sort(x)
 #'
 #' # Effect of clone
-#' a <- as.lvec(rnorm(10))
+#' a <- as_lvec(rnorm(10))
 #' b <- sort(a, clone = FALSE)
 #' print(a)
 #'
 #' @useDynLib lvec
 #' @export
 sort.lvec <- function(x, clone = TRUE, ...) {
-  if (!is.lvec(x)) stop("x should be of type lvec.")
+  if (!is_lvec(x)) stop("x should be of type lvec.")
   if (clone) x <- clone(x)
   .Call("sort", x)
   x

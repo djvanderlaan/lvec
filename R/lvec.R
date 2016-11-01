@@ -12,15 +12,15 @@ lvec <- function(size, type = c("numeric", "integer", "logical", "character"), s
 
 
 #' @export
-is.lvec <-function(x) {
+is_lvec <-function(x) {
   inherits(x, "lvec")
 }
 
 
 #' @useDynLib lvec
 #' @export
-as.lvec <- function(x) {
-  if (is.lvec(x)) {
+as_lvec <- function(x) {
+  if (is_lvec(x)) {
     x
   } else {
     x <- .Call("as_lvec", x)
@@ -30,8 +30,8 @@ as.lvec <- function(x) {
 
 #' @useDynLib lvec
 #' @export
-as.rvec <- function(x) {
-  if (!is.lvec(x)) {
+as_rvec <- function(x) {
+  if (!is_lvec(x)) {
     x
   } else {
     .Call("as_rvec", x)
