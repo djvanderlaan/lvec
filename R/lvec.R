@@ -37,3 +37,10 @@ as_rvec <- function(x) {
     .Call("as_rvec", x)
   }
 }
+
+#' @useDynLib lvec
+#' @export
+lvec_type <- function(x) {
+  if (!is_lvec(x)) stop("x should be of type lvec.")
+  .Call("get_type", x)
+}
