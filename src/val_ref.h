@@ -49,12 +49,10 @@ namespace ldat {
     return lhs < static_cast<T>(rhs);
   }
 
-
-  // TODO: check if exception safe
   template<typename T>
   void swap(lvec_val_ref<T> a, lvec_val_ref<T> b) {
-    lvec_val_ref<T> tmp = a;
-    a = b;
+    T tmp{a};
+    a = static_cast<T>(b);
     b = tmp;
   }
 

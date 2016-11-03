@@ -25,6 +25,11 @@ test_that("numeric vectors are correctly sorted", {
   a_r <- numeric(0)
   a <- as_lvec(a_r)
   expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
+
+  # 'Large' vectors
+  a_r <- rnorm(1000)
+  a <- as_lvec(a_r)
+  expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
 })
 
 test_that("integer vectors are correctly sorted", {
@@ -44,6 +49,11 @@ test_that("integer vectors are correctly sorted", {
 
   # Empty vector
   a_r <- integer(0)
+  a <- as_lvec(a_r)
+  expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
+
+  # 'Large' vectors
+  a_r <- sample(1000, 1000)
   a <- as_lvec(a_r)
   expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
 })
@@ -67,6 +77,11 @@ test_that("logical vectors are correctly sorted", {
   a_r <- logical(0)
   a <- as_lvec(a_r)
   expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
+
+  # 'Large' vectors
+  a_r <- sample(c(TRUE, FALSE), 1000, replace = TRUE)
+  a <- as_lvec(a_r)
+  expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
 })
 
 test_that("character vectors are correctly sorted", {
@@ -86,6 +101,12 @@ test_that("character vectors are correctly sorted", {
 
   # Empty vector
   a_r <- character(0)
+  a <- as_lvec(a_r)
+  expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
+
+  # 'Large' vectors
+  a_r <- paste0(sample(letters, 1000, replace = TRUE), 
+    sample(letters, 1000, replace = TRUE))
   a <- as_lvec(a_r)
   expect_that(as_rvec(sort(a)), equals(sort(a_r, na.last=TRUE)))
 })
