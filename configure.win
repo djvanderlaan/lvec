@@ -1,0 +1,4 @@
+
+
+${R_HOME}/bin/R --vanilla --slave -e "source('R/makevars.R'); makevars()"
+
