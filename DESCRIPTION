@@ -18,6 +18,6 @@ Depends:
     R (>= 3.0.0)
 Suggests:
     testthat
-License: GPL-3
+License: GPL-3 + file LICENSE
 LazyLoad: yes
 RoxygenNote: 5.0.1
