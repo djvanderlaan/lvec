@@ -37,7 +37,7 @@ namespace cppr {
       static constexpr int Sexp_type = REALSXP;
 
       static value_type* data(SEXP x) { return REAL(x); };
-      static int length(SEXP x) { return LENGTH(x); };
+      static R_xlen_t length(SEXP x) { return LENGTH(x); };
       static bool is(SEXP x) { return isReal(x); };
   };
 
@@ -47,7 +47,7 @@ namespace cppr {
       static constexpr int Sexp_type = INTSXP;
 
       static value_type* data(SEXP x) { return INTEGER(x); };
-      static int length(SEXP x) { return LENGTH(x); };
+      static R_xlen_t length(SEXP x) { return xlength(x); };
       static bool is(SEXP x) { return isInteger(x); };
   };
 
@@ -57,7 +57,7 @@ namespace cppr {
       static constexpr int Sexp_type = LGLSXP;
 
       static value_type* data(SEXP x) { return LOGICAL(x); };
-      static int length(SEXP x) { return LENGTH(x); };
+      static R_xlen_t length(SEXP x) { return xlength(x); };
       static bool is(SEXP x) { return isLogical(x); };
   };
 
@@ -65,7 +65,7 @@ namespace cppr {
     public:
       static constexpr int Sexp_type = STRSXP;
 
-      static int length(SEXP x) { return LENGTH(x); };
+      static R_xlen_t length(SEXP x) { return xlength(x); };
       static bool is(SEXP x) { return isString(x); };
   };
 };
@@ -141,7 +141,7 @@ namespace cppr {
         data_ = T::data(sexp_);
       }
 
-      rvec(int length) : unprotect_(true) {
+      rvec(R_xlen_t length) : unprotect_(true) {
         sexp_ = allocVector(T::Sexp_type, length);
         PROTECT(sexp_);
         data_ = T::data(sexp_);
@@ -151,19 +151,19 @@ namespace cppr {
         if (unprotect_) UNPROTECT_PTR(sexp_);
       }
 
-      int length() const {
+      R_xlen_t length() const {
         return T::length(sexp_);
       }
 
-      typename T::value_type operator[](int i) const {
+      typename T::value_type operator[](R_xlen_t i) const {
         return data_[i];
       };
 
-      typename T::value_type& operator[](int i) {
+      typename T::value_type& operator[](R_xlen_t i) {
         return data_[i];
       }
 
-      void set(int i, typename T::value_type val) {
+      void set(R_xlen_t i, typename T::value_type val) {
         data_[i] = val;
       }
 
@@ -187,7 +187,7 @@ namespace cppr {
         }
       }
 
-      rvec(int length) : unprotect_(true) {
+      rvec(R_xlen_t length) : unprotect_(true) {
         sexp_ = allocVector(character::Sexp_type, length);
         PROTECT(sexp_);
       }
@@ -196,11 +196,11 @@ namespace cppr {
         if (unprotect_) UNPROTECT_PTR(sexp_);
       }
 
-      int length() const {
-        return LENGTH(sexp_);
+      R_xlen_t length() const {
+        return character::length(sexp_);
       }
 
-      std::string operator[](int i) const {
+      std::string operator[](R_xlen_t i) const {
         SEXP str = STRING_ELT(sexp_, i);
         if (str == R_NaString) return na<std::string>();
         return std::string(CHAR(str));
@@ -208,7 +208,7 @@ namespace cppr {
 
       class element_reference {
         public:
-          element_reference(rvec<character>& vec, int el): vec_(vec), el_(el) {};
+          element_reference(rvec<character>& vec, R_xlen_t el): vec_(vec), el_(el) {};
 
           element_reference& operator=(const std::string& str) {
             vec_.set(el_, str);
@@ -221,14 +221,14 @@ namespace cppr {
 
         private:
           rvec<character>& vec_;
-          int el_;
+          R_xlen_t el_;
       };
 
-      element_reference operator[](int i) {
+      element_reference operator[](R_xlen_t i) {
         return element_reference(*this, i);
       }
 
-      void set(int i, const std::string& val) {
+      void set(R_xlen_t i, const std::string& val) {
         if (is_na(val)) {
           SET_STRING_ELT(sexp_, i, R_NaString);
         } else {
