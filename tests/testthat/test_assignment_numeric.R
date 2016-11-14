@@ -32,6 +32,8 @@ test_that("numeric vectors are assigned using lset", {
   expect_error(lset(a, 0:1, 11))
   # overflow
   expect_error(lset(a, 1E10, 11))
+  # numeric indeices
+  test_assignment(a_r, 1:5+0.1, 1:5)
 })
 
 test_that("integer vectors are assigned using lset", {

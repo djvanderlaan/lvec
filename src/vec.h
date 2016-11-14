@@ -5,7 +5,7 @@ namespace ldat {
 
   class vec {
     public:
-      typedef unsigned int vecsize;
+      typedef std::size_t vecsize;
 
       vec() {}
       virtual ~vec() {}

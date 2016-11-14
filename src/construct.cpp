@@ -27,8 +27,9 @@ ldat::vec* sexp_to_vec(SEXP rvec) {
 extern "C" {
   SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {
     CPPRTRY
-    cppr::rvec<cppr::integer> size{rsize};
+    cppr::rvec<cppr::numeric> size{rsize};
     if (size.length() == 0) throw std::runtime_error("Size is empty.");
+    if (size[0] > cppr::max_index) throw std::runtime_error("Size is too large.");
     cppr::rvec<cppr::character> type{rtype};
     if (type.length() == 0) throw std::runtime_error("Type is empty.");
 

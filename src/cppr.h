@@ -13,6 +13,9 @@
 #include <limits>
 #include <stdexcept>
 
+namespace cppr{
+  constexpr double max_index = 1E15;
+}
 
 // A class implenting RAII to protect and unprotect R-objects
 // Use: protSEXP p = function_that_returns_an_sexp()
@@ -114,8 +117,8 @@ namespace cppr {
   template<typename T, typename S>
   bool within_limits(S val) {
     double v = val;
-    return v < std::numeric_limits<T>::max() &
-      v > std::numeric_limits<T>::min();
+    return v <= std::numeric_limits<T>::max() &&
+      v >= std::numeric_limits<T>::min();
   }
 
   template<typename T, typename S>

@@ -10,16 +10,17 @@ class indexing_visitor : public ldat::lvec_visitor {
     void visit_template_numeric(ldat::lvec<T>& vec) {
       std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(index_.size(), vec));
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
-        int index = index_.get_of_type(i, int());
+        double index = index_.get_of_type(i, double());
         if (cppr::is_na(index)) {
           result->set(i, cppr::na<T>());
         } else {
-          if (index < 0 || index > vec.size())
+          // need to floor index to have indices such as 3.1 work correctly
+          index = std::floor(index);
+          if (index < 1.0 || index > vec.size()) 
             throw std::runtime_error("Index out of range.");
           T value = vec.get(index - 1);
           result->set(i, value);
         }
-
       }
       result_ = result.release();
     }
@@ -31,8 +32,8 @@ class indexing_visitor : public ldat::lvec_visitor {
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i, ++j) {
         if (j >= index_.size()) j = 0;
-	      int index = index_.get_of_type(j, int());
-	      if (index != 0 || cppr::is_na(index)) ++n;
+        int index = index_.get_of_type(j, int());
+        if (index != 0 || cppr::is_na(index)) ++n;
       }
       // index
       std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(n, vec));
@@ -41,10 +42,10 @@ class indexing_visitor : public ldat::lvec_visitor {
         if (j >= index_.size()) j = 0;
         int index = index_.get_of_type(j, int());
         if (cppr::is_na(index)) {
-	        result->set(result_index++, cppr::na<T>());
+	  result->set(result_index++, cppr::na<T>());
         } else if (index != 0) {
-	        T value = vec.get(i);
-	        result->set(result_index++, value);
+          T value = vec.get(i);
+          result->set(result_index++, value);
         }
       }
       result_ = result.release();

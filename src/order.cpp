@@ -13,7 +13,7 @@ class order_visitor : public ldat::lvec_visitor {
       public:
         compare(const ldat::lvec<T>& vec) : vec_(vec) {};
 
-        bool operator()(const int& lhs, const int& rhs) {
+        bool operator()(ldat::vec::vecsize lhs, ldat::vec::vecsize rhs) {
           T val_lhs = vec_.get(lhs-1);
           if (cppr::is_nan(val_lhs)) return false;
           T val_rhs = vec_.get(rhs-1);
@@ -32,7 +32,7 @@ class order_visitor : public ldat::lvec_visitor {
     void visit_template(const ldat::lvec<T>& vec) {
       // initialise result with current order
       ldat::vec::vecsize size = vec.size();
-      std::unique_ptr<ldat::lvec<int> > result(new ldat::lvec<int>(size));
+      std::unique_ptr<ldat::lvec<double> > result(new ldat::lvec<double>(size));
       for (int i = 0; i < size; ++i) result->set(i, i+1);
       // we are now going to sort the current order; but when comparing
       // we use the values pointed to by the order vector
@@ -63,8 +63,7 @@ class order_visitor : public ldat::lvec_visitor {
 
   private:
     // TODO: int? or double for long vectors?
-    ldat::lvec<int>* result_;
-    
+    ldat::lvec<double>* result_;
 };
 
 

@@ -1,4 +1,19 @@
 
+checked:
+  as_lvec.cpp
+  as_rvec.cpp
+  assign.cpp
+  clone.cpp
+  construct.cpp
+  filenamefactory.cpp
+  get_type.cpp
+  indexing.cpp
+  indexing_range.cpp
+  order.cpp
+  size.cpp
+  sort.cpp
+
+
 
 
 Currently the length of vectors is supplied to and from R using integers. R

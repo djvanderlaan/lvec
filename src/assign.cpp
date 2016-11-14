@@ -2,8 +2,6 @@
 #include "ldat.h"
 #include "lvec.h"
 
-#include <iostream>
-
 class assign_visitor : public ldat::lvec_visitor {
   public:
     assign_visitor(ldat::vec& index, ldat::vec& values) : index_(index), values_(values) {
@@ -15,9 +13,11 @@ class assign_visitor : public ldat::lvec_visitor {
         throw std::runtime_error("Replacement has length zero.");
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i, ++j) {
-        int index = index_.get_of_type(i, int());
+        double index = index_.get_of_type(i, double());
         if (cppr::is_na(index))
           throw std::runtime_error("NAs are not allowed in subscripted assignments.");
+        // need to floor index to have indices such as 3.1 work correctly
+        index = std::floor(index);
         if (index < 1 || index > vec.size())
           throw std::runtime_error("Index out of range.");
         if (j >= values_.size()) j = 0;

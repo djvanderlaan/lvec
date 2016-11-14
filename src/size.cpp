@@ -8,7 +8,7 @@ extern "C" {
     CPPRTRY
     ldat::vec* v = sexp_to_vec(rv);
     // TODO: return length as integer??
-    cppr::rvec<cppr::integer> result{1};
+    cppr::rvec<cppr::numeric> result{1};
     result[0] = v->size();
     return result.sexp();
     CPPRCATCH
@@ -19,9 +19,9 @@ extern "C" {
 extern "C" {
   SEXP set_size(SEXP rv, SEXP rsize) {
     CPPRTRY
-    // TODO: length as integer??
-    cppr::rvec<cppr::integer> size{rsize};
+    cppr::rvec<cppr::numeric> size{rsize};
     if (size.length() == 0) std::runtime_error("Size is empty");
+    if (size[0] > cppr::max_index) throw std::runtime_error("Size is too large.");
     ldat::vec* v = sexp_to_vec(rv);
     v->size(size[0]);
     return R_NilValue;
