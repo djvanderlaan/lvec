@@ -13,6 +13,15 @@ test_that("vectors are correctly initialised", {
 
   a <- lvec(4, "character", strlen = 4)
   expect_that(as_rvec(a), equals(c("", "", "", "")))
+
+  # Edge cases
+  expect_error(lvec(as.integer(NA), "integer"))
+  expect_error(lvec(as.double(NA), "integer"))
+  expect_error(lvec(as.character(NA), "integer"))
+  expect_error(lvec(as.double(-10), "integer"))
+  expect_error(lvec(integer(0), "integer"))
+  expect_error(lvec(1,01E15))
+  expect_error(lvec(1, "character", strlen = NA))
 })
 
 

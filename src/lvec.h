@@ -95,7 +95,7 @@ namespace ldat {
   class lvec<std::string> : public vec {
     public:
       lvec(vecsize size, unsigned int strlen) : vec(), size_(size),
-          strlen_(strlen+1), mmap_(size_ * strlen_) {
+          strlen_(strlen < 2 ? 3 : strlen+1), mmap_(size_ * strlen_) {
         vec_ = mmap_.data();
       }
 
@@ -124,7 +124,7 @@ namespace ldat {
       }
 
       unsigned int strlen() const {
-        return strlen_;
+        return strlen_ - 1;
       }
 
       double get_of_type(vecsize i, double type) const {

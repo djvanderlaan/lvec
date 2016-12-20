@@ -29,6 +29,7 @@ extern "C" {
     CPPRTRY
     cppr::rvec<cppr::numeric> size{rsize};
     if (size.length() == 0) throw std::runtime_error("Size is empty.");
+    if (cppr::is_nan(size[0])) throw std::runtime_error("Size is not a number.");
     if (size[0] > cppr::max_index) throw std::runtime_error("Size is too large.");
     cppr::rvec<cppr::character> type{rtype};
     if (type.length() == 0) throw std::runtime_error("Type is empty.");
@@ -44,6 +45,8 @@ extern "C" {
     } else if (t == "character") {
       cppr::rvec<cppr::integer> strlen{rstrlen};
       if (strlen.length() == 0) throw std::runtime_error("Strlen is empty.");
+      if (cppr::is_nan(strlen[0])) throw std::runtime_error("Strlen is not a number.");
+      if (strlen[0] < 0) throw std::runtime_error("Strlen is smaller than zero");
       vec = new ldat::lvec<std::string>(size[0], strlen[0]);
     }
     return vec_to_sexp(vec);
