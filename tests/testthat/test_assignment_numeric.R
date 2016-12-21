@@ -34,6 +34,11 @@ test_that("numeric vectors are assigned using lset", {
   expect_error(lset(a, 1E10, 11))
   # numeric indeices
   test_assignment(a_r, 1:5+0.1, 1:5)
+
+  # regression tests
+  # 1. following gave conversion error: fixed 2016-12-21
+  a <- lvec(1, type = "numeric")
+  lset(a, index = 1.0, value = 0.0)
 })
 
 test_that("integer vectors are assigned using lset", {

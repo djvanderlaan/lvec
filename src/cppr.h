@@ -118,7 +118,7 @@ namespace cppr {
   bool within_limits(S val) {
     double v = val;
     return v <= std::numeric_limits<T>::max() &&
-      v >= std::numeric_limits<T>::min();
+      v >= std::numeric_limits<T>::lowest();
   }
 
   template<typename T, typename S>
