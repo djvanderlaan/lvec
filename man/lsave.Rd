@@ -5,7 +5,7 @@
 \alias{lsave}
 \title{Read and write lvec object to file}
 \usage{
-lsave(x, filename, overwrite = TRUE)
+lsave(x, filename, overwrite = TRUE, compress = FALSE)
 
 lload(filename)
 }
@@ -13,6 +13,9 @@ lload(filename)
 \item{x}{\code{\link{lvec}} object to save}
 
 \item{filename}{name of the file(s) to save the lvec to. See details.}
+
+\item{compress}{a logical specifying if the data should be compressed. 
+(see \code{\link{saveRDS}}).}
 
 \item{overwite}{overwrite existing files or abort when files would be 
 overwritten.}

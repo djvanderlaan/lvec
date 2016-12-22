@@ -6,6 +6,8 @@
 #' @param filename name of the file(s) to save the lvec to. See details. 
 #' @param overwite overwrite existing files or abort when files would be 
 #'   overwritten. 
+#' @param compress a logical specifying if the data should be compressed. 
+#'   (see \code{\link{saveRDS}}).
 #'   
 #' @details 
 #' The \code{\link{lvec}} is written in chunks to a number of RDS files using
@@ -22,7 +24,7 @@
 #' 
 #' @rdname lsave
 #' @export
-lsave <- function(x, filename, overwrite = TRUE) {
+lsave <- function(x, filename, overwrite = TRUE, compress = FALSE) {
   path     <- dirname(filename)
   filename <- basename(filename)
   # if filename ends in .RDS remove extension
@@ -47,7 +49,7 @@ lsave <- function(x, filename, overwrite = TRUE) {
   for (i in seq_along(chunks)) {
     d <- as_rvec(lget(x, range = chunks[[i]]))
     f <- file.path(path, meta$filename[i])
-    saveRDS(d, f)
+    saveRDS(d, f, compress = compress)
   }
   # write meta
   f <- file.path(path, sprintf("%s.RDS", filename))
