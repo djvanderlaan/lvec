@@ -18,11 +18,10 @@ print.lvec <- function(x, ...) {
   } else {
     nrec <- 20
     # Get the first n and last n records and format
-    sample <- c(as_rvec(lget(x, range=c(1,nrec))),
-       as_rvec(lget(x, range=l-c(nrec-1, 0))))
+    index <- c(seq(1,nrec), seq.int(l-nrec+1, l))
+    sample <- as_rvec(lget(x, index = index))
     sample <- format(sample)
     # format indices
-    index <- c(seq(1,nrec), seq.int(l-nrec+1, l))
     index <- format(paste0(" [", index, "] "), justify = "right")
     width_index <- max(nchar(index))
     # Width in which to display

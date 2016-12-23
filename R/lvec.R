@@ -83,8 +83,14 @@ as_lvec <- function(x) {
   if (is_lvec(x)) {
     x
   } else {
+    # strip of class and attributes; otherwise as_lvec will throw error
+    # as it only handles basic types
+    attributes <- attributes(x)
+    attributes(x) <- NULL
     x <- .Call("as_lvec", x)
-    structure(x, class="lvec")
+    x <- structure(x, class="lvec")
+    rattr(x) <- attributes
+    x
   }
 }
 
@@ -101,7 +107,9 @@ as_rvec <- function(x) {
   if (!is_lvec(x)) {
     x
   } else {
-    .Call("as_rvec", x)
+    res <- .Call("as_rvec", x)
+    attributes(res) <- rattr(x)
+    res
   }
 }
 
