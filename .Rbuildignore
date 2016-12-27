@@ -1,0 +1,7 @@
+^work$
+.gitignore
+README.md
+^.*\.Rproj$
+^\.Rproj\.user$
+\.o$
+\.so$

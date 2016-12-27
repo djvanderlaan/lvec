@@ -40,7 +40,7 @@ lget(x, 1:10)
 lset(x, 1:10, 11:20)
 
 # set maximum length of the string to 1, strings longer than that get
-truncated. However, minimum value of strlen is 2. 
+# truncated. However, minimum value of strlen is 2. 
 x <- lvec(10, type = "character", strlen = 1)
 lset(x, 1:3, c("a", "foo", NA))
 lget(x, 1:3)

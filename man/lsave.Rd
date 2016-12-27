@@ -14,11 +14,11 @@ lload(filename)
 
 \item{filename}{name of the file(s) to save the lvec to. See details.}
 
+\item{overwrite}{overwrite existing files or abort when files would be 
+overwritten.}
+
 \item{compress}{a logical specifying if the data should be compressed. 
 (see \code{\link{saveRDS}}).}
-
-\item{overwite}{overwrite existing files or abort when files would be 
-overwritten.}
 }
 \value{
 \code{lsave} does not return anything. \code{lload} returns an 

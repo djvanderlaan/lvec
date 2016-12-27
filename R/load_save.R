@@ -4,7 +4,7 @@
 #' 
 #' @param x \code{\link{lvec}} object to save
 #' @param filename name of the file(s) to save the lvec to. See details. 
-#' @param overwite overwrite existing files or abort when files would be 
+#' @param overwrite overwrite existing files or abort when files would be 
 #'   overwritten. 
 #' @param compress a logical specifying if the data should be compressed. 
 #'   (see \code{\link{saveRDS}}).
@@ -86,5 +86,7 @@ lload <- function(filename) {
 chunk <- function(x, chunk_size = 1E6) {
   nchunks <- ceiling(length(x) / chunk_size)
   pos <- seq(1, length(x)+1, length.out = nchunks+1)
-  split(cbind(head(pos, -1), tail(pos, -1)-1), seq_len(nchunks))
+  start <- pos[seq_len(length(pos)-1)]
+  end   <- pos[seq_len(length(pos)-1) + 1] - 1
+  split(cbind(start, end), seq_len(nchunks))
 }

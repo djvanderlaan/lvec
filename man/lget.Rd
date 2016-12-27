@@ -28,7 +28,7 @@ includes both end elements. So, a range of \code{c(1,3)} selects the first
 three elements.
 }
 \examples{
-a <- as.lvec(letters[1:4])
+a <- as_lvec(letters[1:4])
 # Select first two elements
 lget(a, 1:2)
 lget(a, c(TRUE, TRUE, FALSE, FALSE))

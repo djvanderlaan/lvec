@@ -4,7 +4,7 @@
 #' @param x \code{\link{lvec}} to set values in
 #' @param index a numeric or logical vector with indices at which the values
 #'   should be set. 
-#' @param value a vector with the new values. When shorter than the length of
+#' @param values a vector with the new values. When shorter than the length of
 #'   the indices the values are recycled.
 #'
 #' @details
@@ -12,7 +12,7 @@
 #' R-vector. 
 #'
 #' @examples
-#' a <- lvec(1:10)
+#' a <- as_lvec(1:10)
 #' # set second element to 20
 #' lset(a, 2, 20)
 #' print(a)

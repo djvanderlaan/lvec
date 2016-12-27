@@ -4,10 +4,12 @@
 \alias{sort.lvec}
 \title{Sort a lvec}
 \usage{
-\method{sort}{lvec}(x, clone = TRUE, ...)
+\method{sort}{lvec}(x, decreasing = FALSE, clone = TRUE, ...)
 }
 \arguments{
 \item{x}{lvec to sort}
+
+\item{decreasing}{unused (a value unequal to \code{FALSE} will generate an error).}
 
 \item{clone}{clone x before sorting}
 

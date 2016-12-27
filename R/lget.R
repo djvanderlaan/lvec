@@ -17,7 +17,7 @@
 #' the selection to an R-vector \code{\link{as_rvec}} can e used.
 #'
 #' @examples
-#' a <- as.lvec(letters[1:4])
+#' a <- as_lvec(letters[1:4])
 #' # Select first two elements
 #' lget(a, 1:2)
 #' lget(a, c(TRUE, TRUE, FALSE, FALSE))

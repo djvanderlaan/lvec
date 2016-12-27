@@ -7,14 +7,14 @@
 #' @return
 #' The length of the \code{\link{lvec}}.
 #'
-#' @rdname order
+#' @rdname length
 #' @useDynLib lvec
 #' @export
 length.lvec <- function(x) {
   .Call("get_size", x)
 }
 
-#' @rdname order
+#' @rdname length
 #' @useDynLib lvec
 #' @export
 `length<-.lvec` <- function(x, value) {

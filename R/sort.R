@@ -2,6 +2,7 @@
 #' Sort a lvec
 #'
 #' @param x lvec to sort
+#' @param decreasing unused (a value unequal to \code{FALSE} will generate an error).
 #' @param clone clone x before sorting
 #' @param ... unused.
 #'
@@ -20,7 +21,8 @@
 #'
 #' @useDynLib lvec
 #' @export
-sort.lvec <- function(x, clone = TRUE, ...) {
+sort.lvec <- function(x, decreasing = FALSE, clone = TRUE, ...) {
+  if (decreasing != FALSE) stop("decreasing is not supported yet.")
   if (!is_lvec(x)) stop("x should be of type lvec.")
   if (clone) x <- clone(x)
   .Call("sort", x)

@@ -12,7 +12,7 @@ lset(x, index, values)
 \item{index}{a numeric or logical vector with indices at which the values
 should be set.}
 
-\item{value}{a vector with the new values. When shorter than the length of
+\item{values}{a vector with the new values. When shorter than the length of
 the indices the values are recycled.}
 }
 \description{
@@ -23,7 +23,7 @@ Should behave in the same way as assigning and indexing to a regular
 R-vector.
 }
 \examples{
-a <- lvec(1:10)
+a <- as_lvec(1:10)
 # set second element to 20
 lset(a, 2, 20)
 print(a)

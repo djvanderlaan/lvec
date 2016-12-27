@@ -1,5 +1,5 @@
-library(ldat2)
+library(lvec)
 library(testthat)
 
-test_package("ldat2")
+test_check("lvec")
 
