@@ -7,7 +7,6 @@
 
 #include "tempfile.h"
 
-#include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 
@@ -100,7 +99,6 @@ class MemMap {
     std::size_t size_;
     std::size_t file_size_;
     std::string filename_;
-    boost::iostreams::mapped_file file_;
 
     boost::interprocess::file_mapping mapping_;
     boost::interprocess::mapped_region region_;
@@ -108,31 +106,3 @@ class MemMap {
 
 #endif
 
-/*#ifndef memmap_h
-#define memmap_h
-
-#include <string>
-#include <boost/iostreams/device/mapped_file.hpp>
-
-class MemMap {
-  public:
-    MemMap(const MemMap& mmap);
-    MemMap(std::size_t size = 0, const std::string& filename = "");
-    ~MemMap();
-
-    std::size_t size() const;
-    void size(std::size_t size);
-
-    const char* data() const;
-    char* data();
-
-    MemMap& operator=(const MemMap& other);
-    MemMap& operator=(MemMap&& other);
-
-  private:
-    std::size_t size_;
-    std::string filename_;
-    boost::iostreams::mapped_file file_;
-};
-
-#endif*/
