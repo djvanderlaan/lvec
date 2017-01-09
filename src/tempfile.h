@@ -1,7 +1,7 @@
 #ifndef tempfile_h
 #define tempfile_h
 
-#include<string>
+#include <string>
 
 std::string tempfile();
 

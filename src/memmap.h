@@ -1,11 +1,11 @@
 #ifndef memmap_h
 #define memmap_h
 
+#include "tempfile.h"
+
 #include <string>
 #include <cstring>
 #include <fstream>
-
-#include "tempfile.h"
 
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
@@ -93,7 +93,6 @@ class MemMap {
       fbuf.pubseekoff(size-1, std::ios_base::beg);
       fbuf.sputc(0);
     }
-
 
   private:
     std::size_t size_;
