@@ -249,3 +249,27 @@ y <- lload("tmp.RDS")
 print(y)
 ```
 
+
+Linking to lvec from another R package
+---------------------------------------
+
+The lvec package contains only the basic functionality for working with lvec
+objects. The goal is that other packages can extend the functionality of the
+lvec package. Although most extensions can probably be built directly in R code
+using the functionality provided in lvec, sometimes it will be necessary to work
+directly with the C++ objects behing the lvec object. To support this most
+headers and some C++ functions are exported. Other packages can use these by
+having 
+
+```
+LinkingTo:
+    lvec
+```
+in their `DESCRIPTION` file. This makes the header files available for use by
+the package. They can the include all headers using:
+```
+#include <lvec_interface.h>
+```
+in their C++ code. 
+
+
