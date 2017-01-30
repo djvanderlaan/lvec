@@ -1,4 +1,3 @@
-
 context("Assignment using logical index")
 
 test_assignment <- function(a_r, index, values) {

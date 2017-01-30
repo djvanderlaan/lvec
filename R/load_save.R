@@ -82,11 +82,3 @@ lload <- function(filename) {
   res
 }
 
-
-chunk <- function(x, chunk_size = 1E6) {
-  nchunks <- ceiling(length(x) / chunk_size)
-  pos <- seq(1, length(x)+1, length.out = nchunks+1)
-  start <- pos[seq_len(length(pos)-1)]
-  end   <- pos[seq_len(length(pos)-1) + 1] - 1
-  split(cbind(start, end), seq_len(nchunks))
-}

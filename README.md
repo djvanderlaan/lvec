@@ -361,7 +361,7 @@ order(x)
 
 ```
 ## numeric lvec of length 10:
-##  [1]  2  8 10  5  1  9  3  6  7  4
+##  [1]  8  9  6  5  2  1  4 10  3  7
 ```
 
 ```r
@@ -370,8 +370,8 @@ lget(x, order(x))
 
 ```
 ## numeric lvec of length 10:
-##  [1] -1.8601148 -0.9208577 -0.7335680 -0.6005539 -0.3918578 -0.2024596
-##  [7] -0.1373426  0.4193752  0.9186380  0.9661248
+##  [1] -1.98799452 -0.72938604 -0.36763236 -0.21464091 -0.08568923
+##  [6]  0.08462956  0.35395664  0.38670618  1.16447178  1.53825021
 ```
 
 ```r
@@ -380,8 +380,8 @@ sort(x)
 
 ```
 ## numeric lvec of length 10:
-##  [1] -1.8601148 -0.9208577 -0.7335680 -0.6005539 -0.3918578 -0.2024596
-##  [7] -0.1373426  0.4193752  0.9186380  0.9661248
+##  [1] -1.98799452 -0.72938604 -0.36763236 -0.21464091 -0.08568923
+##  [6]  0.08462956  0.35395664  0.38670618  1.16447178  1.53825021
 ```
 ### Working with attributes
 
@@ -401,7 +401,7 @@ print(x)
 
 ```
 ## integer lvec of length 10:
-##  [1] b a c b b c a b a b
+##  [1] a c b b a b b b a a
 ## Levels: a b c
 ```
 
@@ -430,7 +430,7 @@ as_rvec(x)
 ```
 
 ```
-##  [1] b a c b b c a b a b
+##  [1] a c b b a b b b a a
 ## Levels: a b c
 ```
 
@@ -518,4 +518,28 @@ print(y)
 ## integer lvec of length 10:
 ##  [1]  1  2  3  4  5  6  7  8  9 10
 ```
+
+
+Linking to lvec from another R package
+---------------------------------------
+
+The lvec package contains only the basic functionality for working with lvec
+objects. The goal is that other packages can extend the functionality of the
+lvec package. Although most extensions can probably be built directly in R code
+using the functionality provided in lvec, sometimes it will be necessary to work
+directly with the C++ objects behing the lvec object. To support this most
+headers and some C++ functions are exported. Other packages can use these by
+having 
+
+```
+LinkingTo:
+    lvec
+```
+in their `DESCRIPTION` file. This makes the header files available for use by
+the package. They can the include all headers using:
+```
+#include <lvec_interface.h>
+```
+in their C++ code. 
+
 
