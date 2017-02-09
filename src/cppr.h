@@ -123,6 +123,7 @@ namespace cppr {
 
   template<typename T, typename S>
   T cast_value(S x) {
+    if (std::is_same<S, T>::value) return x;
     if (is_nan(x)) return na<T>();
     if (!within_limits<T>(x))
       throw std::runtime_error("Overflow when casting between types.");

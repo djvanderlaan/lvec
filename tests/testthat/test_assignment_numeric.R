@@ -21,6 +21,9 @@ test_that("numeric vectors are assigned using lset", {
   # NA's
   test_assignment(a_r, 1:4, c(NA, NA, NA))
   expect_error(lset(a, c(NA, 3), 1:2))
+  # Inf
+  test_assignment(a_r, 1, Inf)
+  test_assignment(a_r, 3, -Inf)
   # empty index
   test_assignment(a_r, numeric(0), numeric(0))
   # empty values
