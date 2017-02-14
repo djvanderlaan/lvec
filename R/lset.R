@@ -6,10 +6,18 @@
 #'   should be set. 
 #' @param values a vector with the new values. When shorter than the length of
 #'   the indices the values are recycled.
+#' @param range a numeric vector of length 2 specifying a range of elements 
+#'   to select. Specify either \code{index} or \code{range}. 
 #'
 #' @details
 #' Should behave in the same way as assigning and indexing to a regular
-#' R-vector. 
+#' R-vector. The range given by \code{range} includes both end elements. So, a 
+#' range of \code{c(1,3)} selects the first three elements. 
+#'
+#' When \code{range} is given, and \code{values} is not given it is assumed 
+#' \code{index} contains the values. Therefore, one can do
+#' \code{lset(x, range = c(1,4), NA)}, to set the first four elements of 
+#' \code{x} to missing. 
 #'
 #' @examples
 #' a <- as_lvec(1:10)
@@ -22,11 +30,18 @@
 #' # values are recycled
 #' lset(a, 1:4, 100:101)
 #' print(a)
+#' # range index; set first 3 elements to NA
+#' lset(a, range = c(1,3), NA)
+#' print(a)
 #' 
 #' @useDynLib lvec
 #' @export
-lset <- function(x, index, values) {
-  index <- as_lvec(index)
+lset <- function(x, index = NULL, values, range = NULL) {
+  # When range index is used; assume that second argument are the values
+  if (!is.null(range) && missing(values) && !is.null(index)) {
+    values <- index
+    index  <- NULL
+  }
   values <- as_lvec(values)
   if (!is_lvec(x)) stop("x should be of type lvec.")
   # Some additional checks for factors
@@ -42,6 +57,16 @@ lset <- function(x, index, values) {
       stop("Levels of x and values to not match")
   }
   # Do the assignment
-  .Call("assign", x, index, values)
+  if (!is.null(index)) {
+    if (!is.null(range))
+      warning("Both range and index specified. Ignoring range.")
+    index <- as_lvec(index)
+    .Call("assign", x, index, values)
+  } else if (!is.null(range)) {
+    .Call("assign_range", x, range, values)
+  } else {
+    stop("Neither index nor range are specified.")
+  }
   x
 }
+

@@ -4,7 +4,7 @@
 \alias{lset}
 \title{Set values in an lvec}
 \usage{
-lset(x, index, values)
+lset(x, index = NULL, values, range = NULL)
 }
 \arguments{
 \item{x}{\code{\link{lvec}} to set values in}
@@ -14,13 +14,22 @@ should be set.}
 
 \item{values}{a vector with the new values. When shorter than the length of
 the indices the values are recycled.}
+
+\item{range}{a numeric vector of length 2 specifying a range of elements 
+to select. Specify either \code{index} or \code{range}.}
 }
 \description{
 Set values in an lvec
 }
 \details{
 Should behave in the same way as assigning and indexing to a regular
-R-vector.
+R-vector. The range given by \code{range} includes both end elements. So, a 
+range of \code{c(1,3)} selects the first three elements. 
+
+When \code{range} is given, and \code{values} is not given it is assumed 
+\code{index} contains the values. Therefore, one can do
+\code{lset(x, range = c(1,4), NA)}, to set the first four elements of 
+\code{x} to missing.
 }
 \examples{
 a <- as_lvec(1:10)
@@ -32,6 +41,9 @@ lset(a, c(TRUE, FALSE), 20)
 print(a)
 # values are recycled
 lset(a, 1:4, 100:101)
+print(a)
+# range index; set first 3 elements to NA
+lset(a, range = c(1,3), NA)
 print(a)
 
 }
