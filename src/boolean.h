@@ -51,6 +51,13 @@ namespace cppr {
     return static_cast<bool>(lhs) < static_cast<bool>(rhs);
   }
 
+  inline bool operator==(const boolean& lhs, const boolean& rhs)  {
+    if (lhs.na() && rhs.na()) return true;
+    if (lhs.na() || rhs.na()) return false;
+    return static_cast<bool>(lhs) == static_cast<bool>(rhs);
+  }
+
+
 }
 
 #endif
