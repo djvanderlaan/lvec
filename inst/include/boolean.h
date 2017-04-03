@@ -21,7 +21,12 @@ namespace cppr {
         return *this;
       }
 
-      // TODO operator=(int bl) ??? Keeping into accout missing values in int
+      boolean& operator=(int val) {
+        if (cppr::is_na(val)) {
+          val_ = 2;
+        } else val_ = val != 0;
+        return *this;
+      }
 
       boolean& operator=(const boolean& bl) {
         val_ = bl.val_;
@@ -29,9 +34,22 @@ namespace cppr {
       }
 
       operator bool() const { return val_ == 1;}
-      // TODO: shouldn't next functions return NA in case of val_ == 2???
-      operator double() const { return val_ == 1 ? 1.0 : 0.0;}
-      operator int() const { return val_ == 1 ? 1 : 0;}
+
+      operator double() const { 
+        switch (val_) {
+          case 1: return 1.0;
+          case 2: return cppr::na<double>();
+          default: return  0.0;
+        }
+      }
+
+      operator int() const { 
+        switch (val_) {
+          case 1: return 1;
+          case 2: return cppr::na<int>();
+          default: return  0;
+        }
+      }
 
     private:
       unsigned char val_;
