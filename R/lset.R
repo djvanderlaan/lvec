@@ -1,4 +1,12 @@
 
+
+#' @rdname lset
+#' @export
+lset <- function(x, ...) {
+  UseMethod('lset')
+}
+
+
 #' Set values in an lvec
 #' 
 #' @param x \code{\link{lvec}} to set values in
@@ -8,6 +16,7 @@
 #'   the indices the values are recycled.
 #' @param range a numeric vector of length 2 specifying a range of elements 
 #'   to select. Specify either \code{index} or \code{range}. 
+#' @param ... used to pass additional arguments to other methods 
 #'
 #' @details
 #' Should behave in the same way as assigning and indexing to a regular
@@ -35,6 +44,7 @@
 #' print(a)
 #' 
 #' @useDynLib lvec
+#' @rdname lset
 #' @export
 lset <- function(x, index = NULL, values, range = NULL) {
   # When range index is used; assume that second argument are the values
@@ -67,6 +77,32 @@ lset <- function(x, index = NULL, values, range = NULL) {
   } else {
     stop("Neither index nor range are specified.")
   }
+  x
+}
+
+
+#' @rdname lset
+#' @export
+lset.default <- function(x, index = NULL, values, range = NULL, ...) {
+  if (!is.null(range)) {
+    if (!is.null(index))
+      warning("Both range and index specified. Ignoring index.")
+    index <- seq.int(range[1], range[2], by = 1)
+  }
+  x[index] <- values
+  x
+}
+
+
+#' @rdname lset
+#' @export
+lset.data.frame <- function(x, index = NULL, values, range = NULL, ...) {
+  if (!is.null(range)) {
+    if (!is.null(index))
+      warning("Both range and index specified. Ignoring index.")
+    index <- seq.int(range[1], range[2], by = 1)
+  }
+  x[index, ] <- values
   x
 }
 

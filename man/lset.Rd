@@ -2,9 +2,18 @@
 % Please edit documentation in R/lset.R
 \name{lset}
 \alias{lset}
+\alias{lset}
+\alias{lset.default}
+\alias{lset.data.frame}
 \title{Set values in an lvec}
 \usage{
 lset(x, index = NULL, values, range = NULL)
+
+lset(x, index = NULL, values, range = NULL)
+
+lset.default(x, index = NULL, values, range = NULL, ...)
+
+lset.data.frame(x, index = NULL, values, range = NULL, ...)
 }
 \arguments{
 \item{x}{\code{\link{lvec}} to set values in}
@@ -17,6 +26,8 @@ the indices the values are recycled.}
 
 \item{range}{a numeric vector of length 2 specifying a range of elements 
 to select. Specify either \code{index} or \code{range}.}
+
+\item{...}{used to pass additional arguments to other methods}
 }
 \description{
 Set values in an lvec
