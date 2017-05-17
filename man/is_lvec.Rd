@@ -16,4 +16,3 @@ Returns \code{TRUE} is the object is of type \code{\link{lvec}} and
 \description{
 Check if an object is of type lvec
 }
-

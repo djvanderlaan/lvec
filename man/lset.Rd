@@ -47,4 +47,3 @@ lset(a, range = c(1,3), NA)
 print(a)
 
 }
-

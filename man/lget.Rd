@@ -2,12 +2,23 @@
 % Please edit documentation in R/lget.R
 \name{lget}
 \alias{lget}
+\alias{lget.lvec}
+\alias{lget.default}
+\alias{lget.data.frame}
 \title{Read elemements from an lvec}
 \usage{
-lget(x, index = NULL, range = NULL)
+lget(x, ...)
+
+\method{lget}{lvec}(x, index = NULL, range = NULL, ...)
+
+\method{lget}{default}(x, index = NULL, range = NULL, ...)
+
+\method{lget}{data.frame}(x, index = NULL, range = NULL, ...)
 }
 \arguments{
 \item{x}{the \code{\link{lvec}} to read from}
+
+\item{...}{used to pass on additional arguments to other methods.}
 
 \item{index}{a logical or numeric vector to index \code{x} with}
 
@@ -38,4 +49,3 @@ lget(a, range = c(1,2))
 lget(a, c(TRUE, FALSE))
 
 }
-

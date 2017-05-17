@@ -2,6 +2,9 @@
 
 S3method("length<-",lvec)
 S3method(length,lvec)
+S3method(lget,data.frame)
+S3method(lget,default)
+S3method(lget,lvec)
 S3method(order,default)
 S3method(order,lvec)
 S3method(print,lvec)

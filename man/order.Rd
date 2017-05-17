@@ -31,4 +31,3 @@ x <- as_lvec(rnorm(10))
 order(x)
 
 }
-

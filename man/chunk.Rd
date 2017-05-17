@@ -17,4 +17,3 @@ the chunks.}
 \description{
 The ranges have a maximum length.
 }
-
