@@ -2,9 +2,18 @@
 % Please edit documentation in R/chunk.R
 \name{chunk}
 \alias{chunk}
+\alias{chunk}
+\alias{chunk.default}
+\alias{chunk.data.frame}
 \title{Generate a number of index ranges from a vector}
 \usage{
 chunk(x, chunk_size = 1e+06)
+
+chunk(x, chunk_size = 1e+06)
+
+chunk.default(x, chunk_size = NULL, ...)
+
+chunk.data.frame(x, chunk_size = NULL, ...)
 }
 \arguments{
 \item{x}{an object for which the index ranges should be calculated. Should 
@@ -13,7 +22,17 @@ or a regular R vector.}
 
 \item{chunk_size}{a numeric vector of length 1 giving the maximum length of
 the chunks.}
+
+\item{...}{ignores; used to pass additional arguments to other methods.}
 }
 \description{
 The ranges have a maximum length.
+}
+\details{
+The default chunk size can be changes by setting the option 'chunk_size', 
+(`options(chunk_size = <new default chunk size>)`).
+
+Implementations of chunk for data frames and regular vectors are provided to
+make it easier to write code that works on both lvec objects and regular R
+objects.
 }
