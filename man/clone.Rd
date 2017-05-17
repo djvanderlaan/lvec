@@ -2,12 +2,17 @@
 % Please edit documentation in R/clone.R
 \name{clone}
 \alias{clone}
+\alias{clone.lvec}
 \title{Clone an lvec object}
 \usage{
-clone(x)
+clone(x, ...)
+
+\method{clone}{lvec}(x, ...)
 }
 \arguments{
 \item{x}{\code{\link{lvec}} object to clone}
+
+\item{...}{ignored; used to pass additional arguments to other methods}
 }
 \description{
 Clone an lvec object

@@ -1,7 +1,14 @@
 
+#' @rdname clone
+#' @export
+clone <- function(x, ...) {
+  UseMethod('clone')
+}
+
 #' Clone an lvec object
 #'
 #' @param x \code{\link{lvec}} object to clone
+#' @param ... ignored; used to pass additional arguments to other methods
 #'
 #' @details
 #' \code{\link{lvec}} objects are basically pointers to pieces of memory. 
@@ -25,8 +32,9 @@
 #' print(b)
 #'
 #' @useDynLib lvec
+#' @rdname clone
 #' @export
-clone <- function(x) {
+clone.lvec <- function(x, ...) {
   r <- .Call("lclone", x)
   attributes(r) <- attributes(x)
   structure(r, class="lvec")
