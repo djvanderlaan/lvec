@@ -11,7 +11,13 @@ test_that("chunk does what it is supposed to do", {
   c <- chunk(numeric(0))
   expect_that(c, equals(list()))
 
+  c <- chunk(as_lvec(numeric(0)))
+  expect_that(c, equals(list()))
+
   c <- chunk(NA)
+  expect_that(c, equals(list(c(1,1))))
+
+  c <- chunk(as_lvec(NA))
   expect_that(c, equals(list(c(1,1))))
 
   x <- as_lvec(1:2E6)

@@ -25,3 +25,4 @@ x <- as_lvec(letters)
 lget(x, 1:26)
 
 }
+

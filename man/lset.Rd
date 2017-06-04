@@ -2,9 +2,8 @@
 % Please edit documentation in R/lset.R
 \name{lset}
 \alias{lset}
-\alias{lset}
-\alias{lset.default}
 \alias{lset.data.frame}
+\alias{lset.default}
 \title{Set values in an lvec}
 \usage{
 lset(x, index = NULL, values, range = NULL)
@@ -58,3 +57,4 @@ lset(a, range = c(1,3), NA)
 print(a)
 
 }
+

@@ -15,7 +15,7 @@ chunk <- function(x, ...) {
 #'   or a regular R vector. 
 #' @param chunk_size a numeric vector of length 1 giving the maximum length of
 #'   the chunks. 
-#' @param ... ignores; used to pass additional arguments to other methods.  
+#' @param ... ignored; used to pass additional arguments to other methods.  
 #' 
 #' @details 
 #' The default chunk size can be changes by setting the option 'chunk_size', 
@@ -27,7 +27,7 @@ chunk <- function(x, ...) {
 #'   
 #' @rdname chunk
 #' @export
-chunk <- function(x, chunk_size = 1E6) {
+chunk.lvec <- function(x, chunk_size = 1E6, ...) {
   nchunks <- ceiling(length(x) / chunk_size)
   pos <- seq(1, length(x)+1, length.out = nchunks+1)
   start <- pos[seq_len(length(pos)-1)]
@@ -40,12 +40,14 @@ chunk <- function(x, chunk_size = 1E6) {
 #' @rdname chunk
 #' @export
 chunk.default <- function(x, chunk_size = NULL, ...) {
-  if (is.null(chunk_size)) chunk_size <- length(x)
+  if (is.null(chunk_size)) chunk_size <- max(1, length(x))
   nchunks <- ceiling(length(x) / chunk_size)
   pos <- seq(1, length(x)+1, length.out = nchunks+1)
   start <- pos[seq_len(length(pos)-1)]
   end   <- pos[seq_len(length(pos)-1) + 1] - 1
-  split(cbind(start, end), seq_len(nchunks))
+  res <- split(cbind(start, end), seq_len(nchunks))
+  names(res) <- NULL
+  res
 }
 
 #' @rdname chunk
