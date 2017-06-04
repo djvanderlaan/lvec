@@ -46,7 +46,7 @@ lset <- function(x, ...) {
 #' @useDynLib lvec
 #' @rdname lset
 #' @export
-lset <- function(x, index = NULL, values, range = NULL) {
+lset.lvec <- function(x, index = NULL, values, range = NULL, ...) {
   # When range index is used; assume that second argument are the values
   if (!is.null(range) && missing(values) && !is.null(index)) {
     values <- index

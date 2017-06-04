@@ -28,6 +28,7 @@ chunk <- function(x, ...) {
 #' @rdname chunk
 #' @export
 chunk.lvec <- function(x, chunk_size = 1E6, ...) {
+  if (missing(chunk_size)) chunk_size <- getOption("chunk_size", chunk_size)
   nchunks <- ceiling(length(x) / chunk_size)
   pos <- seq(1, length(x)+1, length.out = nchunks+1)
   start <- pos[seq_len(length(pos)-1)]

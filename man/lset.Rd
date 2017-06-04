@@ -4,18 +4,21 @@
 \alias{lset}
 \alias{lset.data.frame}
 \alias{lset.default}
+\alias{lset.lvec}
 \title{Set values in an lvec}
 \usage{
-lset(x, index = NULL, values, range = NULL)
+lset(x, ...)
 
-lset(x, index = NULL, values, range = NULL)
+\method{lset}{lvec}(x, index = NULL, values, range = NULL, ...)
 
-lset.default(x, index = NULL, values, range = NULL, ...)
+\method{lset}{default}(x, index = NULL, values, range = NULL, ...)
 
-lset.data.frame(x, index = NULL, values, range = NULL, ...)
+\method{lset}{data.frame}(x, index = NULL, values, range = NULL, ...)
 }
 \arguments{
 \item{x}{\code{\link{lvec}} to set values in}
+
+\item{...}{used to pass additional arguments to other methods}
 
 \item{index}{a numeric or logical vector with indices at which the values
 should be set.}
@@ -25,8 +28,6 @@ the indices the values are recycled.}
 
 \item{range}{a numeric vector of length 2 specifying a range of elements 
 to select. Specify either \code{index} or \code{range}.}
-
-\item{...}{used to pass additional arguments to other methods}
 }
 \description{
 Set values in an lvec

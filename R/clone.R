@@ -39,3 +39,4 @@ clone.lvec <- function(x, ...) {
   attributes(r) <- attributes(x)
   structure(r, class="lvec")
 }
+
