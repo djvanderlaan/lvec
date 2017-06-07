@@ -43,8 +43,8 @@ class range_indexing_visitor : public ldat::lvec_visitor {
     }
 
   private:
-    ldat::vec::vecsize upper_;
     ldat::vec::vecsize lower_;
+    ldat::vec::vecsize upper_;
     ldat::vec* result_;
 };
 

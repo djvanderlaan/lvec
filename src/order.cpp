@@ -33,7 +33,7 @@ class order_visitor : public ldat::lvec_visitor {
       // initialise result with current order
       ldat::vec::vecsize size = vec.size();
       std::unique_ptr<ldat::lvec<double> > result(new ldat::lvec<double>(size));
-      for (int i = 0; i < size; ++i) result->set(i, i+1);
+      for (ldat::vec::vecsize i = 0; i < size; ++i) result->set(i, i+1);
       // we are now going to sort the current order; but when comparing
       // we use the values pointed to by the order vector
       std::sort(result->begin(), result->end(), compare<T>(vec));
