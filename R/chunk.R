@@ -30,7 +30,7 @@ chunk <- function(x, ...) {
 chunk.lvec <- function(x, chunk_size = 1E6, ...) {
   if (missing(chunk_size)) chunk_size <- getOption("chunk_size", chunk_size)
   nchunks <- ceiling(length(x) / chunk_size)
-  pos <- seq(1, length(x)+1, length.out = nchunks+1)
+  pos <- round(seq(1, length(x)+1, length.out = nchunks+1))
   start <- pos[seq_len(length(pos)-1)]
   end   <- pos[seq_len(length(pos)-1) + 1] - 1
   res <- split(cbind(start, end), seq_len(nchunks))
@@ -43,7 +43,7 @@ chunk.lvec <- function(x, chunk_size = 1E6, ...) {
 chunk.default <- function(x, chunk_size = NULL, ...) {
   if (is.null(chunk_size)) chunk_size <- max(1, length(x))
   nchunks <- ceiling(length(x) / chunk_size)
-  pos <- seq(1, length(x)+1, length.out = nchunks+1)
+  pos <- round(seq(1, length(x)+1, length.out = nchunks+1))
   start <- pos[seq_len(length(pos)-1)]
   end   <- pos[seq_len(length(pos)-1) + 1] - 1
   res <- split(cbind(start, end), seq_len(nchunks))
@@ -54,9 +54,9 @@ chunk.default <- function(x, chunk_size = NULL, ...) {
 #' @rdname chunk
 #' @export
 chunk.data.frame <- function(x, chunk_size = NULL, ...) {
-  if (is.null(chunk_size)) chunk_size <- length(x)
+  if (is.null(chunk_size)) chunk_size <- nrow(x)
   nchunks <- ceiling(nrow(x) / chunk_size)
-  pos <- seq(1, nrow(x)+1, length.out = nchunks+1)
+  pos <- round(seq(1, nrow(x)+1, length.out = nchunks+1))
   start <- pos[seq_len(length(pos)-1)]
   end   <- pos[seq_len(length(pos)-1) + 1] - 1
   split(cbind(start, end), seq_len(nchunks))
