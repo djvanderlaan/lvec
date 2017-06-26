@@ -1,5 +1,4 @@
 ^work$
-^test$
 .gitignore
 README.md
 README.Rmd
