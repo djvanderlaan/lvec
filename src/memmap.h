@@ -81,7 +81,28 @@ class MemMap {
     }
 
   protected: 
-    void resize_file(const std::string& filename, std::size_t size, bool truncate = false) {
+    void resize_file_win(const std::string& filename, long long int size, bool truncate = false) {
+      std::fstream out(filename, std::ios::binary | std::ios::ate | std::ios::app);
+      // deterimine current size of out
+      std::fstream::pos_type current_size = out.tellp();
+      if (current_size == std::fstream::pos_type(-1)) current_size = 0;
+      // initialise buffer with data with which to fille file
+      const long long int max_buffer_size = 1024*1024*1024;
+      long long int buffer_size = std::min(size+20, max_buffer_size);
+      char* buffer = new char[buffer_size];
+      for (std::size_t i = 0; i < buffer_size; ++i) buffer[i] = 0;
+      // fill file
+      long long int remain = size - current_size + 1;
+      while (remain > 0) {
+        std::size_t to_write = std::min(buffer_size-1, remain);
+        out.write((const char*)buffer, to_write);
+        remain -= to_write;
+      }
+      out.close();
+      delete [] buffer;
+    }
+
+    void resize_file_lin(const std::string& filename, std::size_t size, bool truncate = false) {
       std::filebuf fbuf;
       if (truncate) {
         fbuf.open(filename, std::ios_base::in | std::ios_base::out |
@@ -92,6 +113,14 @@ class MemMap {
       }
       fbuf.pubseekoff(size-1, std::ios_base::beg);
       fbuf.sputc(0);
+    }
+
+    void resize_file(const std::string& filename, std::size_t size, bool truncate = false) {
+#if defined(_WIN32) || defined(__CYGWIN__)
+      return resize_file_win(filename, size, truncate);
+#else
+      return resize_file_lin(filename, size, truncate);
+#endif
     }
 
   private:

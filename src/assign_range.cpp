@@ -2,8 +2,6 @@
 #include "ldat.h"
 #include "lvec.h"
 
-#include <iostream>
-
 class assign_range_visitor : public ldat::lvec_visitor {
   public:
     assign_range_visitor(ldat::vec::vecsize lower, ldat::vec::vecsize upper, ldat::vec& values) : 
