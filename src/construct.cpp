@@ -1,4 +1,5 @@
 #include "ldat.h"
+#include "r_export.h"
 
 static void vec_finalizer(SEXP rp) {
   // TODO: use exp_to_vec

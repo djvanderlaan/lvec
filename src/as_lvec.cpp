@@ -1,4 +1,5 @@
 #include "ldat.h"
+#include "r_export.h"
 #include <cstring>
 #include <stdexcept>
 

@@ -1,5 +1,6 @@
 #include "ldat.h"
 #include "lvec.h"
+#include "r_export.h"
 #include <memory>
 
 class indexing_visitor : public ldat::lvec_visitor {

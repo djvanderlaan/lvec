@@ -1,6 +1,7 @@
 #include "ldat.h"
 #include "lvec.h"
 #include <memory>
+#include "r_export.h"
 
 class range_indexing_visitor : public ldat::lvec_visitor {
   public: 

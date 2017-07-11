@@ -1,7 +1,7 @@
 #include "cppr.h"
 #include "ldat.h"
 #include "lvec.h"
-
+#include "r_export.h"
 
 extern "C" {
   SEXP get_size(SEXP rv) {

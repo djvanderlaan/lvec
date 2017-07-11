@@ -1,6 +1,7 @@
 #include "cppr.h"
 #include "ldat.h"
 #include "lvec.h"
+#include "r_export.h"
 
 #include <algorithm>
 #include <cstring>

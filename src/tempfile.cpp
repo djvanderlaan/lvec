@@ -1,7 +1,9 @@
 #include "tempfile.h"
-
 #include "cppr.h"
+#include "r_export.h"
+
 #include <exception>
+
 
 std::string tempdir = ".";
 
