@@ -216,6 +216,7 @@ namespace cppr {
 
           element_reference& operator=(const std::string& str) {
             vec_.set(el_, str);
+            return *this;
           }
 
           operator std::string() {

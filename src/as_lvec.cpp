@@ -22,7 +22,7 @@ extern "C" {
       // create lvec
       cppr::rvec<cppr::logical> v{rv};
       auto res = new ldat::lvec<cppr::boolean>(v.length());
-      for (ldat::vec::vecsize i = 0; i < v.length(); ++i) {
+      for (R_xlen_t i = 0; i < v.length(); ++i) {
         int val = v[i];
         if (cppr::is_na(val)) res->set(i, cppr::na<cppr::boolean>());
         else res->set(i, val);
@@ -32,7 +32,7 @@ extern "C" {
       cppr::rvec<cppr::character> v{rv};
       // determine max string length
       int max_len = 0;
-      for (ldat::vec::vecsize i = 0; i < v.length(); ++i) {
+      for (R_xlen_t i = 0; i < v.length(); ++i) {
         std::string s = v[i];
         if (!cppr::is_na(s)) {
           int l = s.length();
@@ -44,7 +44,7 @@ extern "C" {
       if (max_len < 2) max_len = 2;
       // create lvec
       auto res = new ldat::lvec<std::string>(v.length(), max_len);
-      for (ldat::vec::vecsize i = 0; i < v.length(); ++i) {
+      for (R_xlen_t i = 0; i < v.length(); ++i) {
         std::string str = v[i];
         res->set(i, str);
       }
