@@ -20,4 +20,3 @@ The length of the \code{\link{lvec}}.
 \description{
 Get and set the length of an lvec
 }
-
