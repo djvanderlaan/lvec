@@ -90,7 +90,7 @@ class MemMap {
       const long long int max_buffer_size = 1024*1024*1024;
       long long int buffer_size = std::min(size+20, max_buffer_size);
       char* buffer = new char[buffer_size];
-      for (std::size_t i = 0; i < buffer_size; ++i) buffer[i] = 0;
+      for (long long int i = 0; i < buffer_size; ++i) buffer[i] = 0;
       // fill file
       long long int remain = size - current_size + 1;
       while (remain > 0) {

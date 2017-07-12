@@ -30,7 +30,7 @@ namespace cppr {
     private:
       SEXP p_;
   };
-};
+}
 
 
 namespace cppr {
@@ -71,7 +71,7 @@ namespace cppr {
       static R_xlen_t length(SEXP x) { return xlength(x); };
       static bool is(SEXP x) { return isString(x); };
   };
-};
+}
 
 
 namespace cppr {
@@ -130,7 +130,7 @@ namespace cppr {
     return T(x);
   }
 
-};
+}
 
 namespace cppr {
 
@@ -250,7 +250,7 @@ namespace cppr {
       SEXP sexp_;
   };
 
-};
+}
 
 
 
