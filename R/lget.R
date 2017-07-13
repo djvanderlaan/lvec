@@ -8,7 +8,7 @@ lget <- function(x, ...) {
 
 
 
-#' Read elemements from an lvec
+#' Read elements from an lvec
 #'
 #' @param x the \code{\link{lvec}} to read from
 #' @param index a logical or numeric vector to index \code{x} with
