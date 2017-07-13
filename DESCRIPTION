@@ -1,7 +1,7 @@
 Package: lvec
 Type: Package
 Title: Out of Memory Vectors in R
-Version: 0.0.1
+Version: 0.1.0
 Date: 2016-11-01
 Author: Jan van der Laan
 Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
@@ -20,6 +20,6 @@ LinkingTo:
     BH
 Suggests:
     testthat
-License: GPL-3 + file LICENSE
+License: GPL-3
 LazyLoad: yes
 RoxygenNote: 6.0.1
