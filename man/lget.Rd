@@ -5,7 +5,7 @@
 \alias{lget.lvec}
 \alias{lget.default}
 \alias{lget.data.frame}
-\title{Read elemements from an lvec}
+\title{Read elements from an lvec}
 \usage{
 lget(x, ...)
 
@@ -30,7 +30,7 @@ Returns an \code{\link{lvec}} with the selected elements. In order to convert
 the selection to an R-vector \code{\link{as_rvec}} can e used.
 }
 \description{
-Read elemements from an lvec
+Read elements from an lvec
 }
 \details{
 Indexing using \code{index} should follow the same rules as indexing a regular

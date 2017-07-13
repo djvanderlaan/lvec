@@ -28,7 +28,7 @@ allowing one to work with more data than fits into available memory.
 }
 \details{
 The minimum value of \code{strlen} is two. When a value smaller than that is
-given it is automaticalle set to two. This is because a minimum of two bytes
+given it is automatically set to two. This is because a minimum of two bytes
 is necessary to also store missing values correctly.
 }
 \examples{
