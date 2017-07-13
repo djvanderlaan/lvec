@@ -34,7 +34,7 @@ extern "C" {
     R_RegisterCCallable("lvec", "vec_to_sexp",  (DL_FUNC) &vec_to_sexp);
 
     R_registerRoutines(info, NULL, r_calldef, NULL, NULL);
-    R_useDynamicSymbols(info, FALSE);
+    R_useDynamicSymbols(info, static_cast<Rboolean>(FALSE));
   }
 }
 
