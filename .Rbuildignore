@@ -7,3 +7,4 @@ Makefile
 ^\.Rproj\.user$
 \.o$
 \.so$
+^cran-comments\.md$
