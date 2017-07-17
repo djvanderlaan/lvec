@@ -30,7 +30,7 @@ namespace cppr {
     private:
       SEXP p_;
   };
-};
+}
 
 
 namespace cppr {
@@ -71,7 +71,7 @@ namespace cppr {
       static R_xlen_t length(SEXP x) { return xlength(x); };
       static bool is(SEXP x) { return isString(x); };
   };
-};
+}
 
 
 namespace cppr {
@@ -123,13 +123,14 @@ namespace cppr {
 
   template<typename T, typename S>
   T cast_value(S x) {
+    if (std::is_same<S, T>::value) return x;
     if (is_nan(x)) return na<T>();
     if (!within_limits<T>(x))
       throw std::runtime_error("Overflow when casting between types.");
     return T(x);
   }
 
-};
+}
 
 namespace cppr {
 
@@ -215,6 +216,7 @@ namespace cppr {
 
           element_reference& operator=(const std::string& str) {
             vec_.set(el_, str);
+            return *this;
           }
 
           operator std::string() {
@@ -248,7 +250,7 @@ namespace cppr {
       SEXP sexp_;
   };
 
-};
+}
 
 
 
