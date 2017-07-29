@@ -63,7 +63,6 @@ class order_visitor : public ldat::lvec_visitor {
     }
 
   private:
-    // TODO: int? or double for long vectors?
     ldat::lvec<double>* result_;
 };
 
