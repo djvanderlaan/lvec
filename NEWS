@@ -1,0 +1,11 @@
+
+
+lvec version 0.1.1
+===============================================================================
+* inst/include contained old versions of the headers. Added new header files to 
+  inst/include
+
+lvec version 0.1.0
+===============================================================================
+Initial release
+
