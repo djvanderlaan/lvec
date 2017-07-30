@@ -16,6 +16,9 @@ class MemMap {
         file_size_(mmap.file_size_), filename_("") {
       if (filename_ == "") filename_ = tempfile();
       boost::interprocess::file_mapping::remove(filename_.c_str());
+      // set minimum file size to 8 bytes; hopefully this avoids issues with zero length vectors on 
+      // solaris
+      if (file_size_ < 8) file_size_ = 8;
       resize_file(filename_, file_size_, true);
       mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
       region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
@@ -26,6 +29,9 @@ class MemMap {
         file_size_(size), filename_(filename) {
       if (filename_ == "") filename_ = tempfile();
       boost::interprocess::file_mapping::remove(filename_.c_str());
+      // set minimum file size to 8 bytes; hopefully this avoids issues with zero length vectors on 
+      // solaris
+      if (file_size_ < 8) file_size_ = 8;
       resize_file(filename_, file_size_, true);
       mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
       region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
