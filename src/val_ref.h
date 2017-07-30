@@ -51,7 +51,7 @@ namespace ldat {
 
   template<typename T>
   void swap(lvec_val_ref<T> a, lvec_val_ref<T> b) {
-    T tmp{a};
+    T tmp(a);
     a = static_cast<T>(b);
     b = tmp;
   }
