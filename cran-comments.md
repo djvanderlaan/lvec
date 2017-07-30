@@ -6,6 +6,9 @@ This is a small update on the previous release:
 - The package could not be installed on osx oldrelease. This should have been
   fixed with a minor change in c++ code (current version installs correctly
   on maxos oldrel on rhub, while previous version didn't)
+- The tests gave an error on solaris. Based on the tests that failed is have
+  guessed what the problem is, but not having access to a solaris system, I 
+  have not been able to test. 
 
 
 ## Test environments

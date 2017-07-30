@@ -4,6 +4,8 @@ lvec version 0.1.1
 ===============================================================================
 * inst/include contained old versions of the headers. Added new header files to 
   inst/include
+* Fix for install problem on MacOS old release platform
+* (Possible) fix for problem on solaris with zero length vectors.
 
 lvec version 0.1.0
 ===============================================================================
