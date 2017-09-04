@@ -18,6 +18,9 @@
 #' additional data (data type, the number of blocks, the size of the lvec, etc)
 #' is written to the file \code{<filename>.RDS}.
 #' 
+#' The size of the chunks can be controlled by the option `chunk_size` (see
+#' \code{\link{chunk}}). 
+#' 
 #' @return 
 #' \code{lsave} does not return anything. \code{lload} returns an 
 #' \code{\link{lvec}}.
