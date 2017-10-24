@@ -14,7 +14,7 @@ print.lvec <- function(x, ...) {
   cat(t, " lvec of length ", format(l, scientific = FALSE, big.mark=","), 
     ":\n", sep="")
   if (l < 20) {
-    print(as_rvec(lget(x, range=c(1, l))))
+    print(as_rvec(x))
   } else {
     nrec <- 20
     # Get the first n and last n records and format
