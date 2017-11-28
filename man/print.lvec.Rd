@@ -17,3 +17,4 @@ Returns \code{x} invisibly.
 \description{
 Print an lvec
 }
+

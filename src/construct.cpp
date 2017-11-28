@@ -13,7 +13,7 @@ static void vec_finalizer(SEXP rp) {
 
 SEXP vec_to_sexp(ldat::vec* vec) {
   if (!vec) return R_NilValue;
-  cppr::protSEXP res = R_MakeExternalPtr(vec, install("lvec"), R_NilValue);
+  cppr::protSEXP res = R_MakeExternalPtr(vec, Rf_install("lvec"), R_NilValue);
   R_RegisterCFinalizerEx(res, vec_finalizer, static_cast<Rboolean>(TRUE));
   return res;
 }

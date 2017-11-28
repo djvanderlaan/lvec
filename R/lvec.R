@@ -37,6 +37,7 @@
 #' lget(x, 1:3)
 #'
 #' @useDynLib lvec
+#' @importFrom Rcpp sourceCpp
 #' @export
 lvec <- function(size, type = c("numeric", "integer", "logical", "character"), strlen = NULL) {
   type <- match.arg(type)

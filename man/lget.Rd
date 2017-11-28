@@ -2,9 +2,9 @@
 % Please edit documentation in R/lget.R
 \name{lget}
 \alias{lget}
-\alias{lget.lvec}
-\alias{lget.default}
 \alias{lget.data.frame}
+\alias{lget.default}
+\alias{lget.lvec}
 \title{Read elements from an lvec}
 \usage{
 lget(x, ...)
@@ -49,3 +49,4 @@ lget(a, range = c(1,2))
 lget(a, c(TRUE, FALSE))
 
 }
+

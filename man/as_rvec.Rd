@@ -15,3 +15,4 @@ Returns an R vector of type integer, numeric, character or logical.
 \description{
 Convert complete lvec to R vector
 }
+

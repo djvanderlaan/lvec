@@ -1,13 +1,15 @@
 #ifndef r_h
 #define r_h
 
-#include <R.h>
-#include <Rdefines.h>
+//#include <R.h>
+//#include <Rdefines.h>
+#include <Rcpp.h>
+//using namespace Rcpp;
 
 // Rdefines.h defines a macro length; this clashes with a length function
 // defined in some of the boost headers we use; undefine the macro here;
 // we dont need it
-#undef length
+//#undef length
 
 #include <string>
 #include <limits>
@@ -41,7 +43,7 @@ namespace cppr {
 
       static value_type* data(SEXP x) { return REAL(x); };
       static R_xlen_t length(SEXP x) { return LENGTH(x); };
-      static bool is(SEXP x) { return isReal(x); };
+      static bool is(SEXP x) { return Rf_isReal(x); };
   };
 
   class integer {
@@ -50,8 +52,8 @@ namespace cppr {
       static constexpr int Sexp_type = INTSXP;
 
       static value_type* data(SEXP x) { return INTEGER(x); };
-      static R_xlen_t length(SEXP x) { return xlength(x); };
-      static bool is(SEXP x) { return isInteger(x); };
+      static R_xlen_t length(SEXP x) { return LENGTH(x); };
+      static bool is(SEXP x) { return Rf_isInteger(x); };
   };
 
   class logical {
@@ -60,16 +62,16 @@ namespace cppr {
       static constexpr int Sexp_type = LGLSXP;
 
       static value_type* data(SEXP x) { return LOGICAL(x); };
-      static R_xlen_t length(SEXP x) { return xlength(x); };
-      static bool is(SEXP x) { return isLogical(x); };
+      static R_xlen_t length(SEXP x) { return LENGTH(x); };
+      static bool is(SEXP x) { return Rf_isLogical(x); };
   };
 
   class character {
     public:
       static constexpr int Sexp_type = STRSXP;
 
-      static R_xlen_t length(SEXP x) { return xlength(x); };
-      static bool is(SEXP x) { return isString(x); };
+      static R_xlen_t length(SEXP x) { return LENGTH(x); };
+      static bool is(SEXP x) { return Rf_isString(x); };
   };
 }
 
@@ -77,8 +79,8 @@ namespace cppr {
 namespace cppr {
   // Function that check if an R vector is of a specific type
   template<typename T> inline bool is(SEXP p) { return T::is(p); }
-  template<> inline bool is<double>(SEXP p) { return isReal(p); }
-  template<> inline bool is<int>(SEXP p) { return isInteger(p);}
+  template<> inline bool is<double>(SEXP p) { return Rf_isReal(p); }
+  template<> inline bool is<int>(SEXP p) { return Rf_isInteger(p);}
 
   // A bunch of overloaded functions allowing for testing for na/nan's
   inline bool is_na(double x) { return ISNA(x); }
@@ -110,7 +112,7 @@ namespace cppr {
   template<typename T>
   SEXP cast_sexp(SEXP p) {
     if (!is<T>(p))
-      p = coerceVector(p, T::Sexp_type);
+      p = Rf_coerceVector(p, T::Sexp_type);
     return p;
   }
 
@@ -146,7 +148,7 @@ namespace cppr {
       }
 
       rvec(R_xlen_t length) : unprotect_(true) {
-        sexp_ = allocVector(T::Sexp_type, length);
+        sexp_ = Rf_allocVector(T::Sexp_type, length);
         PROTECT(sexp_);
         data_ = T::data(sexp_);
       }
@@ -192,7 +194,7 @@ namespace cppr {
       }
 
       rvec(R_xlen_t length) : unprotect_(true) {
-        sexp_ = allocVector(character::Sexp_type, length);
+        sexp_ = Rf_allocVector(character::Sexp_type, length);
         PROTECT(sexp_);
       }
 
@@ -237,7 +239,7 @@ namespace cppr {
         if (is_na(val)) {
           SET_STRING_ELT(sexp_, i, R_NaString);
         } else {
-          SET_STRING_ELT(sexp_, i, mkChar(val.c_str()));
+          SET_STRING_ELT(sexp_, i, Rf_mkChar(val.c_str()));
         }
       }
 
@@ -260,13 +262,13 @@ namespace cppr {
   try {
 #define CPPRCATCH \
   } catch(const std::string& e) { \
-    error(e.c_str()); \
+    Rf_error(e.c_str()); \
     return R_NilValue; \
   } catch(const std::exception& e) { \
-    error(e.what()); \
+    Rf_error(e.what()); \
     return R_NilValue; \
   } catch (...) { \
-    error("Uncaught exception."); \
+    Rf_error("Uncaught exception."); \
     return R_NilValue; \
   } \
 
