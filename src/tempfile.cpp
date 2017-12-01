@@ -2,9 +2,6 @@
 #include "cppr.h"
 #include "r_export.h"
 
-#include <exception>
-
-
 std::string tempdir = ".";
 
 std::string tempfile() {
@@ -14,14 +11,11 @@ std::string tempfile() {
   return res;
 }
 
-extern "C" {
-  SEXP set_tempdir(SEXP rd) {
-    CPPRTRY
-    cppr::rvec<cppr::character> d{rd};
-    if (d.length() != 1) 
-      std::runtime_error("Path should be a character vector of length 1.");
-    tempdir = d[0];
-    return R_NilValue;
-    CPPRCATCH
-  }
+
+RcppExport SEXP set_tempdir(SEXP rd) {
+  BEGIN_RCPP
+  tempdir = Rcpp::as<std::string>(rd);
+  return R_NilValue;
+  END_RCPP
 }
+
