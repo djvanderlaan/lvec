@@ -4,7 +4,6 @@
 #include "memmap.h"
 
 #include <string>
-#include <stdexcept>
 #include <cstring>
 #include <memory>
 #include "boolean.h"

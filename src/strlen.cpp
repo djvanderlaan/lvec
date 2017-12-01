@@ -9,15 +9,15 @@ class strlen_visitor : public ldat::lvec_visitor {
     }
 
     void visit(ldat::lvec<double>& vec) {
-      throw std::runtime_error("Vector is not a character vector.");
+      throw Rcpp::exception("Vector is not a character vector.");
     }
 
     void visit(ldat::lvec<int>& vec) {
-      throw std::runtime_error("Vector is not a character vector.");
+      throw Rcpp::exception("Vector is not a character vector.");
     }
 
     void visit(ldat::lvec<cppr::boolean>& vec) {
-      throw std::runtime_error("Vector is not a character vector.");
+      throw Rcpp::exception("Vector is not a character vector.");
     }
 
     void visit(ldat::lvec<std::string>& vec) {

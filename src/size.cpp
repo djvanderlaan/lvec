@@ -12,7 +12,7 @@ RcppExport SEXP get_size(SEXP rv) {
 RcppExport SEXP set_size(SEXP rv, SEXP rsize) {
   BEGIN_RCPP
   int size = Rcpp::as<int>(rsize);
-  if (size > cppr::max_index) throw std::runtime_error("Size is too large.");
+  if (size > cppr::max_index) throw Rcpp::exception("Size is too large.");
   Rcpp::XPtr<ldat::vec> v(rv);
   v->size(size);
   return R_NilValue;

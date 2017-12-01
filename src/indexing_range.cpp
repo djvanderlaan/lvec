@@ -10,8 +10,8 @@ class range_indexing_visitor : public ldat::lvec_visitor {
 
     template<typename T>
     void visit_template(ldat::lvec<T>& vec) {
-      if (upper_ >= vec.size()) throw std::runtime_error("Index out of range.");
-      if (upper_ < lower_) throw std::runtime_error("Range has negative length.");
+      if (upper_ >= vec.size()) throw Rcpp::exception("Index out of range.");
+      if (upper_ < lower_) throw Rcpp::exception("Range has negative length.");
       ldat::vec::vecsize size = upper_ - lower_ + 1;
       std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(size, vec));
       ldat::vec::vecsize j = 0;

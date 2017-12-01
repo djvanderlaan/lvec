@@ -18,7 +18,7 @@ class indexing_visitor : public ldat::lvec_visitor {
           // need to floor index to have indices such as 3.1 work correctly
           index = std::floor(index);
           if (index < 1.0 || index > vec.size()) 
-            throw std::runtime_error("Index out of range.");
+            throw Rcpp::exception("Index out of range.");
           T value = vec.get(index - 1);
           result->set(i, value);
         }

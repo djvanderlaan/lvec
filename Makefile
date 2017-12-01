@@ -20,6 +20,9 @@ inst/include/%.h: src/%.h
 	cp $< $@
 
 
+document:
+	R --vanilla --slave -e "devtools::document()"
+
 install:
 	R --vanilla --slave -e "devtools::install()"
 
