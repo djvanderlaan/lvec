@@ -1,5 +1,5 @@
 #include "tempfile.h"
-//#include "ldat.h"
+#include "ldat.h"
 
 #include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
@@ -33,8 +33,8 @@ extern "C" {
 
   void R_init_lvec(DllInfo *info) {
     R_RegisterCCallable("lvec", "tempfile",  (DL_FUNC) &tempfile);
-    //R_RegisterCCallable("lvec", "sexp_to_vec",  (DL_FUNC) &sexp_to_vec);
-    //R_RegisterCCallable("lvec", "vec_to_sexp",  (DL_FUNC) &vec_to_sexp);
+    R_RegisterCCallable("lvec", "sexp_to_vec",  (DL_FUNC) &sexp_to_vec);
+    R_RegisterCCallable("lvec", "vec_to_sexp",  (DL_FUNC) &vec_to_sexp);
 
     R_registerRoutines(info, NULL, r_calldef, NULL, NULL);
     R_useDynamicSymbols(info, static_cast<Rboolean>(FALSE));
