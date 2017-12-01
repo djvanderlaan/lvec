@@ -1,5 +1,5 @@
-#include "ldat.h"
-#include "lvec.h"
+#include "../inst/include/cppr.h"
+#include "../inst/include/lvec.h"
 #include <memory>
 #include "r_export.h"
 

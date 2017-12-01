@@ -1,4 +1,5 @@
-#include "ldat.h"
+#include "../inst/include/cppr.h"
+#include "../inst/include/lvec.h"
 
 extern "C" {
   SEXP as_lvec(SEXP rv);
@@ -17,3 +18,4 @@ extern "C" {
   SEXP get_strlen(SEXP rv);
   SEXP set_tempdir(SEXP rd);
 }
+

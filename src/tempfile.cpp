@@ -1,5 +1,5 @@
 #include "tempfile.h"
-#include "cppr.h"
+#include "../inst/include/cppr.h"
 #include "r_export.h"
 
 std::string tempdir = ".";
@@ -10,7 +10,6 @@ std::string tempfile() {
   free(p);
   return res;
 }
-
 
 RcppExport SEXP set_tempdir(SEXP rd) {
   BEGIN_RCPP

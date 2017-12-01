@@ -1,6 +1,5 @@
-#include "cppr.h"
-#include "ldat.h"
-#include "lvec.h"
+#include "../inst/include/cppr.h"
+#include "../inst/include/lvec.h"
 #include "r_export.h"
 
 class assign_visitor : public ldat::lvec_visitor {

@@ -11,22 +11,6 @@ namespace cppr{
   constexpr double max_index = 1E15;
 }
 
-// A class implenting RAII to protect and unprotect R-objects
-// Use: protSEXP p = function_that_returns_an_sexp()
-// and PROTECT and UNPROTECT are not needed any more.
-//namespace cppr {
-//  class protSEXP {
-//    public:
-//      protSEXP(SEXP p) : p_(PROTECT(p)) { }
-//      ~protSEXP() { UNPROTECT_PTR(p_); }
-//      operator SEXP() const { return p_; }
-//      SEXP get() { return p_;}
-//    private:
-//      SEXP p_;
-//  };
-//}
-
-
 namespace cppr {
   class numeric {
     public:
@@ -99,13 +83,6 @@ namespace cppr {
     res[0] = 0;
     res[1] = 123;
     return res;
-  }
-
-  template<typename T>
-  SEXP cast_sexp(SEXP p) {
-    if (!is<T>(p))
-      p = Rf_coerceVector(p, T::Sexp_type);
-    return p;
   }
 
   template<typename T, typename S>

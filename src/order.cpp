@@ -1,6 +1,5 @@
-#include "cppr.h"
-#include "ldat.h"
-#include "lvec.h"
+#include "../inst/include/cppr.h"
+#include "../inst/include/lvec.h"
 #include "r_export.h"
 
 #include <algorithm>
@@ -73,7 +72,7 @@ RcppExport SEXP order(SEXP rv) {
   order_visitor visitor{};
   Rcpp::XPtr<ldat::vec> v(rv);
   v->visit(&visitor);
-  return vec_to_sexp(visitor.result());
+  return Rcpp::XPtr<ldat::vec>(visitor.result());
   END_RCPP
 }
 
