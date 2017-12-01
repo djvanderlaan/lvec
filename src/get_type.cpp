@@ -34,17 +34,12 @@ class type_visitor : public ldat::lvec_visitor {
 };
 
 
-extern "C" {
-  SEXP get_type(SEXP rv) {
-    CPPRTRY
-    type_visitor visitor{};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    cppr::rvec<cppr::character> result{1};
-    result[0] = visitor.result();
-    return result.sexp();
-    CPPRCATCH
-  }
+RcppExport SEXP get_type(SEXP rv) {
+  BEGIN_RCPP
+  type_visitor visitor;
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return Rcpp::wrap(visitor.result());
+  END_RCPP
 }
-
 

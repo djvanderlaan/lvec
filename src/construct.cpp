@@ -1,7 +1,6 @@
 #include "ldat.h"
 #include "r_export.h"
 
-
 static void vec_finalizer(SEXP rp) {
   // TODO: use exp_to_vec
   if(!R_ExternalPtrAddr(rp)) return;
@@ -26,6 +25,31 @@ ldat::vec* sexp_to_vec(SEXP rvec) {
   return reinterpret_cast<ldat::vec*>(p);
 }
 
+RcppExport SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {
+  BEGIN_RCPP
+  double size = Rcpp::as<double>(rsize);
+  if (Rcpp::NumericVector::is_na(size)) throw Rcpp::exception("Size is not a number.");
+  if (size > cppr::max_index) throw Rcpp::exception("Size is too large.");
+  std::string type = Rcpp::as<std::string>(rtype);
+
+  ldat::vec* vec = 0;
+  if (type == "numeric") {
+    vec = new ldat::lvec<double>(size);
+  } else if (type == "integer") {
+    vec = new ldat::lvec<int>(size);
+  } else if (type == "logical") {
+    vec = new ldat::lvec<cppr::boolean>(size);
+  } else if (type == "character") {
+    int strlen = Rcpp::as<int>(rstrlen);
+    if (Rcpp::IntegerVector::is_na(strlen)) throw Rcpp::exception("Strlen is not a number.");
+    if (strlen < 0) throw Rcpp::exception("Strlen is smaller than zero");
+    vec = new ldat::lvec<std::string>(size, strlen);
+  }
+  return Rcpp::XPtr<ldat::vec>(vec);
+  END_RCPP
+}
+
+/*
 extern "C" {
   SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {
     CPPRTRY
@@ -55,3 +79,4 @@ extern "C" {
     CPPRCATCH
   }
 }
+*/

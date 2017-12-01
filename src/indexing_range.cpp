@@ -48,30 +48,22 @@ class range_indexing_visitor : public ldat::lvec_visitor {
     ldat::vec* result_;
 };
 
-extern "C" {
-  SEXP get_range(SEXP rv, SEXP rindex) {
-    CPPRTRY
-    cppr::rvec<cppr::numeric> index{rindex};
-     
-    // check input
-    if (index.length() != 2)
-      throw std::runtime_error("Expecting vector of length 2 for range index.");
-    if (cppr::is_na(index[0]))
-      throw std::runtime_error("Missing value for lower bound of range.");
-    if (cppr::is_na(index[1]))
-      throw std::runtime_error("Missing value for upper bound of range.");
-      
-    range_indexing_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1), 
-      static_cast<ldat::vec::vecsize>(index[1]-1)};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return vec_to_sexp(visitor.result());
-    
-
-    //ldat::vec* index = sexp_to_vec(rindex);
-    //ldat::vec* v = sexp_to_vec(rv);
-    //v->visit(&visitor);
-    CPPRCATCH
-  }
+RcppExport SEXP get_range(SEXP rv, SEXP rindex) {
+  BEGIN_RCPP
+  Rcpp::NumericVector index(rindex);
+  // check input
+  if (index.length() != 2)
+    throw Rcpp::exception("Expecting vector of length 2 for range index.");
+  if (index.is_na(index[0]))
+    throw Rcpp::exception("Missing value for lower bound of range.");
+  if (cppr::is_na(index[1]))
+    throw Rcpp::exception("Missing value for upper bound of range.");
+  // index
+  range_indexing_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1), 
+    static_cast<ldat::vec::vecsize>(index[1]-1)};
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return Rcpp::XPtr<ldat::vec>(visitor.result(), true);
+  END_RCPP
 }
 

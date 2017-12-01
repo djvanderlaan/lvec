@@ -94,16 +94,14 @@ class assign_visitor : public ldat::lvec_visitor {
 // will result in cleanup of the lvec pointed to by a; using a after that will
 // result in terrible stuff.
 
-// TODO: range indices
-extern "C" {
-  SEXP assign(SEXP rv, SEXP rindex, SEXP rvalues) {
-    CPPRTRY
-    ldat::vec* index = sexp_to_vec(rindex);
-    ldat::vec* values = sexp_to_vec(rvalues);
-    assign_visitor visitor{*index, *values};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return R_NilValue;
-    CPPRCATCH
-  }
+RcppExport SEXP assign(SEXP rv, SEXP rindex, SEXP rvalues) {
+  BEGIN_RCPP
+  Rcpp::XPtr<ldat::vec> index(rindex);
+  Rcpp::XPtr<ldat::vec> values(rvalues);
+  assign_visitor visitor{*index, *values};
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return R_NilValue;
+  END_RCPP
 }
+

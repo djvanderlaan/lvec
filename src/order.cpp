@@ -67,21 +67,13 @@ class order_visitor : public ldat::lvec_visitor {
 };
 
 
-/*extern "C" {
-  SEXP order(SEXP rv) {
-    CPPRTRY
-    order_visitor visitor{};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return vec_to_sexp(visitor.result());
-    CPPRCATCH
-  }
-}*/
 
 RcppExport SEXP order(SEXP rv) {
+  BEGIN_RCPP
   order_visitor visitor{};
   Rcpp::XPtr<ldat::vec> v(rv);
   v->visit(&visitor);
   return vec_to_sexp(visitor.result());
+  END_RCPP
 }
 

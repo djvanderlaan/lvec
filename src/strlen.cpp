@@ -33,17 +33,12 @@ class strlen_visitor : public ldat::lvec_visitor {
     int result_;
 };
 
-extern "C" {
-  SEXP get_strlen(SEXP rv) {
-    CPPRTRY
-    strlen_visitor visitor{};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    cppr::rvec<cppr::integer> result{1};
-    result[0] = visitor.result();
-    return result.sexp();
-    CPPRCATCH
-  }
+RcppExport SEXP get_strlen(SEXP rv) {
+  BEGIN_RCPP
+  strlen_visitor visitor{};
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return Rcpp::wrap(visitor.result());
+  END_RCPP
 }
-
 

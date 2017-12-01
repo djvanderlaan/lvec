@@ -55,25 +55,23 @@ class assign_range_visitor : public ldat::lvec_visitor {
 // will result in cleanup of the lvec pointed to by a; using a after that will
 // result in terrible stuff.
 
-extern "C" {
-  SEXP assign_range(SEXP rv, SEXP rindex, SEXP rvalues) {
-    CPPRTRY
-    cppr::rvec<cppr::numeric> index{rindex};
-    ldat::vec* values = sexp_to_vec(rvalues);
-    // check index
-    if (index.length() != 2)
-      throw std::runtime_error("Expecting vector of length 2 for range index.");
-    if (cppr::is_na(index[0]))
-      throw std::runtime_error("Missing value for lower bound of range.");
-    if (cppr::is_na(index[1]))
-      throw std::runtime_error("Missing value for upper bound of range.");
-    // create and call visitor
-    assign_range_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1),
-      static_cast<ldat::vec::vecsize>(index[1]-1), *values};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return R_NilValue;
-    CPPRCATCH
-  }
+RcppExport SEXP assign_range(SEXP rv, SEXP rindex, SEXP rvalues) {
+  BEGIN_RCPP
+  Rcpp::NumericVector index(rindex);
+  Rcpp::XPtr<ldat::vec> values(rvalues);
+  // check index
+  if (index.length() != 2)
+    throw Rcpp::exception("Expecting vector of length 2 for range index.");
+  if (index.is_na(index[0]))
+    throw Rcpp::exception("Missing value for lower bound of range.");
+  if (index.is_na(index[1]))
+    throw Rcpp::exception("Missing value for upper bound of range.");
+  // create and call visitor
+  assign_range_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1),
+    static_cast<ldat::vec::vecsize>(index[1]-1), *values};
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return R_NilValue;
+  END_RCPP
 }
 

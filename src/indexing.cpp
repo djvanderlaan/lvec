@@ -87,14 +87,14 @@ class indexing_visitor : public ldat::lvec_visitor {
     ldat::vec* result_;
 };
 
-extern "C" {
-  SEXP get(SEXP rv, SEXP rindex) {
-    CPPRTRY
-    ldat::vec* index = sexp_to_vec(rindex);
-    indexing_visitor visitor{*index};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return vec_to_sexp(visitor.result());
-    CPPRCATCH
-  }
+
+RcppExport SEXP get(SEXP rv, SEXP rindex) {
+  BEGIN_RCPP
+  Rcpp::XPtr<ldat::vec> index(rindex);
+  indexing_visitor visitor(*index);
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return Rcpp::XPtr<ldat::vec>(visitor.result(), true);
+  END_RCPP
 }
+

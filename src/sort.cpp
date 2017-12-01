@@ -49,15 +49,12 @@ class sort_visitor : public ldat::lvec_visitor {
 
 // The function below doesn't return anything as the original object (pointed 
 // to by rv) is modified. 
-
-extern "C" {
-  SEXP sort(SEXP rv) {
-    CPPRTRY
-    sort_visitor visitor{};
-    ldat::vec* v = sexp_to_vec(rv);
-    v->visit(&visitor);
-    return R_NilValue;
-    CPPRCATCH
-  }
+RcppExport SEXP sort(SEXP rv) {
+  BEGIN_RCPP
+  sort_visitor visitor{};
+  Rcpp::XPtr<ldat::vec> v(rv);
+  v->visit(&visitor);
+  return R_NilValue;
+  END_RCPP
 }
 

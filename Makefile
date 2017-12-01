@@ -1,5 +1,5 @@
 
-.PHONY: readme install_headers install test check build
+.PHONY: readme install_headers install test check build load_all
 
 all: readme install_headers
 
@@ -23,7 +23,10 @@ inst/include/%.h: src/%.h
 install:
 	R --vanilla --slave -e "devtools::install()"
 
-test:
+load_all: 
+	R --vanilla --slave -e "devtools::load_all()"
+
+test: load_all
 	R --vanilla --slave -e "devtools::test()"
 
 check:
