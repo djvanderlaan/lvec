@@ -42,4 +42,3 @@ rattr(a, "levels") <- c("a", "b", "c")
 print(a)
 
 }
-
