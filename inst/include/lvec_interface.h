@@ -5,7 +5,6 @@
 #include "lvec.h"
 
 #include "tempfile.h"
-#include "vec_to_sexp.h"
 
 #endif
 

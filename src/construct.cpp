@@ -2,17 +2,6 @@
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 
-// TODO: remove
-SEXP vec_to_sexp(ldat::vec* vec) {
-  if (!vec) return R_NilValue;
-  return Rcpp::XPtr<ldat::vec>(vec, true);
-}
-
-// TOOD: remove
-ldat::vec* sexp_to_vec(SEXP rvec) {
-  return Rcpp::XPtr<ldat::vec>(rvec);
-}
-
 RcppExport SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {
   BEGIN_RCPP
   double size = Rcpp::as<double>(rsize);
