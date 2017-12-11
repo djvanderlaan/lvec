@@ -9,9 +9,7 @@
 
 namespace cppr{
   constexpr double max_index = 1E15;
-}
 
-namespace cppr {
   class numeric {
     public:
       using value_type = double;
@@ -49,10 +47,7 @@ namespace cppr {
       static R_xlen_t length(SEXP x) { return LENGTH(x); };
       static bool is(SEXP x) { return Rf_isString(x); };
   };
-}
 
-
-namespace cppr {
   // Function that check if an R vector is of a specific type
   template<typename T> inline bool is(SEXP p) { return T::is(p); }
   template<> inline bool is<double>(SEXP p) { return Rf_isReal(p); }
@@ -97,7 +92,7 @@ namespace cppr {
     if (std::is_same<S, T>::value) return x;
     if (is_nan(x)) return na<T>();
     if (!within_limits<T>(x))
-      throw std::runtime_error("Overflow when casting between types.");
+      throw Rcpp::exception("Overflow when casting between types.");
     return T(x);
   }
 
