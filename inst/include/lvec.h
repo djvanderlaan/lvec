@@ -1,17 +1,17 @@
 #ifndef lvec_h
 #define lvec_h
 
-#include "memmap.h"
-
 #include <string>
 #include <cstring>
 #include <memory>
-#include "boolean.h"
+
+#include "memmap.h"
 #include "visitor.h"
 #include "iterator.h"
 #include "val_ref.h"
 #include "vec.h"
 #include "cppr.h"
+#include "boolean.h"
 
 namespace ldat {
 

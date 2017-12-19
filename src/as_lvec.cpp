@@ -5,21 +5,21 @@
 
 RcppExport SEXP as_lvec(SEXP rv) {
   BEGIN_RCPP
-  if (cppr::is<cppr::numeric>(rv)) {
+  if (Rf_isReal(rv)) {
     double* v = REAL(rv);
-    R_xlen_t l = cppr::numeric::length(rv);
+    R_xlen_t l = LENGTH(rv);
     Rcpp::XPtr<ldat::lvec<double>> res(new ldat::lvec<double>(l));
     std::memcpy(res->data(), v, l * sizeof(double));
     return res;
-  } else if (cppr::is<cppr::integer>(rv)) {
+  } else if (Rf_isInteger(rv)) {
     int* v = INTEGER(rv);
-    R_xlen_t l = cppr::integer::length(rv);
+    R_xlen_t l = LENGTH(rv);
     Rcpp::XPtr<ldat::lvec<int>> res(new ldat::lvec<int>(l));
     std::memcpy(res->data(), v, l * sizeof(int));
     return res;
-  } else if (cppr::is<cppr::logical>(rv)) {
+  } else if (Rf_isLogical(rv)) {
     Rcpp::LogicalVector v(rv);
-    R_xlen_t l = cppr::integer::length(rv);
+    R_xlen_t l = LENGTH(rv);
     Rcpp::XPtr<ldat::lvec<cppr::boolean>> res(new ldat::lvec<cppr::boolean>(l));
     for (R_xlen_t i = 0; i < l; ++i) {
       int val = v[i];
@@ -27,7 +27,7 @@ RcppExport SEXP as_lvec(SEXP rv) {
       else res->set(i, val);
     }
     return res;
-  } else if (cppr::is<cppr::character>(rv)) {
+  } else if (Rf_isString(rv)) {
     Rcpp::CharacterVector v(rv);
     // determine max string length
     int max_len = 0;

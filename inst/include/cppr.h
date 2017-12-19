@@ -2,51 +2,12 @@
 #define r_h
 
 #include <Rcpp.h>
-
 #include <string>
 #include <limits>
-#include <stdexcept>
 
 namespace cppr{
+
   constexpr double max_index = 1E15;
-
-  class numeric {
-    public:
-      using value_type = double;
-      static constexpr int Sexp_type = REALSXP;
-
-      static value_type* data(SEXP x) { return REAL(x); };
-      static R_xlen_t length(SEXP x) { return LENGTH(x); };
-      static bool is(SEXP x) { return Rf_isReal(x); };
-  };
-
-  class integer {
-    public:
-      using value_type = int;
-      static constexpr int Sexp_type = INTSXP;
-
-      static value_type* data(SEXP x) { return INTEGER(x); };
-      static R_xlen_t length(SEXP x) { return LENGTH(x); };
-      static bool is(SEXP x) { return Rf_isInteger(x); };
-  };
-
-  class logical {
-    public:
-      using value_type = int;
-      static constexpr int Sexp_type = LGLSXP;
-
-      static value_type* data(SEXP x) { return LOGICAL(x); };
-      static R_xlen_t length(SEXP x) { return LENGTH(x); };
-      static bool is(SEXP x) { return Rf_isLogical(x); };
-  };
-
-  class character {
-    public:
-      static constexpr int Sexp_type = STRSXP;
-
-      static R_xlen_t length(SEXP x) { return LENGTH(x); };
-      static bool is(SEXP x) { return Rf_isString(x); };
-  };
 
   // Function that check if an R vector is of a specific type
   template<typename T> inline bool is(SEXP p) { return T::is(p); }
@@ -56,15 +17,11 @@ namespace cppr{
   // A bunch of overloaded functions allowing for testing for na/nan's
   inline bool is_na(double x) { return ISNA(x); }
   inline bool is_na(int x) { return x == NA_INTEGER; }
-  inline bool is_na(const std::string& x) {
-    return x.size() > 1 && x[0] == 0 && x[1] == 123;
-  }
+  inline bool is_na(const std::string& x) { return x.size() > 1 && x[0] == 0 && x[1] == 123; }
 
   inline bool is_nan(double x) { return ISNAN(x); }
   inline bool is_nan(int x) { return is_na(x); }
-  inline bool is_nan(const std::string& x) {
-    return is_na(x);
-  }
+  inline bool is_nan(const std::string& x) { return is_na(x); }
 
   // A template which returns a NA for the given type. This template needs to be
   // specialized for the different types in R as the representation of NA is
@@ -80,6 +37,15 @@ namespace cppr{
     return res;
   }
 
+  // Function that returns the base type (the type used by Rcpp) of a type
+  // used by lvec. Only for boolean types this is different: lvec stores
+  // booleans as bytes; while R/Rcpp uses int's. See boolean.h.
+  inline double base_type(double v) { return double();}
+  inline int base_type(int v) { return int();}
+  inline std::string base_type(const std::string& v) { return std::string();}
+
+  // Check if valiue of type S can be cast to a value of type T without 
+  // causing a overflow
   template<typename T, typename S>
   bool within_limits(S val) {
     double v = val;
@@ -87,6 +53,8 @@ namespace cppr{
       v >= std::numeric_limits<T>::lowest();
   }
 
+  // Cast a value of the S to a value of type T; making sure there is no
+  // overflow (this throws) and handling NA's.
   template<typename T, typename S>
   T cast_value(S x) {
     if (std::is_same<S, T>::value) return x;

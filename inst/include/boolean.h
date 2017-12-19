@@ -1,6 +1,8 @@
 #ifndef boolean_h
 #define boolean_h
 
+#include "cppr.h"
+
 namespace cppr {
 
   class boolean {
@@ -57,11 +59,7 @@ namespace cppr {
 
   inline bool is_na(const boolean& x) { return x.na();}
   inline bool is_nan(const boolean& x) { return x.na();}
-
-  inline double base_type(double v) { return double();}
-  inline int base_type(int v) { return int();}
   inline int base_type(const boolean& v) { return int();}
-  inline std::string base_type(const std::string& v) { return std::string();}
 
   inline bool operator<(const boolean& lhs, const boolean& rhs)  {
     if (lhs.na()) return false;

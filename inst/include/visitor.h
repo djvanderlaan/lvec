@@ -1,6 +1,9 @@
 #ifndef visitor_h
 #define visitor_h
 
+#include "cppr.h"
+#include "boolean.h"
+
 namespace ldat {
 
   template<typename T> class lvec;
