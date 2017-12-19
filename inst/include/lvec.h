@@ -5,13 +5,13 @@
 #include <cstring>
 #include <memory>
 
+#include "cppr.h"
+#include "boolean.h"
 #include "memmap.h"
 #include "visitor.h"
 #include "iterator.h"
 #include "val_ref.h"
 #include "vec.h"
-#include "cppr.h"
-#include "boolean.h"
 
 namespace ldat {
 
@@ -47,11 +47,11 @@ namespace ldat {
       }
 
       double get_of_type(vecsize i, double type) const {
-        return cppr::cast_value<double>(vec_[i]);
+        return cast_value<double>(vec_[i]);
       }
 
       int get_of_type(vecsize i, int type) const {
-        return cppr::cast_value<int>(vec_[i]);
+        return cast_value<int>(vec_[i]);
       }
 
       std::string get_of_type(vecsize i, const std::string& type) const {
@@ -174,7 +174,7 @@ namespace ldat {
 namespace ldat {
 
   inline bool is_logical(const ldat::vec& vec) {
-    auto p = dynamic_cast<const ldat::lvec<cppr::boolean>*>(&vec);
+    auto p = dynamic_cast<const ldat::lvec<boolean>*>(&vec);
     return p != 0;
   }
 

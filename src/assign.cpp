@@ -1,4 +1,3 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 
@@ -14,14 +13,14 @@ class assign_visitor : public ldat::lvec_visitor {
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i, ++j) {
         double index = index_.get_of_type(i, double());
-        if (cppr::is_na(index))
+        if (ldat::is_na(index))
           throw Rcpp::exception("NAs are not allowed in subscripted assignments.");
         // need to floor index to have indices such as 3.1 work correctly
         index = std::floor(index);
         if (index < 1 || index > vec.size())
           throw Rcpp::exception("Index out of range.");
         if (j >= values_.size()) j = 0;
-        T value = values_.get_of_type(j, cppr::base_type(T()));
+        T value = values_.get_of_type(j, ldat::base_type(T()));
         vec.set(index - 1, value);
       }
     }
@@ -33,7 +32,7 @@ class assign_visitor : public ldat::lvec_visitor {
       if (values_.size() == 0) {
         for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
           int index = index_.get_of_type(i, int());
-          if (index != 0 || cppr::is_na(index))
+          if (index != 0 || ldat::is_na(index))
             throw Rcpp::exception("Replacement has length zero.");
         }
       }
@@ -43,11 +42,11 @@ class assign_visitor : public ldat::lvec_visitor {
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i, ++i_index) {
         if (i_index >= index_.size()) i_index = 0;
         int index = index_.get_of_type(i_index, int());
-        if (cppr::is_na(index))
+        if (ldat::is_na(index))
           throw Rcpp::exception("NAs are not allowed in subscripted assignments.");
         if (index != 0) {
           if (i_values >= values_.size()) i_values = 0;
-          T value = values_.get_of_type(i_values++, cppr::base_type(T()));
+          T value = values_.get_of_type(i_values++, ldat::base_type(T()));
           vec.set(i, value);
         }
       }
@@ -70,7 +69,7 @@ class assign_visitor : public ldat::lvec_visitor {
       return visit_template(vec);
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       return visit_template(vec);
     }
 

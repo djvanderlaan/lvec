@@ -1,4 +1,3 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 #include <cstring>
@@ -20,10 +19,10 @@ RcppExport SEXP as_lvec(SEXP rv) {
   } else if (Rf_isLogical(rv)) {
     Rcpp::LogicalVector v(rv);
     R_xlen_t l = LENGTH(rv);
-    Rcpp::XPtr<ldat::lvec<cppr::boolean>> res(new ldat::lvec<cppr::boolean>(l));
+    Rcpp::XPtr<ldat::lvec<ldat::boolean>> res(new ldat::lvec<ldat::boolean>(l));
     for (R_xlen_t i = 0; i < l; ++i) {
       int val = v[i];
-      if (v.is_na(val)) res->set(i, cppr::na<cppr::boolean>());
+      if (v.is_na(val)) res->set(i, ldat::na<ldat::boolean>());
       else res->set(i, val);
     }
     return res;
@@ -43,7 +42,7 @@ RcppExport SEXP as_lvec(SEXP rv) {
     // create lvec
     Rcpp::XPtr<ldat::lvec<std::string>> res(new ldat::lvec<std::string>(v.length(), max_len));
     for (R_xlen_t i = 0; i < v.length(); ++i) {
-      if (v.is_na(v[i])) res->set(i, cppr::na<std::string>());
+      if (v.is_na(v[i])) res->set(i, ldat::na<std::string>());
       else res->set(i, Rcpp::as<std::string>(v[i]));
     }
     return res;

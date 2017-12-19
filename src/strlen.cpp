@@ -1,11 +1,10 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 
 class strlen_visitor : public ldat::lvec_visitor {
   public: 
 
-    strlen_visitor() : result_(cppr::na<int>()) {
+    strlen_visitor() : result_(ldat::na<int>()) {
     }
 
     void visit(ldat::lvec<double>& vec) {
@@ -16,7 +15,7 @@ class strlen_visitor : public ldat::lvec_visitor {
       throw Rcpp::exception("Vector is not a character vector.");
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       throw Rcpp::exception("Vector is not a character vector.");
     }
 

@@ -1,4 +1,3 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 #include <memory>
@@ -12,8 +11,8 @@ class indexing_visitor : public ldat::lvec_visitor {
       std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(index_.size(), vec));
       for (ldat::vec::vecsize i = 0; i < index_.size(); ++i) {
         double index = index_.get_of_type(i, double());
-        if (cppr::is_na(index)) {
-          result->set(i, cppr::na<T>());
+        if (ldat::is_na(index)) {
+          result->set(i, ldat::na<T>());
         } else {
           // need to floor index to have indices such as 3.1 work correctly
           index = std::floor(index);
@@ -34,7 +33,7 @@ class indexing_visitor : public ldat::lvec_visitor {
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i, ++j) {
         if (j >= index_.size()) j = 0;
         int index = index_.get_of_type(j, int());
-        if (index != 0 || cppr::is_na(index)) ++n;
+        if (index != 0 || ldat::is_na(index)) ++n;
       }
       // index
       std::unique_ptr<ldat::lvec<T> > result(new ldat::lvec<T>(n, vec));
@@ -42,8 +41,8 @@ class indexing_visitor : public ldat::lvec_visitor {
       for (ldat::vec::vecsize i = 0, j = 0; i < vec.size(); ++i, ++j) {
         if (j >= index_.size()) j = 0;
         int index = index_.get_of_type(j, int());
-        if (cppr::is_na(index)) {
-	  result->set(result_index++, cppr::na<T>());
+        if (ldat::is_na(index)) {
+	  result->set(result_index++, ldat::na<T>());
         } else if (index != 0) {
           T value = vec.get(i);
           result->set(result_index++, value);
@@ -70,7 +69,7 @@ class indexing_visitor : public ldat::lvec_visitor {
       return visit_template(vec);
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       return visit_template(vec);
     }
 

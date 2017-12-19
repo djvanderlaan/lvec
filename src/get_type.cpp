@@ -1,11 +1,10 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 
 class type_visitor : public ldat::lvec_visitor {
   public: 
 
-    type_visitor() : result_(cppr::na<std::string>()) {
+    type_visitor() : result_(ldat::na<std::string>()) {
     }
 
     void visit(ldat::lvec<double>& vec) {
@@ -16,7 +15,7 @@ class type_visitor : public ldat::lvec_visitor {
       result_ = "integer";
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       result_ = "logical";
     }
 

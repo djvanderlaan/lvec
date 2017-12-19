@@ -1,4 +1,3 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 
 #include "r_export.h"
@@ -25,10 +24,10 @@ class as_rvec_visitor : public ldat::lvec_visitor {
       rvec_ = PROTECT(Rcpp::wrap(res));
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       Rcpp::LogicalVector res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i)
-        res[i] = cppr::cast_value<int>(vec.get(i));
+        res[i] = ldat::cast_value<int>(vec.get(i));
       rvec_ = PROTECT(Rcpp::wrap(res));
     }
 
@@ -36,7 +35,7 @@ class as_rvec_visitor : public ldat::lvec_visitor {
       Rcpp::CharacterVector res(vec.size());
       for (ldat::vec::vecsize i = 0; i < vec.size(); ++i) {
         const std::string val = vec.get(i);
-        if (cppr::is_na(val)) res[i] = NA_STRING;
+        if (ldat::is_na(val)) res[i] = NA_STRING;
         else res[i] = val;
       }
       rvec_ = PROTECT(Rcpp::wrap(res));

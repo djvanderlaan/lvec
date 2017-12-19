@@ -3,14 +3,14 @@
 
 #include "cppr.h"
 
-namespace cppr {
+namespace ldat {
 
   class boolean {
     public:
       boolean() : val_(2) {}
       boolean(const boolean& bl) : val_(bl.val_) {}
       boolean(int val) : val_(val != 0) {
-        if (cppr::is_na(val)) val_ = 2;
+        if (is_na(val)) val_ = 2;
       }
       boolean(bool val) : val_(val ? 1 : 0) {}
 
@@ -24,7 +24,7 @@ namespace cppr {
       }
 
       boolean& operator=(int val) {
-        if (cppr::is_na(val)) {
+        if (is_na(val)) {
           val_ = 2;
         } else val_ = val != 0;
         return *this;
@@ -40,7 +40,7 @@ namespace cppr {
       operator double() const { 
         switch (val_) {
           case 1: return 1.0;
-          case 2: return cppr::na<double>();
+          case 2: return ldat::na<double>();
           default: return  0.0;
         }
       }
@@ -48,7 +48,7 @@ namespace cppr {
       operator int() const { 
         switch (val_) {
           case 1: return 1;
-          case 2: return cppr::na<int>();
+          case 2: return ldat::na<int>();
           default: return  0;
         }
       }

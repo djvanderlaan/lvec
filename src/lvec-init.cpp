@@ -1,6 +1,4 @@
 #include "tempfile.h"
-
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 

@@ -1,4 +1,3 @@
-#include "../inst/include/cppr.h"
 #include "../inst/include/lvec.h"
 #include "r_export.h"
 
@@ -17,7 +16,7 @@ class assign_range_visitor : public ldat::lvec_visitor {
       ldat::vec::vecsize j = 0;
       for (ldat::vec::vecsize i = lower_; i <= upper_; ++i, ++j) {
         if (j >= values_.size()) j = 0;
-        T value = values_.get_of_type(j, cppr::base_type(T()));
+        T value = values_.get_of_type(j, ldat::base_type(T()));
         vec.set(i, value);
       }
     }
@@ -30,7 +29,7 @@ class assign_range_visitor : public ldat::lvec_visitor {
       return visit_template(vec);
     }
 
-    void visit(ldat::lvec<cppr::boolean>& vec) {
+    void visit(ldat::lvec<ldat::boolean>& vec) {
       return visit_template(vec);
     }
 

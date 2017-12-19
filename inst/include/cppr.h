@@ -5,7 +5,7 @@
 #include <string>
 #include <limits>
 
-namespace cppr{
+namespace ldat{
 
   constexpr double max_index = 1E15;
 
