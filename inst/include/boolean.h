@@ -72,8 +72,6 @@ namespace ldat {
     if (lhs.na() || rhs.na()) return false;
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
   }
-
-
 }
 
 #endif
