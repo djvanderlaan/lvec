@@ -32,7 +32,8 @@ namespace ldat {
 
       vec* clone() const {
         std::unique_ptr<lvec<T> > result(new lvec<T>(size_));
-        std::memcpy(result->vec_, vec_, size_ * sizeof(T));
+        std::memcpy(reinterpret_cast<void*>(result->vec_), 
+          reinterpret_cast<void*>(vec_), size_ * sizeof(T));
         return result.release();
       }
 
