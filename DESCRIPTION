@@ -2,7 +2,7 @@ Package: lvec
 Type: Package
 Title: Out of Memory Vectors
 Version: 0.1.2
-Date: 2017-10-24
+Date: 2018-04-26
 Author: Jan van der Laan
 Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
 Description: Core functionality for working with vectors (numeric, integer,
@@ -23,6 +23,7 @@ Imports:
     Rcpp
 Suggests:
     testthat
+SystemRequirements: C++11
 License: GPL-3
 LazyLoad: yes
 RoxygenNote: 6.0.1
