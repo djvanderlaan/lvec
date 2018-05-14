@@ -16,3 +16,4 @@ Returns an character vector of length 1 with one of the following values:
 \description{
 Get the type of the lvec
 }
+

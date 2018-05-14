@@ -53,7 +53,7 @@ namespace ldat{
       v >= std::numeric_limits<T>::lowest();
   }
 
-  // Cast a value of the S to a value of type T; making sure there is no
+  // Cast a value of type S to a value of type T; making sure there is no
   // overflow (this throws) and handling NA's.
   template<typename T, typename S>
   T cast_value(S x) {

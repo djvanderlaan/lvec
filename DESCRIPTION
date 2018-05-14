@@ -16,8 +16,7 @@ URL: https://github.com/djvanderlaan/lvec
 Depends:
     stats,
     R (>= 3.0.0)
-LinkingTo: 
-    BH,
+LinkingTo: BH,
     Rcpp
 Imports:
     Rcpp
@@ -26,4 +25,4 @@ Suggests:
 SystemRequirements: C++11
 License: GPL-3
 LazyLoad: yes
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
