@@ -2,9 +2,9 @@
 % Please edit documentation in R/chunk.R
 \name{chunk}
 \alias{chunk}
-\alias{chunk.data.frame}
-\alias{chunk.default}
 \alias{chunk.lvec}
+\alias{chunk.default}
+\alias{chunk.data.frame}
 \title{Generate a number of index ranges from a vector}
 \usage{
 chunk(x, ...)
@@ -36,4 +36,3 @@ Implementations of chunk for data frames and regular vectors are provided to
 make it easier to write code that works on both lvec objects and regular R
 objects.
 }
-

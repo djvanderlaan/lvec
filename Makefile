@@ -1,5 +1,5 @@
 
-.PHONY: readme install test check build load_all
+.PHONY: readme install test check build load_all document
 
 all: readme build
 
@@ -9,25 +9,22 @@ README.md: README.Rmd
 	R  --vanilla --slave -e "library(knitr); knit('README.Rmd')"
 	rm tmp.*.RDS tmp.RDS
 
-inst/include/%.h: src/%.h
-	cp $< $@
-
 document:
 	R --vanilla --slave -e "devtools::document()"
 
-install:
+install: document
 	R --vanilla --slave -e "devtools::install()"
 
-load_all: 
+load_all: document
 	R --vanilla --slave -e "devtools::load_all()"
 
 test: load_all
 	R --vanilla --slave -e "devtools::test()"
 
-check:
+check: document
 	R --vanilla --slave -e "devtools::check()"
 
-build: 
+build: document
 	R --vanilla --slave -e "devtools::build()"
 
 clean:

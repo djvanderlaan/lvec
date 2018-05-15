@@ -1,28 +1,29 @@
 
-This is a small update on the previous release: 
 
-- The inst/include directory of the previous release included old versions of 
-  the header files. This has been corrected in this release.
-- The package could not be installed on osx oldrelease. This should have been
-  fixed with a minor change in c++ code (current version installs correctly
-  on maxos oldrel on rhub, while previous version didn't)
-- The tests gave an error on solaris. Based on the tests that failed is have
-  guessed what the problem is, but not having access to a solaris system, I 
-  have not been able to test. 
+The main change is that the internals of the package have been rewritten to use
+Rcpp. This means that packages linking to lvec will have to be rewritten. At the
+moment this is only the package 'ldat' which is also maintained by me. I will
+submit 'ldat' at the same time with a version restricion on lvec in its
+Description file (lvec >= 0.2.0). 
 
 
 ## Test environments
-* local ubuntu 17.04 install, R 3.4.1
+* local ubuntu 17.10 install, R 3.4.4
+* local ubuntu 17.10 install, R 3.4.4 with valgrind
 * windows, linux, relaese and devel using `rhub::check_for_cran()`
-* macos using rhub
 * valgrind and sanitizers using rhub
+* R-devel on windows using the win-builder. 
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
-
+On some platforms (e.g. Ubuntu; not Windows) the package gives a note that the
+libraries are larger than 6MB. This is probably caused by the fact that the
+package links to both BH and Rcpp. The package itself contains only a limited
+amount of C++ code. I don't think there is much I can do about this, so I hope
+this is not a problem. 
 
 ## Reverse dependencies
 
-There are no reverse dependencies.
+'ldat' links to lvec. The current version on CRAN gives error. As I am also the
+author of 'ldat', I will submit a new version of 'ldat' together with 'lvec'. 
 
