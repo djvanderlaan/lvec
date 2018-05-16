@@ -5,6 +5,7 @@ RcppExport SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {
   BEGIN_RCPP
   double size = Rcpp::as<double>(rsize);
   if (Rcpp::NumericVector::is_na(size)) throw Rcpp::exception("Size is not a number.");
+  if (size < 0) throw Rcpp::exception("Size is smaller than 0");
   if (size > ldat::max_index) throw Rcpp::exception("Size is too large.");
   std::string type = Rcpp::as<std::string>(rtype);
 

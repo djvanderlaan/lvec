@@ -57,6 +57,8 @@ RcppExport SEXP get_range(SEXP rv, SEXP rindex) {
     throw Rcpp::exception("Missing value for lower bound of range.");
   if (ldat::is_na(index[1]))
     throw Rcpp::exception("Missing value for upper bound of range.");
+  if (index[0] < 1 || index[1] < 1)
+    throw Rcpp::exception("Index out of range.");
   // index
   range_indexing_visitor visitor{static_cast<ldat::vec::vecsize>(index[0]-1), 
     static_cast<ldat::vec::vecsize>(index[1]-1)};
