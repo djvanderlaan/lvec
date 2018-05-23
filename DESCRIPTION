@@ -1,8 +1,8 @@
 Package: lvec
 Type: Package
 Title: Out of Memory Vectors
-Version: 0.2.1
-Date: 2018-05-15
+Version: 0.2.2
+Date: 2018-05-23
 Author: Jan van der Laan
 Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
 Description: Core functionality for working with vectors (numeric, integer,

@@ -1,4 +1,3 @@
-#include "../inst/include/lvec.h"
 #include "r_export.h"
 #include <cstring>
 

@@ -1,9 +1,7 @@
-#include "tempfile.h"
-#include "../inst/include/lvec.h"
 #include "r_export.h"
+#include "tempfile_impl.h"
 
 #include <R_ext/Rdynload.h>
-
 
 #define CALLDEF(name, n)  {#name, (DL_FUNC) &name, n}
 
@@ -29,7 +27,7 @@ extern "C" {
   };
 
   void R_init_lvec(DllInfo *info) {
-    R_RegisterCCallable("lvec", "tempfile",  (DL_FUNC) &tempfile);
+    R_RegisterCCallable("lvec", "tempfile_impl",  (DL_FUNC) &tempfile_impl);
     R_registerRoutines(info, NULL, r_calldef, NULL, NULL);
     R_useDynamicSymbols(info, static_cast<Rboolean>(FALSE));
   }

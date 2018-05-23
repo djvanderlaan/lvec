@@ -1,10 +1,9 @@
-#include "tempfile.h"
-#include "../inst/include/cppr.h"
 #include "r_export.h"
+#include "tempfile_impl.h"
 
 std::string tempdir = ".";
 
-std::string tempfile() {
+std::string tempfile_impl() {
   char* p = R_tmpnam("lvec", tempdir.c_str());
   std::string res{p};
   free(p);

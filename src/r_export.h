@@ -1,5 +1,4 @@
-#include "../inst/include/cppr.h"
-#include "../inst/include/lvec.h"
+#include "../inst/include/lvec_interface.h"
 
 extern "C" {
   SEXP as_lvec(SEXP rv);

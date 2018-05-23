@@ -9,7 +9,7 @@
 inline std::string tempfile() {
   static std::string(*fun)() = NULL;
   if (fun == NULL)
-    fun = (std::string(*)()) R_GetCCallable("lvec", "tempfile");
+    fun = (std::string(*)()) R_GetCCallable("lvec", "tempfile_impl");
   return fun();
 }
 

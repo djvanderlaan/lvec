@@ -1,4 +1,3 @@
-#include "../inst/include/lvec.h"
 #include "r_export.h"
 
 RcppExport SEXP new_lvec(SEXP rsize, SEXP rtype, SEXP rstrlen) {

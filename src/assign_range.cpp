@@ -1,4 +1,3 @@
-#include "../inst/include/lvec.h"
 #include "r_export.h"
 
 class assign_range_visitor : public ldat::lvec_visitor {
