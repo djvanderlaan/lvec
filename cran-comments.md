@@ -1,5 +1,7 @@
 
 
+Update to previous submission, fixing warnings in examples with UBSAN. 
+
 The main change is that the internals of the package have been rewritten to use
 Rcpp. This means that packages linking to lvec will have to be rewritten. At the
 moment this is only the package 'ldat' which is also maintained by me. I will
