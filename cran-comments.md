@@ -1,12 +1,8 @@
 
 
-Update to previous submission, fixing warnings in examples with UBSAN. 
-
-The main change is that the internals of the package have been rewritten to use
-Rcpp. This means that packages linking to lvec will have to be rewritten. At the
-moment this is only the package 'ldat' which is also maintained by me. I will
-submit 'ldat' at the same time with a version restricion on lvec in its
-Description file (lvec >= 0.2.0). 
+Minor update to previous version. Mainly a small reorganisation of the 
+header files and the renaming of an internall c++ function. This should
+fix the undefined behaviour sanitizer warnings for ldat. 
 
 
 ## Test environments
@@ -26,6 +22,6 @@ this is not a problem.
 
 ## Reverse dependencies
 
-'ldat' links to lvec. The current version on CRAN gives error. As I am also the
+'ldat' links to lvec. The current version on CRAN gives an error. As I am also the
 author of 'ldat', I will submit a new version of 'ldat' together with 'lvec'. 
 

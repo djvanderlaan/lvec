@@ -1,5 +1,10 @@
 
 
+lvec version 0.2.2
+===============================================================================
+* Reorganisation of header files; should fix undefined behaviour sanitizer
+  (UBSAN) warning in ldat. 
+
 lvec version 0.2.1
 ===============================================================================
 * Fixes bugs with negative indices resulting un undefined behaviour. 
