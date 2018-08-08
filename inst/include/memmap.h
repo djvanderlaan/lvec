@@ -10,36 +10,37 @@
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 
+#include <iostream>
+
+const std::size_t MINMMAPSIZE = 20;
+
 class MemMap {
   public:
     MemMap(const MemMap& mmap) : size_(mmap.size_),
-        file_size_(mmap.file_size_), filename_("") {
-      if (filename_ == "") filename_ = tempfile();
-      boost::interprocess::file_mapping::remove(filename_.c_str());
-      // set minimum file size to 8 bytes; hopefully this avoids issues with zero length vectors on 
-      // solaris
-      if (file_size_ < 8) file_size_ = 8;
-      resize_file(filename_, file_size_, true);
-      mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
-      region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
-      std::memcpy(data(), mmap.data(), size_);
+        file_size_(mmap.file_size_), filename_(""), buffer_(0) {
+      if (file_size_ <= MINMMAPSIZE) {
+        open_buffer();
+      } else {
+        open_file();
+      }
+      if (mmap.data()) std::memcpy(data(), mmap.data(), size_);
     }
 
     MemMap(std::size_t size = 0, const std::string& filename = "") : size_(size),
-        file_size_(size), filename_(filename) {
-      if (filename_ == "") filename_ = tempfile();
-      boost::interprocess::file_mapping::remove(filename_.c_str());
-      // set minimum file size to 8 bytes; hopefully this avoids issues with zero length vectors on 
-      // solaris
-      if (file_size_ < 8) file_size_ = 8;
-      resize_file(filename_, file_size_, true);
-      mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
-      region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
+        file_size_(size), filename_(filename), buffer_(0) {
+      if (file_size_ <= MINMMAPSIZE) {
+        open_buffer();
+      } else {
+        open_file();
+      }
     }
 
     ~MemMap() {
-      if (filename_ != "")
+      if (filename_ != "") {
+        std::cout << "CLOSEFILE '" << filename_ << "'\n";
         boost::interprocess::file_mapping::remove(filename_.c_str());
+      }
+      if (buffer_ != 0) delete[] buffer_;
     }
 
     std::size_t size() const {
@@ -48,20 +49,55 @@ class MemMap {
 
     void size(std::size_t size) {
       if (size == size_) return;
-      if (size > file_size_) {
-        resize_file(filename_, size);
-        file_size_ = size;
+
+      if (file_size_ <= MINMMAPSIZE) {
+        if (size > MINMMAPSIZE) {
+          // we now have to open a file and copy the data from the buffer to
+          // the file
+          // TODO make exception safe
+          std::size_t old_size = size_;
+          size_ = size;
+          open_file();
+          if (buffer_) {
+            std::memcpy(data(), buffer_, old_size);
+            delete [] buffer_;
+          }
+          buffer_ = 0;
+        } else {
+          // resize the buffer
+          // TODO make exception safe
+          char* new_buffer = new char[size]();
+          if (buffer_) {
+            std::memcpy(new_buffer, buffer_, size_ < size ? size_ : size);
+            delete [] buffer_;
+          }
+          buffer_ = new_buffer;
+          size_ = size;
+        }
+      } else {
+        if (size > file_size_) {
+          resize_file(filename_, size);
+          file_size_ = size;
+        }
+        size_ = size;
+        region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
       }
-      size_ = size;
-      region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
     }
 
     const char* data() const {
-      return reinterpret_cast<char*>(region_.get_address());
+      if (file_size_ <= MINMMAPSIZE) {
+        return buffer_;
+      } else {
+        return reinterpret_cast<char*>(region_.get_address());
+      }
     }
 
     char* data() {
-      return reinterpret_cast<char*>(region_.get_address());
+      if (file_size_ <= MINMMAPSIZE) {
+        return buffer_;
+      } else {
+        return reinterpret_cast<char*>(region_.get_address());
+      }
     }
 
     MemMap& operator=(const MemMap& other) {
@@ -69,7 +105,7 @@ class MemMap {
         if (other.size_ != size_) {
           size(other.size_);
         }
-        std::memcpy(data(), other.data(), size_);
+        if (other.data()) std::memcpy(data(), other.data(), size_);
       } 
       return *this;
     }
@@ -83,10 +119,31 @@ class MemMap {
       file_size_ = other.file_size_;
       // make sure other doesn't delete the file
       other.filename_ = "";
+      // move buffer
+      if (buffer_) delete [] buffer_;
+      buffer_ = other.buffer_;
+      other.buffer_ = 0;
       return *this;
     }
 
   protected: 
+    void open_file() {
+      if (filename_ == "") filename_ = tempfile();
+      boost::interprocess::file_mapping::remove(filename_.c_str());
+      // set minimum file size to 8 bytes; hopefully this avoids issues with zero length vectors on 
+      // solaris
+      if (file_size_ < 8) file_size_ = 8;
+      resize_file(filename_, file_size_, true);
+      std::cout << "OPENFILE '" << filename_ << "'\n";
+      mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
+      region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
+    }
+
+    void open_buffer() {
+      if (buffer_ != 0) delete [] buffer_;
+      buffer_ = new char[size_]();
+    }
+
     void resize_file_win(const std::string& filename, long long int size, bool truncate = false) {
       std::fstream out(filename, std::ios::binary | std::ios::ate | std::ios::app);
       // deterimine current size of out
@@ -133,6 +190,8 @@ class MemMap {
     std::size_t size_;
     std::size_t file_size_;
     std::string filename_;
+
+    char* buffer_;
 
     boost::interprocess::file_mapping mapping_;
     boost::interprocess::mapped_region region_;
