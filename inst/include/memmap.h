@@ -10,9 +10,9 @@
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 
-#include <iostream>
+//#include <iostream>
 
-const std::size_t MINMMAPSIZE = 20;
+const std::size_t MINMMAPSIZE = 1024*1024*2*8;
 
 class MemMap {
   public:
@@ -39,7 +39,7 @@ class MemMap {
       if (buffer_) {
         delete [] buffer_;
       } else {
-        std::cout << "CLOSEFILE '" << filename_ << "'\n";
+        //std::cout << "CLOSEFILE '" << filename_ << "'\n";
         boost::interprocess::file_mapping::remove(filename_.c_str());
       }
     }
@@ -124,7 +124,7 @@ class MemMap {
       if (filename_ == "") filename_ = tempfile();
       boost::interprocess::file_mapping::remove(filename_.c_str());
       resize_file(filename_, size_, true);
-      std::cout << "OPENFILE '" << filename_ << "'\n";
+      //std::cout << "OPENFILE '" << filename_ << "'\n";
       mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
       region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
     }
