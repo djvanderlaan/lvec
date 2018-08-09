@@ -10,9 +10,7 @@
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 
-//#include <iostream>
-
-const std::size_t MINMMAPSIZE = 1024*1024*2*8;
+const std::size_t MINMMAPSIZE = 1024*1024*4*8;
 
 class MemMap {
   public:
@@ -39,7 +37,7 @@ class MemMap {
       if (buffer_) {
         delete [] buffer_;
       } else {
-        //std::cout << "CLOSEFILE '" << filename_ << "'\n";
+        std::cout << "CLOSEFILE '" << filename_ << "'\n";
         boost::interprocess::file_mapping::remove(filename_.c_str());
       }
     }
@@ -52,7 +50,6 @@ class MemMap {
       if (size == size_) return;
 
       if (buffer_) {
-
         if (size > MINMMAPSIZE) {
           // we now have to open a file and copy the data from the buffer to
           // the file
@@ -66,14 +63,16 @@ class MemMap {
         } else {
           // resize the buffer
           // TODO make exception safe
-          char* new_buffer = new char[size]();
-          std::memcpy(new_buffer, buffer_, std::min(size_, size));
-          delete [] buffer_;
-          buffer_ = new_buffer;
+          if (size > size_) {
+            char* new_buffer = new char[size]();
+            std::memcpy(new_buffer, buffer_, std::min(size_, size));
+            delete [] buffer_;
+            buffer_ = new_buffer;
+          }
           size_ = size;
         }
       } else {
-        resize_file(filename_, size);
+        if (size > size_) resize_file(filename_, size);
         size_ = size;
         region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
       }
@@ -124,7 +123,7 @@ class MemMap {
       if (filename_ == "") filename_ = tempfile();
       boost::interprocess::file_mapping::remove(filename_.c_str());
       resize_file(filename_, size_, true);
-      //std::cout << "OPENFILE '" << filename_ << "'\n";
+      std::cout << "OPENFILE '" << filename_ << "'\n";
       mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
       region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
     }
