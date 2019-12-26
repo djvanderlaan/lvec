@@ -37,7 +37,6 @@ class MemMap {
       if (buffer_) {
         delete [] buffer_;
       } else {
-        std::cout << "CLOSEFILE '" << filename_ << "'\n";
         boost::interprocess::file_mapping::remove(filename_.c_str());
       }
     }
@@ -123,7 +122,6 @@ class MemMap {
       if (filename_ == "") filename_ = tempfile();
       boost::interprocess::file_mapping::remove(filename_.c_str());
       resize_file(filename_, size_, true);
-      std::cout << "OPENFILE '" << filename_ << "'\n";
       mapping_ = boost::interprocess::file_mapping(filename_.c_str(), boost::interprocess::read_write);
       region_ = boost::interprocess::mapped_region(mapping_, boost::interprocess::read_write, 0, size_);
     }
