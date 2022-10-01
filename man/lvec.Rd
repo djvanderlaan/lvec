@@ -4,8 +4,11 @@
 \alias{lvec}
 \title{Create memory mapped vector}
 \usage{
-lvec(size, type = c("numeric", "integer", "logical", "character"),
-  strlen = NULL)
+lvec(
+  size,
+  type = c("numeric", "integer", "logical", "character"),
+  strlen = NULL
+)
 }
 \arguments{
 \item{size}{the size of the vector}

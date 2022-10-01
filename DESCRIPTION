@@ -1,10 +1,10 @@
 Package: lvec
 Type: Package
 Title: Out of Memory Vectors
-Version: 0.2.3
-Date: 2018-08-08
+Version: 0.2.4
+Date: 2023-10-01
 Author: Jan van der Laan
-Maintainer: Jan van der Laan <djvanderlaan@unrealizedtime.nl>
+Maintainer: Jan van der Laan <r@eoos.dds.nl>
 Description: Core functionality for working with vectors (numeric, integer,
     logical and character) that are too large to keep in memory. The vectors are
     kept (partially) on disk using memory mapping. This package contains the
@@ -25,4 +25,4 @@ Suggests:
 SystemRequirements: C++11
 License: GPL-3
 LazyLoad: yes
-RoxygenNote: 6.1.0
+RoxygenNote: 7.2.0
