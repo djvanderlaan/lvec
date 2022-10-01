@@ -1,4 +1,10 @@
 
+lvec version 0.2.3
+===============================================================================
+* Small vectors no longer create files and are stored in memory increasing 
+  speed. 
+* (Possible) fix for compiler issue with clang15
+
 
 lvec version 0.2.2
 ===============================================================================
