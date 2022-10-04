@@ -1,38 +1,42 @@
 
-lvec version 0.2.3
-===============================================================================
+CHANGES IN VERSION 0.2.4
+
 * Small vectors no longer create files and are stored in memory increasing 
   speed. 
 * (Possible) fix for compiler issue with clang15
 
 
-lvec version 0.2.2
-===============================================================================
+CHANGES IN VERSION 0.2.2
+
 * Reorganisation of header files; should fix undefined behaviour sanitizer
   (UBSAN) warning in ldat. 
 
-lvec version 0.2.1
-===============================================================================
+CHANGES IN VERSION 0.2.1
+
 * Fixes bugs with negative indices resulting un undefined behaviour. 
 
-lvec version 0.2.0
-===============================================================================
+
+CHANGES IN VERSION 0.2.0
+
 * Rewrote internals to use Rcpp. Packages linking to lvec will need to be 
   rewritten. 
 * Fixed some compiler warnings
 
-lvec version 0.1.2
-===============================================================================
+
+CHANGES IN VERSION 0.1.2
+
 * Fix for printing zero length vectors
 
-lvec version 0.1.1
-===============================================================================
+
+CHANGES IN VERSION 0.1.1
+
 * inst/include contained old versions of the headers. Added new header files to 
   inst/include
 * Fix for install problem on MacOS old release platform
 * (Possible) fix for problem on solaris with zero length vectors.
 
-lvec version 0.1.0
-===============================================================================
-Initial release
+
+CHANGES IN VERSION 0.1.0
+
+* Initial release
 
