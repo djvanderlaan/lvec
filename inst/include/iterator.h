@@ -92,9 +92,8 @@ namespace ldat {
         return !(pos_ == rhs.pos_);
       }
 
-      T operator*() const {
-        return vec_.get(pos_);
-        //return lvec_val_ref<T>(vec_, pos_);
+      const lvec_val_ref<T> operator*() const {
+        return lvec_val_ref<T>(vec_, pos_);
       }
 
       lvec_val_ref<T> operator*() {
