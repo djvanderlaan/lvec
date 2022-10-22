@@ -1,4 +1,9 @@
 
+CHANGES IN VERSION 0.2.5
+
+* Removed: "Small vectors no longer create files and are stored in memory
+  increasing speed" as this introduced memory leaks.
+
 CHANGES IN VERSION 0.2.4
 
 * Small vectors no longer create files and are stored in memory increasing 
